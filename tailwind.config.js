@@ -20,7 +20,7 @@ module.exports = {
         'link-primary': '#9370DB', // Light purple for links
       },
       backgroundImage: {
-        'pycelium-concept': "url('assets/pycelium-concept-1.jpg')",
+        'pycelium-concept': "url('/assets/pycelium-concept-1.jpg')",
       },
     },
   },
