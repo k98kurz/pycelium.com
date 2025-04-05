@@ -19,6 +19,9 @@ module.exports = {
         'primary': '#F5F5F5', // White text for primary text
         'link-primary': '#9370DB', // Light purple for links
       },
+      backgroundImage: {
+        'pycelium-concept': "url('assets/pycelium-concept-1.jpg')",
+      },
     },
   },
   plugins: [],
