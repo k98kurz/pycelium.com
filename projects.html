@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Pycelium</title>
+    <link rel="stylesheet" href="./dist/output.css">
+</head>
+<body class="bg-dark-background text-light-text font-sans">
+    <nav class="bg-dark-secondary sticky top-0 z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-center h-16">
+                <div class="hidden md:block">
+                    <div class="flex items-center space-x-4">
+                        <a href="/" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="/about.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="/projects.html" class="text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Projects</a>
+                        <a href="/goals.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Goals</a>
+                        <a href="/community.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Community</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="py-12 text-center">
+        <h1 class="text-4xl font-bold text-white">Projects</h1>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <section class="mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-dark-secondary rounded-lg p-6 cursor-pointer project-card" data-project="micropycelium">
+                    <h3 class="text-xl font-bold mb-2">micropycelium</h3>
+                    <p class="text-dark-text">Routable mesh network for small devices with a micropython runtime.</p>
+                </div>
+                <div class="bg-dark-secondary rounded-lg p-6 cursor-pointer project-card" data-project="tapescript">
+                    <h3 class="text-xl font-bold mb-2">tapescript</h3>
+                    <p class="text-dark-text">Simple scripting language and bytecode VM for access controls with advanced cryptographic features.</p>
+                </div>
+                <div class="bg-dark-secondary rounded-lg p-6 cursor-pointer project-card" data-project="sqloquent">
+                    <h3 class="text-xl font-bold mb-2">sqloquent</h3>
+                    <p class="text-dark-text">SQL query builder and ORM.</p>
+                </div>
+                <div class="bg-dark-secondary rounded-lg p-6 cursor-pointer project-card" data-project="netaio">
+                    <h3 class="text-xl font-bold mb-2">netaio</h3>
+                    <p class="text-dark-text">Async networking library with automatic peer management inspired by fastapi.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="crdts">
+                    <h3 class="text-lg font-bold mb-1">crdts</h3>
+                    <p class="text-dark-text text-sm">Conflict-free replicated data types.</p>
+                </div>
+                <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="packify">
+                    <h3 class="text-lg font-bold mb-1">packify</h3>
+                    <p class="text-dark-text text-sm">Packaging tool.</p>
+                </div>
+                <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="merkleasy">
+                    <h3 class="text-lg font-bold mb-1">merkleasy</h3>
+                    <p class="text-dark-text text-sm">Merkle tree library.</p>
+                </div>
+                <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="musig">
+                    <h3 class="text-lg font-bold mb-1">musig</h3>
+                    <p class="text-dark-text text-sm">Multi-signature library.</p>
+                </div>
+                <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project

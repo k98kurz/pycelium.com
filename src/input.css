@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-primary; /* Apply white text to the body */
+  }
+  a {
+    @apply text-link-primary; /* Apply light purple to links */
+  }
+}
