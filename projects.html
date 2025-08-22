@@ -117,6 +117,7 @@
                         </h3>
                         <div id="projectModalLinks" class="mt-2 mb-4">
                             <a href="#" class="text-pycelium-purple hover:underline mr-2" id="pypiLink" target="_blank">PyPI</a>
+                            <a href="#" class="text-pycelium-purple hover:underline mr-2" id="youtubeLink" target="_blank">YouTube</a>
                             <a href="#" class="text-pycelium-purple hover:underline" id="githubLink" target="_blank">GitHub</a>
                         </div>
                         <div class="mt-2" id="projectModalContent">
@@ -148,6 +149,7 @@
             const modalContent = document.getElementById('projectModalContent');
             const closeModalButton = document.getElementById('closeModalButton');
             const pypiLink = document.getElementById('pypiLink');
+            const youtubeLink = document.getElementById('youtubeLink');
             const githubLink = document.getElementById('githubLink');
             const modalLinks = document.getElementById('projectModalLinks');
 
@@ -156,7 +158,8 @@
                     title: "micropycelium",
                     description: "Routable mesh network implemented with ESP-NOW, gossip, a spanning tree, and a simplified version of VOUTE. LoRa support is planned for a future release.",
                     pypi: null,
-                    github: "https://github.com/k98kurz/micropycelium"
+                    github: "https://github.com/k98kurz/micropycelium",
+                    youtube: "https://youtu.be/6aJB0YFQBTg"
                 },
                 "tapescript": {
                     title: "tapescript",
@@ -269,6 +272,13 @@
                         pypiLink.classList.remove('hidden');
                     } else {
                         pypiLink.classList.add('hidden');
+                    }
+
+                    if (project.youtube) {
+                        youtubeLink.href = project.youtube;
+                        youtubeLink.classList.remove('hidden');
+                    } else {
+                        youtubeLink.classList.add('hidden');
                     }
 
                     githubLink.href = project.github;
