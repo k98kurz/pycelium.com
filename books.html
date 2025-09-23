@@ -30,7 +30,7 @@
 
     <main class="container mx-auto px-4 py-8">
         <section class="mb-16">
-            <table id="books-table" class="table-auto">
+            <table id="books-table" class="border-collapse border-spacing-2 border border-gray-400 dark:border-gray-500">
                 <thead>
                     <tr></tr>
                 </thead>
@@ -68,7 +68,9 @@
 
                 // add column name to header
                 let column = books_data[colname];
-                let th = $new('th', {classList: 'p-1 text-left text-xl'});
+                let th = $new('th', {
+                    classList: 'p-2 text-left text-xl border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30'
+                });
                 th.innerText = colname;
                 thead.appendChild(th);
 
@@ -85,9 +87,12 @@
 
             // fill in the table
             for (book of formatted_books) {
-                let tr = $new('tr');
+                let tr = $new('tr', {classList: ''});
                 for (field of book) {
-                    let th = $new('th', {classList: 'p-1 text-left', innerText: field});
+                    let th = $new('th', {
+                        classList: 'px-2 text-left border border-gray-300 dark:border-gray-700 bg-gray-900 bg-opacity-30',
+                        innerText: field
+                    });
                     tr.appendChild(th)
                 }
                 tbody.appendChild(tr);
