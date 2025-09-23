@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books - Pycelium</title>
+    <link rel="stylesheet" href="./dist/output.css">
+</head>
+<body class="bg-dark-background text-light-text font-sans">
+    <nav class="bg-dark-secondary sticky top-0 z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-center h-16">
+                <div class="hidden md:block">
+                    <div class="flex items-center space-x-4">
+                        <a href="/" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="/about.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="/projects.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Projects</a>
+                        <a href="/goals.html" class="text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Goals</a>
+                        <a href="/community.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Community</a>
+                        <a href="/books.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Books</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="py-12 text-center">
+        <h1 class="text-4xl font-bold text-white">Some Books</h1>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <section class="mb-16">
+            <table id="books-table" class="table-auto">
+                <thead>
+                    <tr></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer class="bg-dark-secondary text-center py-4">
+        <p class="text-dark-text">Copyright 2025 - The Pycelium Company</p>
+    </footer>
+    <script type="module" src="/src/main.js"></script>
+    <script>
+        function $(selector) {
+            return document.querySelectorAll(selector);
+        }
+
+        function $new(element, options) {
+            const e = document.createElement(element);
+            for (key in options) {
+                e[key] = options[key];
+            }
+            return e;
+        }
+
+        async function makeTable() {
+            const response = await fetch('assets/books.json');
+            const books_data = await response.json();
+            // console.log('books_data', books_data);
+            const thead = $('#books-table > thead > tr')[0];
+            const tbody = $('#books-table > tbody')[0];
+            const formatted_books = [];
+            for (const colname in books_data) {
+                if (!Object.hasOwn(books_data, colname)) continue;
+
+                // add column name to header
+                let column = books_data[colname];
+                let th = $new('th', {classList: 'p-1 text-left text-xl'});
+                th.innerText = colname;
+                thead.appendChild(th);
+
+                // format the book data
+                for (let i=0; i<column.length; i++) {
+                    if (formatted_books.length < i + 1) {
+                        formatted_books.push([])
+                    }
+                    let book = formatted_books[i];
+                    book.push(column[i]);
+                }
+            }
+            // console.log('formatted_books', formatted_books);
+
+            // fill in the table
+            for (book of formatted_books) {
+                let tr = $new('tr');
+                for (field of book) {
+                    let th = $new('th', {classList: 'p-1 text-left', innerText: field});
+                    tr.appendChild(th)
+                }
+                tbody.appendChild(tr);
+            }
+        }
+        makeTable()
+    </script>
+</body>
+</html>

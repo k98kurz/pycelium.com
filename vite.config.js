@@ -8,7 +8,8 @@ export default defineConfig({
         about: 'about.html',
         projects: 'projects.html',
         goals: 'goals.html',
-        community: 'community.html'
+        community: 'community.html',
+        books: 'books.html',
       }
     }
   }
