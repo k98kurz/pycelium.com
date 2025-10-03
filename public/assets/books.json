@@ -143,7 +143,9 @@
     "Against Intellectual Property",
     "Essay on Economic Theory",
     "Principles of Economics",
-    "The End of Money and the Future of Civilization"
+    "The End of Money and the Future of Civilization",
+    "Hayek for the 21st Century: Essays in Political Economy",
+    "Understanding Balance Sheets"
   ],
   "Author(s)": [
     "Peter Grey",
@@ -289,7 +291,9 @@
     "N. Stephan Kinsella",
     "Richard Cantillon",
     "Saifadean Ammous",
-    "Thomas H. Greco, Jr."
+    "Thomas H. Greco, Jr.",
+    "F. A. Hayek; Thomas J. Dilorenzo",
+    "George T. Friedlob; Franklin J. Plewa, Jr,"
   ],
   "Year(s)": [
     "2015",
@@ -435,7 +439,9 @@
     "",
     "",
     "",
-    "2009"
+    "2009",
+    "2025",
+    "1996"
   ],
   "Edition": [
     "",
@@ -572,6 +578,8 @@
     "",
     "",
     "1995",
+    "",
+    "",
     "",
     "",
     "",
@@ -727,7 +735,9 @@
     "philosophy,economics",
     "economics",
     "economics",
-    "economics,philosophy"
+    "economics,philosophy",
+    "economics,philosophy",
+    "finance"
   ],
   "Seriousness Score (1-10)": [
     "10",
@@ -846,6 +856,8 @@
     "10",
     "10",
     "9",
+    "10",
+    "10",
     "10",
     "10",
     "10",
@@ -1019,6 +1031,8 @@
     "queued",
     "limbo",
     "limbo",
+    "complete",
+    "in progress",
     "in progress"
   ],
   "PDF": [
@@ -1165,6 +1179,8 @@
     "1",
     "1",
     "1",
+    "0",
+    "0",
     "0"
   ]
 }
