@@ -31,25 +31,29 @@
     </header>
 
     <main class="container mx-auto px-4 py-8">
-        <section class="mb-16">
-            <h2 class="text-3xl font-bold mb-2">Project Spotlight</h2>
-            <h3 class="text-xl text-dark-text mb-4">micropycelium</h3>
-            <div class="mt-2 mb-4">
-                <a href="https://github.com/k98kurz/micropycelium" class="text-pycelium-purple hover:underline" target="_blank">GitHub Repo</a>
-                <a href="https://hacknwa2025.pycelium.com/" class="text-pycelium-purple hover:underline" target="_blank">HackNWA 2025 Slides</a>
+        <section class="mb-16 inline-flex sm:inline-block md:inline-block">
+            <div class="sm:w-full md:w-full lg:w-2/4 float-left">
+                <h2 class="text-3xl font-bold mb-2">Project Spotlight</h2>
+                <h3 class="text-xl text-dark-text mb-4">micropycelium</h3>
+                <div class="mt-2 mb-4">
+                    <a href="https://github.com/k98kurz/micropycelium" class="text-pycelium-purple hover:underline" target="_blank">GitHub Repo</a>
+                    <a href="https://hacknwa2025.pycelium.com/" class="text-pycelium-purple hover:underline" target="_blank">HackNWA 2025 Slides</a>
+                </div>
+                <p class="text-dark-text mb-4">
+                    Micropycelium is a routable mesh network programmed in
+                    micropython and currently compatible with ESP32 using ESP-NOW.
+                    It creates and maintains a spanning tree of nodes, then it uses
+                    greedy routing based upon the VOUTE (Virtual Overlays Using Tree
+                    Embeddings) system. You can read the design/specification
+                    <a href="https://github.com/k98kurz/micropycelium/blob/master/Packager_spec.md">here</a>.
+                </p>
             </div>
-            <p class="text-dark-text mb-4">
-                Micropycelium is a routable mesh network programmed in
-                micropython and currently compatible with ESP32 using ESP-NOW.
-                It creates and maintains a spanning tree of nodes, then it uses
-                greedy routing based upon the VOUTE (Virtual Overlays Using Tree
-                Embeddings) system. You can read the design/specification
-                <a href="https://github.com/k98kurz/micropycelium/blob/master/Packager_spec.md">here</a>.
-            </p>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/6aJB0YFQBTg?si=f5-Cq84kH02DmmeP" title="YouTube video player"
+            <div class="sm:w-full md:w-full lg:w-2/4 float-right">
+                <iframe class="w-full aspect-video" src="https://www.youtube.com/embed/6aJB0YFQBTg?si=f5-Cq84kH02DmmeP" title="YouTube video player"
                 frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen
-            ></iframe>
+                ></iframe>
+            </div>
         </section>
 
         <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
