@@ -145,7 +145,8 @@
     "Principles of Economics",
     "The End of Money and the Future of Civilization",
     "Hayek for the 21st Century: Essays in Political Economy",
-    "Understanding Balance Sheets"
+    "Understanding Balance Sheets",
+    "Capital in the Twenty-First Century"
   ],
   "Author(s)": [
     "Peter Grey",
@@ -293,7 +294,8 @@
     "Saifadean Ammous",
     "Thomas H. Greco, Jr.",
     "F. A. Hayek; Thomas J. Dilorenzo",
-    "George T. Friedlob; Franklin J. Plewa, Jr,"
+    "George T. Friedlob; Franklin J. Plewa, Jr,",
+    "Thomas Piketty; Arthur Goldhammer (translator)"
   ],
   "Year(s)": [
     "2015",
@@ -441,7 +443,8 @@
     "",
     "2009",
     "2025",
-    "1996"
+    "1996",
+    "2014"
   ],
   "Edition": [
     "",
@@ -578,6 +581,7 @@
     "",
     "",
     "1995",
+    "",
     "",
     "",
     "",
@@ -737,7 +741,8 @@
     "economics",
     "economics,philosophy",
     "economics,philosophy",
-    "finance"
+    "finance",
+    "economics,philosophy"
   ],
   "Seriousness Score (1-10)": [
     "10",
@@ -856,6 +861,7 @@
     "10",
     "10",
     "9",
+    "10",
     "10",
     "10",
     "10",
@@ -1033,7 +1039,8 @@
     "limbo",
     "complete",
     "in progress",
-    "in progress"
+    "in progress",
+    "queued"
   ],
   "PDF": [
     "0",
@@ -1179,6 +1186,7 @@
     "1",
     "1",
     "1",
+    "0",
     "0",
     "0",
     "0"
