@@ -146,7 +146,12 @@
     "The End of Money and the Future of Civilization",
     "Hayek for the 21st Century: Essays in Political Economy",
     "Understanding Balance Sheets",
-    "Capital in the Twenty-First Century"
+    "Capital in the Twenty-First Century",
+    "A Practical Heathen's Guide to Asatru",
+    "Sacred Mushrooms of the Goddess",
+    "Beast: A Novel",
+    "Supermoney",
+    "The Pure Theory of Capital"
   ],
   "Author(s)": [
     "Peter Grey",
@@ -295,7 +300,12 @@
     "Thomas H. Greco, Jr.",
     "F. A. Hayek; Thomas J. Dilorenzo",
     "George T. Friedlob; Franklin J. Plewa, Jr,",
-    "Thomas Piketty; Arthur Goldhammer (translator)"
+    "Thomas Piketty; Arthur Goldhammer (translator)",
+    "Patricia M. Lafayllve",
+    "Carl A.P. Ruck",
+    "Paul Kingsnorth",
+    "Adam Smith (pseudonym)",
+    "F. A. Hayek"
   ],
   "Year(s)": [
     "2015",
@@ -444,7 +454,12 @@
     "2009",
     "2025",
     "1996",
-    "2014"
+    "2014",
+    "2013",
+    "2006",
+    "2017",
+    "1972",
+    ""
   ],
   "Edition": [
     "",
@@ -581,6 +596,11 @@
     "",
     "",
     "1995",
+    "",
+    "",
+    "",
+    "",
+    "",
     "",
     "",
     "",
@@ -742,7 +762,12 @@
     "economics,philosophy",
     "economics,philosophy",
     "finance",
-    "economics,philosophy"
+    "economics,philosophy",
+    "religion",
+    "religion,history",
+    "fiction",
+    "economics,finance",
+    "economics"
   ],
   "Seriousness Score (1-10)": [
     "10",
@@ -891,6 +916,11 @@
     "10",
     "10",
     "10",
+    "10",
+    "8",
+    "10",
+    "1",
+    "9",
     "10"
   ],
   "Status(es)": [
@@ -1017,7 +1047,7 @@
     "reference",
     "queued,reference",
     "queued",
-    "queued",
+    "complete",
     "in progress",
     "queued",
     "queued",
@@ -1039,6 +1069,11 @@
     "limbo",
     "complete",
     "complete",
+    "in progress",
+    "queued",
+    "complete",
+    "queued",
+    "queued",
     "in progress",
     "queued"
   ],
@@ -1189,6 +1224,11 @@
     "0",
     "0",
     "0",
-    "0"
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "1"
   ]
 }
