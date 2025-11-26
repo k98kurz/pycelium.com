@@ -22,7 +22,7 @@
     "Synchronicity",
     "Septuaginta: a Reader's Edition",
     "Small Steps into the Kingdom",
-    "The Religion of hte Apostles: Orthodox Christianity in the First Century",
+    "The Religion of the Apostles: Orthodox Christianity in the First Century",
     "The Lost Books of the Bible and the Forgotten Books of Eden",
     "Death of the Soul",
     "The Gurus, the Young Man, and Elder Paisios",
@@ -151,7 +151,10 @@
     "Sacred Mushrooms of the Goddess",
     "Beast: A Novel",
     "Supermoney",
-    "The Pure Theory of Capital"
+    "The Pure Theory of Capital",
+    "Iamblichus on the Mysteries of the Egyptians, Chaldeans, and Assyrians",
+    "Progress and Poverty",
+    "The Dawn of Everything: a New History of Humanity"
   ],
   "Author(s)": [
     "Peter Grey",
@@ -305,7 +308,10 @@
     "Carl A.P. Ruck",
     "Paul Kingsnorth",
     "Adam Smith (pseudonym)",
-    "F. A. Hayek"
+    "F. A. Hayek",
+    "Iamblichus; Thomas Taylor (translator)",
+    "Henry George; Bob Drake (editor)",
+    "David Graeber; David Wengrow"
   ],
   "Year(s)": [
     "2015",
@@ -459,7 +465,10 @@
     "2006",
     "2017",
     "1972",
-    ""
+    "1941; 1950; 2009",
+    "1895",
+    "2006",
+    "2021"
   ],
   "Edition": [
     "",
@@ -613,6 +622,9 @@
     "",
     "",
     "",
+    "2009 Mises Institute",
+    "",
+    "(modern edition)",
     ""
   ],
   "Genre(s)": [
@@ -767,7 +779,10 @@
     "religion,history",
     "fiction",
     "economics,finance",
-    "economics"
+    "economics",
+    "philosophy,religion",
+    "economics",
+    "history,anthropology"
   ],
   "Seriousness Score (1-10)": [
     "10",
@@ -921,6 +936,9 @@
     "10",
     "1",
     "9",
+    "10",
+    "10",
+    "10",
     "10"
   ],
   "Status(es)": [
@@ -1075,6 +1093,9 @@
     "queued",
     "queued",
     "in progress",
+    "queued",
+    "queued",
+    "queued",
     "queued"
   ],
   "PDF": [
@@ -1229,6 +1250,9 @@
     "0",
     "0",
     "0",
-    "1"
+    "1",
+    "0",
+    "0",
+    "0"
   ]
 }
