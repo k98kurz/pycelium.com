@@ -158,7 +158,13 @@
     "...and forgive them their debts: Lending, Foreclosure and Redemption from Bronze Age Finance to the Jubilee Year",
     "The Daily Stoic: 366 Meditations on Wisdom, Perseverance, and the Art of Living",
     "How Writing Came About",
-    "A Theurgist's Book of Hours"
+    "A Theurgist's Book of Hours",
+    "The Theory of Moral Sentiments",
+    "The Muqaddimah",
+    "Theurgy: Theory & Practice: The Mysteries of the Ascent to the Divine",
+    "The Introduction to Actuarial Science for Beginners",
+    "John Dee and the Empire of Angels: Enochian Magick and the Occult Roots of the Modern World",
+    "Lucifer: Praxis"
   ],
   "Author(s)": [
     "Peter Grey",
@@ -319,7 +325,13 @@
     "Michael Hudson",
     "Seneca, Epictetus, Marcus Aurelius, Ryan Holiday, and Stephen Hanselman",
     "Denise Schmandt-Besserat",
-    "Jeffrey S. Kupperman"
+    "Jeffrey S. Kupperman",
+    "Adam Smith",
+    "Ibn Khaldun; Franz Rosenthal (translator); N. J. Dawood (editor)",
+    "P. D. Newman",
+    "Alexander T. Grant",
+    "Jason Louv",
+    "Peter Grey"
   ],
   "Year(s)": [
     "2015",
@@ -480,7 +492,13 @@
     "2018",
     "2016",
     "1992",
-    "2021"
+    "2021",
+    "1759; 1777",
+    "1377; 1958; 1967",
+    "2023",
+    "2025",
+    "2018",
+    "2025"
   ],
   "Edition": [
     "",
@@ -641,6 +659,12 @@
     "",
     "",
     "1996",
+    "",
+    "6th (2025)",
+    "Abridged, Princeton Classics",
+    "",
+    "",
+    "",
     ""
   ],
   "Genre(s)": [
@@ -802,7 +826,13 @@
     "economics,history,religion",
     "philosophy",
     "history",
-    "religion"
+    "religion",
+    "philosophy",
+    "history",
+    "religion,philosophy",
+    "finance,mathematics",
+    "history,religion,magic",
+    "history,religion,magic"
   ],
   "Seriousness Score (1-10)": [
     "10",
@@ -963,6 +993,12 @@
     "10",
     "10",
     "10",
+    "10",
+    "10",
+    "10",
+    "10",
+    "10",
+    "10",
     "10"
   ],
   "Status(es)": [
@@ -1071,7 +1107,7 @@
     "queued",
     "complete",
     "in progress",
-    "in progress",
+    "complete",
     "queued",
     "queued",
     "queued",
@@ -1124,6 +1160,12 @@
     "in progress",
     "in progress",
     "queued",
+    "queued",
+    "queued",
+    "queued",
+    "queued",
+    "queued",
+    "in progress",
     "queued"
   ],
   "PDF": [
@@ -1279,6 +1321,12 @@
     "0",
     "0",
     "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
     "0",
     "0",
     "0",
