@@ -5,6 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Books - Pycelium</title>
     <link rel="stylesheet" href="./dist/output.css">
+    <style>
+        .row-hidden {
+            display: none;
+        }
+        
+        .sortable-header {
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s ease;
+        }
+        
+        .sortable-header:hover {
+            background-color: rgba(75, 85, 99, 0.5);
+        }
+        
+        .sort-indicator {
+            margin-left: 8px;
+            font-size: 0.8em;
+            opacity: 0.7;
+        }
+        
+        .sort-indicator.sort-asc::after {
+            content: ' ↑';
+        }
+        
+        .sort-indicator.sort-desc::after {
+            content: ' ↓';
+        }
+    </style>
 </head>
 <body class="bg-dark-background text-light-text font-sans">
     <nav class="bg-dark-secondary sticky top-0 z-10">
@@ -15,9 +44,9 @@
                         <a href="/" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
                         <a href="/about.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
                         <a href="/projects.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Projects</a>
-                        <a href="/goals.html" class="text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Goals</a>
+                        <a href="/goals.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Goals</a>
                         <a href="/community.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Community</a>
-                        <a href="/books.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Books</a>
+                        <a href="/books.html" class="text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Books</a>
                     </div>
                 </div>
             </div>
@@ -30,6 +59,22 @@
 
     <main class="container mx-auto px-4">
         <section class="mb-16">
+            <div class="mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+                <div class="flex-1 w-full sm:w-auto">
+                    <input 
+                        type="text" 
+                        id="search-input" 
+                        placeholder="Search books..." 
+                        class="w-full px-4 py-2 border border-gray-400 dark:border-gray-500 bg-dark-secondary text-light-text rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                </div>
+                <button 
+                    id="reset-filter" 
+                    class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-md transition-colors duration-200 whitespace-nowrap"
+                >
+                    Reset Filter
+                </button>
+            </div>
             <table id="books-table" class="border-collapse border-spacing-2 border border-gray-400 dark:border-gray-500">
                 <thead>
                     <tr></tr>
@@ -41,7 +86,7 @@
     </main>
 
     <footer class="bg-dark-secondary text-center py-4">
-        <p class="text-dark-text">Copyright 2025 - The Pycelium Company</p>
+        <p class="text-dark-text">Copyright 2026 - The Pycelium Company</p>
     </footer>
     <script type="module" src="/src/main.js"></script>
     <script>
@@ -57,49 +102,223 @@
             return e;
         }
 
-        async function makeTable() {
+        // Global state variables
+        let currentSortColumn = -1;
+        let currentSortDirection = 'none'; // 'none', 'asc', 'desc'
+        let allRowsData = [];
+        let columnNames = [];
+        let originalRowOrder = [];
+
+        // Debounce utility function
+        function debounce(func, delay) {
+            let timeoutId;
+            return function (...args) {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
+        // Initialize the table with books data
+        async function initializeTable() {
             const response = await fetch('assets/books.json');
             const books_data = await response.json();
-            // console.log('books_data', books_data);
+            
             const thead = $('#books-table > thead > tr')[0];
             const tbody = $('#books-table > tbody')[0];
+            
+            // Clear existing content
+            thead.innerHTML = '';
+            tbody.innerHTML = '';
+            
+            // Store column names and create headers
+            columnNames = Object.keys(books_data);
             const formatted_books = [];
-            for (const colname in books_data) {
-                if (!Object.hasOwn(books_data, colname)) continue;
-
-                // add column name to header
+            
+            columnNames.forEach((colname, colIndex) => {
                 let column = books_data[colname];
+                
+                // Create sortable header
                 let th = $new('th', {
-                    classList: 'p-2 text-left text-xl border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30'
+                    classList: 'p-2 text-left text-xl border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header',
+                    innerText: colname
                 });
-                th.innerText = colname;
+                
+                // Add sort indicator span
+                let sortIndicator = $new('span', { className: 'sort-indicator' });
+                th.appendChild(sortIndicator);
+                
+                // Add click handler for sorting
+                th.addEventListener('click', () => handleHeaderClick(colIndex));
+                
                 thead.appendChild(th);
-
-                // format the book data
-                for (let i=0; i<column.length; i++) {
+                
+                // Format the book data
+                for (let i = 0; i < column.length; i++) {
                     if (formatted_books.length < i + 1) {
-                        formatted_books.push([])
+                        formatted_books.push([]);
                     }
                     let book = formatted_books[i];
                     book.push(column[i]);
                 }
-            }
-            // console.log('formatted_books', formatted_books);
-
-            // fill in the table
-            for (book of formatted_books) {
-                let tr = $new('tr', {classList: ''});
-                for (field of book) {
+            });
+            
+            // Cache the formatted data
+            allRowsData = formatted_books;
+            
+            // Create all table rows
+            allRowsData.forEach((book, rowIndex) => {
+                let tr = $new('tr', { classList: 'book-row' });
+                
+                book.forEach((field, colIndex) => {
                     let th = $new('th', {
                         classList: 'px-2 text-left border border-gray-300 dark:border-gray-700 bg-gray-900 bg-opacity-30',
                         innerText: field
                     });
-                    tr.appendChild(th)
-                }
+                    tr.appendChild(th);
+                });
+                
                 tbody.appendChild(tr);
+                originalRowOrder.push(tr);
+            });
+        }
+
+        // Handle header click for sorting
+        function handleHeaderClick(columnIndex) {
+            // Cycle through sort states: none -> asc -> desc -> none
+            if (currentSortColumn === columnIndex) {
+                if (currentSortDirection === 'none') {
+                    currentSortDirection = 'asc';
+                } else if (currentSortDirection === 'asc') {
+                    currentSortDirection = 'desc';
+                } else {
+                    currentSortDirection = 'none';
+                    // Keep currentSortColumn for restoration, don't set to -1 yet
+                }
+            } else {
+                currentSortColumn = columnIndex;
+                currentSortDirection = 'asc';
+            }
+            
+            updateSortIndicators();
+            applyFilterAndSort();
+            
+            // Only set to -1 after applying sort to ensure proper restoration
+            if (currentSortDirection === 'none') {
+                currentSortColumn = -1;
             }
         }
-        makeTable()
+
+        // Update visual sort indicators
+        function updateSortIndicators() {
+            const headers = $('#books-table thead th');
+            headers.forEach((header, index) => {
+                const indicator = header.querySelector('.sort-indicator');
+                indicator.className = 'sort-indicator';
+                
+                if (index === currentSortColumn) {
+                    if (currentSortDirection === 'asc') {
+                        indicator.classList.add('sort-asc');
+                    } else if (currentSortDirection === 'desc') {
+                        indicator.classList.add('sort-desc');
+                    }
+                }
+            });
+        }
+
+        // Check if a column should be sorted numerically
+        function isNumericColumn(columnIndex) {
+            const columnName = columnNames[columnIndex].toLowerCase();
+            return columnName.includes('year') || columnName.includes('score') || columnName === 'pdf';
+        }
+
+        // Compare function for sorting
+        function compareValues(a, b, isNumeric) {
+            if (isNumeric) {
+                const numA = parseFloat(a) || 0;
+                const numB = parseFloat(b) || 0;
+                return numA - numB;
+            } else {
+                return String(a).localeCompare(String(b));
+            }
+        }
+
+        // Filter and sort the table
+        function applyFilterAndSort() {
+            const searchValue = document.getElementById('search-input').value.toLowerCase();
+            const tbody = $('#books-table > tbody')[0];
+            const allRows = tbody.querySelectorAll('tr.book-row');
+            
+            // Apply filtering
+            allRows.forEach((row, rowIndex) => {
+                let shouldShow = searchValue === ''; // Show all if search is empty
+                
+                if (!shouldShow) {
+                    const cells = row.querySelectorAll('th');
+                    for (let cell of cells) {
+                        if (cell.textContent.toLowerCase().includes(searchValue)) {
+                            shouldShow = true;
+                            break;
+                        }
+                    }
+                }
+                
+                row.classList.toggle('row-hidden', !shouldShow);
+            });
+            
+            // Apply sorting to visible rows
+            const visibleRows = Array.from(allRows).filter(row => !row.classList.contains('row-hidden'));
+            
+            if (currentSortColumn >= 0 && currentSortDirection !== 'none') {
+                // Apply sorting
+                const isNumeric = isNumericColumn(currentSortColumn);
+                
+                visibleRows.sort((rowA, rowB) => {
+                    const cellA = rowA.querySelectorAll('th')[currentSortColumn];
+                    const cellB = rowB.querySelectorAll('th')[currentSortColumn];
+                    const valueA = cellA.textContent.trim();
+                    const valueB = cellB.textContent.trim();
+                    
+                    const comparison = compareValues(valueA, valueB, isNumeric);
+                    return currentSortDirection === 'asc' ? comparison : -comparison;
+                });
+            } else {
+                // Restore original order when sort is reset
+                visibleRows.sort((rowA, rowB) => {
+                    const indexA = originalRowOrder.indexOf(rowA);
+                    const indexB = originalRowOrder.indexOf(rowB);
+                    return indexA - indexB;
+                });
+            }
+            
+            // Reorder visible rows in DOM
+            visibleRows.forEach(row => tbody.appendChild(row));
+        }
+
+        // Filter function (debounced)
+        const debouncedFilter = debounce(() => {
+            currentSortColumn = -1;
+            currentSortDirection = 'none';
+            updateSortIndicators();
+            applyFilterAndSort();
+        }, 300);
+
+        // Reset filter function
+        function resetFilter() {
+            document.getElementById('search-input').value = '';
+            currentSortColumn = -1;
+            currentSortDirection = 'none';
+            updateSortIndicators();
+            applyFilterAndSort();
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTable();
+            
+            // Add event listeners
+            document.getElementById('search-input').addEventListener('input', debouncedFilter);
+            document.getElementById('reset-filter').addEventListener('click', resetFilter);
+        });
     </script>
 </body>
 </html>
