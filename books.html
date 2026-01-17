@@ -33,6 +33,57 @@
         .sort-indicator.sort-desc::after {
             content: ' ↓';
         }
+        
+        .filter-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background-color: rgba(59, 130, 246, 0.8);
+            color: white;
+            border-radius: 16px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            animation: fadeIn 0.2s ease;
+        }
+        
+        .filter-tag:hover {
+            background-color: rgba(59, 130, 246, 1);
+            transform: translateY(-1px);
+        }
+        
+        .filter-tag .remove-filter {
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 0;
+            margin: 0;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+        }
+        
+        .filter-tag .remove-filter:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 <body class="bg-dark-background text-light-text font-sans">
@@ -59,7 +110,7 @@
 
     <main class="container mx-auto px-4">
         <section class="mb-16">
-            <div class="mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+            <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
                 <div class="flex-1 w-full sm:w-auto">
                     <input 
                         type="text" 
@@ -69,12 +120,19 @@
                     >
                 </div>
                 <button 
+                    id="add-filter" 
+                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors duration-200 whitespace-nowrap"
+                >
+                    Add Filter
+                </button>
+                <button 
                     id="reset-filter" 
                     class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-md transition-colors duration-200 whitespace-nowrap"
                 >
-                    Reset Filter
+                    Reset Filter(s)
                 </button>
             </div>
+            <div id="filter-tags" class="mt-2 mb-2 flex flex-wrap gap-2 min-h-[32px]"></div>
             <table id="books-table" class="border-collapse border-spacing-2 border border-gray-400 dark:border-gray-500">
                 <thead>
                     <tr></tr>
@@ -108,6 +166,9 @@
         let allRowsData = [];
         let columnNames = [];
         let originalRowOrder = [];
+        let activeFilters = []; // Array of filter objects: { id, value, timestamp }
+        let tempFilter = ''; // Current input value that hasn't been saved yet
+        let filterIdCounter = 0;
 
         // Debounce utility function
         function debounce(func, delay) {
@@ -244,22 +305,32 @@
 
         // Filter and sort the table
         function applyFilterAndSort() {
-            const searchValue = document.getElementById('search-input').value.toLowerCase();
             const tbody = $('#books-table > tbody')[0];
             const allRows = tbody.querySelectorAll('tr.book-row');
             
             // Apply filtering
             allRows.forEach((row, rowIndex) => {
-                let shouldShow = searchValue === ''; // Show all if search is empty
+                let shouldShow = activeFilters.length === 0 && tempFilter === ''; // Show all if no filters
                 
-                if (!shouldShow) {
-                    const cells = row.querySelectorAll('th');
-                    for (let cell of cells) {
-                        if (cell.textContent.toLowerCase().includes(searchValue)) {
-                            shouldShow = true;
-                            break;
+                if (activeFilters.length > 0 || tempFilter !== '') {
+                    // Create array of all filters to check (permanent + temporary)
+                    const allFiltersToCheck = [
+                        ...activeFilters.map(f => f.value.toLowerCase()),
+                        ...(tempFilter !== '' ? [tempFilter.toLowerCase()] : [])
+                    ];
+                    
+                    // Row must match ALL filters (AND logic)
+                    shouldShow = allFiltersToCheck.every(filterValue => {
+                        const cells = row.querySelectorAll('th');
+                        
+                        // Check if any cell contains the filter value
+                        for (let cell of cells) {
+                            if (cell.textContent.toLowerCase().includes(filterValue)) {
+                                return true;
+                            }
                         }
-                    }
+                        return false;
+                    });
                 }
                 
                 row.classList.toggle('row-hidden', !shouldShow);
@@ -294,8 +365,110 @@
             visibleRows.forEach(row => tbody.appendChild(row));
         }
 
+        // Add a new filter
+        function addFilter() {
+            // Use the tempFilter value (already captured from input)
+            const filterValue = tempFilter;
+            
+            if (filterValue === '') {
+                return; // Don't add empty filters
+            }
+            
+            // Check if this filter already exists
+            const existingFilter = activeFilters.find(filter => 
+                filter.value.toLowerCase() === filterValue.toLowerCase()
+            );
+            
+            if (existingFilter) {
+                return; // Don't add duplicate filters
+            }
+            
+            // Create new filter object
+            const newFilter = {
+                id: ++filterIdCounter,
+                value: filterValue,
+                timestamp: Date.now()
+            };
+            
+            activeFilters.push(newFilter);
+            createFilterTag(newFilter);
+            
+            // Clear input field and tempFilter
+            document.getElementById('search-input').value = '';
+            tempFilter = '';
+            
+            // Update reset button text
+            updateResetButtonText();
+            
+            // Apply filters (without resetting sort)
+            applyFilterAndSort();
+        }
+        
+        // Remove a specific filter
+        function removeFilter(filterId) {
+            activeFilters = activeFilters.filter(filter => filter.id !== filterId);
+            
+            // Remove the tag element
+            const tagElement = document.querySelector(`[data-filter-id="${filterId}"]`);
+            if (tagElement) {
+                tagElement.remove();
+            }
+            
+            // Update reset button text
+            updateResetButtonText();
+            
+            // Apply remaining filters
+            applyFilterAndSort();
+        }
+        
+        // Create a filter tag element
+        function createFilterTag(filter) {
+            const filterTagsContainer = document.getElementById('filter-tags');
+            
+            const tagElement = document.createElement('div');
+            tagElement.className = 'filter-tag';
+            tagElement.setAttribute('data-filter-id', filter.id);
+            
+            const labelElement = document.createElement('span');
+            labelElement.textContent = filter.value;
+            
+            const removeButton = document.createElement('button');
+            removeButton.className = 'remove-filter';
+            removeButton.innerHTML = '×';
+            removeButton.setAttribute('aria-label', `Remove filter: ${filter.value}`);
+            removeButton.addEventListener('click', () => removeFilter(filter.id));
+            
+            tagElement.appendChild(labelElement);
+            tagElement.appendChild(removeButton);
+            
+            filterTagsContainer.appendChild(tagElement);
+        }
+        
+        // Update reset button text based on filter count
+        function updateResetButtonText() {
+            const resetButton = document.getElementById('reset-filter');
+            const filterCount = activeFilters.length;
+            
+            if (filterCount === 0) {
+                resetButton.textContent = 'Reset Filter';
+            } else if (filterCount === 1) {
+                resetButton.textContent = 'Reset Filter';
+            } else {
+                resetButton.textContent = `Reset Filters (${filterCount})`;
+            }
+        }
+        
+        // Clear all filter tags from the DOM
+        function clearAllFilterTags() {
+            const filterTagsContainer = document.getElementById('filter-tags');
+            filterTagsContainer.innerHTML = '';
+        }
+        
         // Filter function (debounced)
         const debouncedFilter = debounce(() => {
+            // Capture current input value as temporary filter
+            tempFilter = document.getElementById('search-input').value.trim();
+            
             currentSortColumn = -1;
             currentSortDirection = 'none';
             updateSortIndicators();
@@ -305,6 +478,10 @@
         // Reset filter function
         function resetFilter() {
             document.getElementById('search-input').value = '';
+            tempFilter = '';
+            activeFilters = [];
+            clearAllFilterTags();
+            updateResetButtonText();
             currentSortColumn = -1;
             currentSortDirection = 'none';
             updateSortIndicators();
@@ -316,7 +493,16 @@
             initializeTable();
             
             // Add event listeners
-            document.getElementById('search-input').addEventListener('input', debouncedFilter);
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', debouncedFilter);
+            searchInput.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    addFilter();
+                }
+            });
+            
+            document.getElementById('add-filter').addEventListener('click', addFilter);
             document.getElementById('reset-filter').addEventListener('click', resetFilter);
         });
     </script>
