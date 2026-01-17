@@ -397,9 +397,6 @@
             document.getElementById('search-input').value = '';
             tempFilter = '';
             
-            // Update reset button text
-            updateResetButtonText();
-            
             // Apply filters (without resetting sort)
             applyFilterAndSort();
         }
@@ -413,9 +410,6 @@
             if (tagElement) {
                 tagElement.remove();
             }
-            
-            // Update reset button text
-            updateResetButtonText();
             
             // Apply remaining filters
             applyFilterAndSort();
@@ -444,19 +438,7 @@
             filterTagsContainer.appendChild(tagElement);
         }
         
-        // Update reset button text based on filter count
-        function updateResetButtonText() {
-            const resetButton = document.getElementById('reset-filter');
-            const filterCount = activeFilters.length;
-            
-            if (filterCount === 0) {
-                resetButton.textContent = 'Reset Filter';
-            } else if (filterCount === 1) {
-                resetButton.textContent = 'Reset Filter';
-            } else {
-                resetButton.textContent = `Reset Filters (${filterCount})`;
-            }
-        }
+
         
         // Clear all filter tags from the DOM
         function clearAllFilterTags() {
@@ -481,7 +463,6 @@
             tempFilter = '';
             activeFilters = [];
             clearAllFilterTags();
-            updateResetButtonText();
             currentSortColumn = -1;
             currentSortDirection = 'none';
             updateSortIndicators();
