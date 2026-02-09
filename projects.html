@@ -52,6 +52,10 @@
 
         <section>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="markdownmywords">
+                    <h3 class="text-lg font-bold mb-1">MarkdownMyWords</h3>
+                    <p class="text-dark-text text-sm">GunDB Markdown Editor App</p>
+                </div>
                 <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="crdts">
                     <h3 class="text-lg font-bold mb-1">crdts</h3>
                     <p class="text-dark-text text-sm">Conflict-free Replicated Data Types</p>
@@ -117,6 +121,7 @@
                             Project Title
                         </h3>
                         <div id="projectModalLinks" class="mt-2 mb-4">
+                            <a href="#" class="text-pycelium-purple hover:underline mr-2" id="websiteLink" target="_blank">Website</a>
                             <a href="#" class="text-pycelium-purple hover:underline mr-2" id="pypiLink" target="_blank">PyPI</a>
                             <a href="#" class="text-pycelium-purple hover:underline mr-2" id="youtubeLink" target="_blank">YouTube</a>
                             <a href="#" class="text-pycelium-purple hover:underline" id="githubLink" target="_blank">GitHub</a>
@@ -150,6 +155,7 @@
             const modalContent = document.getElementById('projectModalContent');
             const closeModalButton = document.getElementById('closeModalButton');
             const pypiLink = document.getElementById('pypiLink');
+            const websiteLink = document.getElementById('websiteLink');
             const youtubeLink = document.getElementById('youtubeLink');
             const githubLink = document.getElementById('githubLink');
             const modalLinks = document.getElementById('projectModalLinks');
@@ -179,6 +185,12 @@
                     description: "Async networking library intended to provide a clean DX for implementing custom byte-encoded protocols. Includes an automatic peer discovery/management system, as well as a plugin system and several default plugins for auth and encryption. Inspired vaguely by fastapi.",
                     pypi: "https://pypi.org/project/netaio",
                     github: "https://github.com/k98kurz/netaio"
+                },
+                "markdownmywords": {
+                  title: "MarkdownMyWords",
+                  description: "Markdown editor browser app with GunDB decentralized database for data storage and SEA for e2e encryption. Near-future features will include git-style collaborative document editing and bring-your-own OpenRouter API key for AI review/revise features.",
+                  website: "https://markdownmywords.com",
+                  github: "https://github.com/k98kurz/MarkdownMyWords"
                 },
                 "crdts": {
                     title: "crdts",
@@ -273,6 +285,13 @@
                         pypiLink.classList.remove('hidden');
                     } else {
                         pypiLink.classList.add('hidden');
+                    }
+
+                    if (project.website) {
+                        websiteLink.href = project.website;
+                        websiteLink.classList.remove('hidden');
+                    } else {
+                        websiteLink.classList.add('hidden');
                     }
 
                     if (project.youtube) {
