@@ -31,6 +31,10 @@
     <main class="container mx-auto px-4 py-8">
         <section class="mb-16">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-dark-secondary rounded-lg p-6 cursor-pointer project-card" data-project="easycoin">
+                    <h3 class="text-xl font-bold mb-2">EasyCoin</h3>
+                    <p class="text-dark-text">Proof-of-concept cryptocurrency demonstrating the UTXO/coin model. Includes a Textual CUI.</p>
+                </div>
                 <div class="bg-dark-secondary rounded-lg p-6 cursor-pointer project-card" data-project="micropycelium">
                     <h3 class="text-xl font-bold mb-2">micropycelium</h3>
                     <p class="text-dark-text">Routable mesh network for small devices with a micropython runtime.</p>
@@ -47,15 +51,15 @@
                     <h3 class="text-xl font-bold mb-2">netaio</h3>
                     <p class="text-dark-text">Async networking library with automatic peer management, easy use syntax, and a plugin system.</p>
                 </div>
+                <div class="bg-dark-secondary rounded-lg p-6 cursor-pointer project-card" data-project="markdownmywords">
+                    <h3 class="text-xl font-bold mb-2">MarkdownMyWords</h3>
+                    <p class="text-dark-text">GunDB Markdown Editor App with end-to-end encryption.</p>
+                </div>
             </div>
         </section>
 
         <section>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="markdownmywords">
-                    <h3 class="text-lg font-bold mb-1">MarkdownMyWords</h3>
-                    <p class="text-dark-text text-sm">GunDB Markdown Editor App</p>
-                </div>
                 <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="crdts">
                     <h3 class="text-lg font-bold mb-1">crdts</h3>
                     <p class="text-dark-text text-sm">Conflict-free Replicated Data Types</p>
@@ -161,6 +165,12 @@
             const modalLinks = document.getElementById('projectModalLinks');
 
             const projectData = {
+                "easycoin": {
+                    title: "EasyCoin",
+                    description: "Proof-of-concept cryptocurrency demonstrating the UTXO/coin model of Bitcoin with a Textual CUI. Features include stamped coins with covenants, hierarchical deterministic wallets, single player GameSet system, and autistically detailed transaction verification environment.",
+                    pypi: "https://pypi.org/project/easycoin",
+                    github: "https://github.com/k98kurz/easycoin"
+                },
                 "micropycelium": {
                     title: "micropycelium",
                     description: "Routable mesh network implemented with ESP-NOW, gossip, a spanning tree, and a simplified version of VOUTE. LoRa support is planned for a future release.",
@@ -313,6 +323,12 @@
 
             window.addEventListener('click', (event) => {
                 if (event.target === modal) {
+                    modal.classList.add('hidden');
+                }
+            });
+
+            window.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
                     modal.classList.add('hidden');
                 }
             });
