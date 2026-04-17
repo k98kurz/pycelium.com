@@ -57,6 +57,12 @@
                             GameSet1
                         </a></li>
                     </ul>
+                    Currently, the UX is missing the ability to decompile an adddress
+                    lock. Use the built-in REPL with `from easycoin import Address`,
+                    `lock = Address.parse(address_hex)`, `from tapescript import Script`,
+                    and `print(Script.from_bytes(lock).src)` to decompile it. If I
+                    have time, I'll push a v0.0.2 update that adds the ability to
+                    click on an address to get the decompiled lock script.
                 </p>
             </div>
         </section>
