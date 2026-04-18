@@ -48,13 +48,16 @@
                 <p class="text-dark-text mb-4">
                     The project includes a Textual CUI for wallet management,
                     coin mining, transaction building, and stamp creation.
-                    Network protocol coming soon.
+                    (Network protocol is experimental and hilariously unoptimized.)
                     The HackNWA CTF GameSet 1 has the following checksum and
                     can be downloaded at the following link:
                     <ul class="mb-4">
                         <li>e827a8af8cbf39e67f2cff26188c17bab53228a13a900479b8d26d34f25c91ac22a9bd7e</li>
                         <li><a href="https://drive.google.com/file/d/1ZctWZHZPl_qLCX-cFNZyWTC8S8oGT4Ns/view?usp=drive_link">
                             GameSet1
+                        </a></li>
+                        <li><a href="https://drive.google.com/drive/u/0/folders/17nILO4uMahMybvhg8nyDJvJApKRBrh2I">
+                            Challenge Instructions/Descriptions
                         </a></li>
                     </ul>
                 </p>
@@ -65,17 +68,19 @@
                     the checksum, create a database backup, then unpack the zip
                     and serialized records (txns, coins, inputs, outputs) into
                     the local sqlite database. Then explore coins and try to hijack
-                    them. Good luck and happy hunting.
+                    them. Be sure to read the challenge instructions markdown file.
+                    Good luck and happy hunting.
                 </p>
                 <p class="text-dark-text mb-4">
-                    Currently, the UX is missing the ability to decompile an adddress
-                    lock. Use the built-in REPL with `from easycoin import Address`,
-                    `lock = Address.parse(address_hex)`, `from tapescript import Script`,
-                    and `print(Script.from_bytes(lock).src)` to decompile it. If I
-                    have time, I'll push a v0.0.2 update that adds the ability to
-                    click on an address to get the decompiled locking script.
+                    Note for Windows users: you probably need to run
+                    `python -m venv venv` and `.\venv\Scripts\activate` before
+                    being able to install with pip. Or try uv/uvx instead of pip.
                 </p>
-            </div>
+                <p class="text-dark-text mb-4">
+                    For Linux, use `python -m venv venv` and
+                    `source venv/bin/activate` before running pip, or use uv/uvx.
+                </p>
+           </div>
         </section>
 
         <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
