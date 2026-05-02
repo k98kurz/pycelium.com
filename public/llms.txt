@@ -1,0 +1,59 @@
+# Pycelium
+
+> Pycelium builds FOSS packages for distributed applications. Like fungal mycelium networks that grow without central coordination, our vision is distributed applications that run autonomously on two or more nodes, decentralizing data ownership and information flow without Web3 crypto grift.
+
+Pycelium focuses on Python-based distributed systems where nodes manage their own state and verify each other's behavior. Data resides where it's used or explicitly replicated, changeable only by owners or their designees.
+
+Required reading: [Cypherpunk Manifesto](https://www.activism.net/cypherpunk/manifesto.html) — foundational philosophy for understanding Pycelium's mission.
+
+## Main Pages
+
+- [Home](https://pycelium.com/): Project spotlight featuring EasyCoin with CTF challenges and usage instructions
+- [About](https://pycelium.com/about.html): Pycelium's origin story connecting Python and mycelium metaphors
+- [Projects](https://pycelium.com/projects.html): Complete catalog of 15+ FOSS packages spanning networking, cryptography, databases, and more
+- [Goals](https://pycelium.com/goals.html): Autonomous networking, decentralized data/logic, and implementation of academic insights
+- [Community](https://pycelium.com/community.html): Discord server for support and collaboration
+
+## Networking & Mesh
+
+- [micropycelium](https://github.com/k98kurz/micropycelium): Routable mesh network for small devices with micropython runtime using ESP-NOW, gossip, spanning tree, and VOUTE ([YouTube Demo](https://youtu.be/6aJB0YFQBTg))
+- [netaio](https://pypi.org/project/netaio): Async networking library with automatic peer discovery/management, plugin system, auth, and encryption ([GitHub](https://github.com/k98kurz/netaio))
+
+## Distributed Systems Core
+
+- [crdts](https://pypi.org/project/crdts): Delta-state Conflict-free Replicated Data Type implementations for collaborative apps with strong eventual consistency ([GitHub](https://github.com/k98kurz/crdts))
+- [hrw](https://pypi.org/project/hrw): HRW (Highest Random Weight) algorithm (rendezvous hashing) for distributed resource allocation and probabilistic retrieval ([GitHub](https://github.com/k98kurz/hrw))
+- [reclocks](https://pypi.org/project/reclocks): Reverse entropy logical clocks ([GitHub](https://github.com/k98kurz/reverse-entropy-clocks))
+- [credos](https://pypi.org/project/credos): Coordination-free database replication combining sqloquent and crdts with optional netaio networking and tapescript auth ([GitHub](https://github.com/k98kurz/credos-python), WIP)
+
+## Cryptography
+
+- [musig](https://pypi.org/project/musig): MuSig protocol implementation in Ed25519 for safe multi-party signatures indistinguishable from normal signatures ([GitHub](https://github.com/k98kurz/musig))
+- [merkleasy](https://pypi.org/project/merkleasy): Easy-to-use Merkle tree library for making and verifying inclusion proofs ([GitHub](https://github.com/k98kurz/merkle))
+- [bookchain](https://pypi.org/project/bookchain): Double entry accounting system with cryptographic verification features ([GitHub](https://github.com/k98kurz/bookchain))
+
+## Data & Serialization
+
+- [packify](https://pypi.org/project/packify): Safe, deterministic, universal serializer for Python data structures ([GitHub](https://github.com/k98kurz/packify))
+- [sqloquent](https://pypi.org/project/sqloquent): ORM with content-addressable records, Merkle DAGs, migration system, code generation, unique relations, and sync/async implementations ([GitHub](https://github.com/k98kurz/sqloquent))
+- [simplebooks](https://pypi.org/project/simplebooks): Simplified double entry accounting system without cryptographic features ([GitHub](https://github.com/k98kurz/simplebooks))
+
+## Access Control & Logic
+
+- [tapescript](https://pypi.org/project/tapescript): Domain-specific language for embedding access controls into distributed systems with compiler, decompiler, plugin system, soft-fork system, cryptographic features, and code generation tools ([GitHub](https://github.com/k98kurz/tapescript))
+- [flying-state-machines](https://pypi.org/project/flying-state-machines): Finite state machine library with Flying Spaghetti Monster serialization format and features for building complex Markov chains ([GitHub](https://github.com/k98kurz/flying-state-machines))
+- [simple-hooks](https://pypi.org/project/simple-hooks): Hooks system for any function, method, or class to execute event callbacks before and after execution ([GitHub](https://github.com/k98kurz/simple-hooks))
+
+## Tooling & Utilities
+
+- [autodox](https://pypi.org/project/autodox): Documentation generator that automagically creates markdown documentation from type annotations and docstrings ([GitHub](https://github.com/k98kurz/autodox))
+- [crossconfig](https://pypi.org/project/crossconfig): Simple JSON-based settings/config package working cross-platform on Linux and Windows ([GitHub](https://github.com/k98kurz/crossconfig))
+- [MarkdownMyWords](https://markdownmywords.com): Markdown editor browser app with GunDB decentralized database for storage and SEA for e2e encryption ([GitHub](https://github.com/k98kurz/MarkdownMyWords))
+
+## Applications
+
+- [EasyCoin](https://pypi.org/project/easycoin): Proof-of-concept cryptocurrency with UTXO/coin model, Textual CUI, stamped coins, hierarchical deterministic wallets, and GameSet CTF system ([GitHub](https://github.com/k98kurz/easycoin))
+
+## Optional
+
+- [All Projects on GitHub](https://github.com/k98kurz): Complete source code and documentation for all Pycelium projects
