@@ -1,0 +1,41 @@
+[
+  {
+    "title": "Lamentation",
+    "category": "poetry",
+    "status": "published",
+    "date": "2026-07-16",
+    "description": "Do I remain yet alive?",
+    "file": "lamentation.txt",
+    "format": "txt"
+  },
+  {
+    "title": "Earthbound",
+    "category": "prose",
+    "status": "published",
+    "date": "2026-05-09",
+    "description": "Bound to a spinning rock, struggling to complete a mission without parameters.",
+    "file": "Earthbound.md",
+    "format": "md"
+  },
+  {
+    "title": "An Economic Comparison of Commodity and Credit Money Systems",
+    "category": "economics",
+    "status": "wip",
+    "description": "My attempt at a comparative analysis of monetary systems. 10,400 words; ~70% complete."
+  },
+  {
+    "title": "Treatise on Capital and Credit",
+    "category": "economics",
+    "status": "wip",
+    "description": "A synthesis, containing noteworthy conceptualizations, my taxonomies, historical notes, comparisons, etc. 15,800 words; ~50% complete."
+  },
+  {
+    "title": "UCN Specification v0.0.4",
+    "category": "specification",
+    "status": "published/wip",
+    "date": "2024-05-15",
+    "description":"Incomplete specification for the Universal Credit Network.",
+    "file": "Universal Credit Network v0.0.4.pdf",
+    "format": "pdf"
+  }
+]

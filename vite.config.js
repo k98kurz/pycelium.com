@@ -10,6 +10,7 @@ export default defineConfig({
         goals: 'goals.html',
         community: 'community.html',
         books: 'books.html',
+        writings: 'writings.html',
       }
     }
   }
