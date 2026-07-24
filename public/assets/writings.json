@@ -37,5 +37,14 @@
     "description":"Incomplete specification for the Universal Credit Network.",
     "file": "Universal Credit Network v0.0.4.pdf",
     "format": "pdf"
+  },
+  {
+    "title": "Micropycelium Slides",
+    "category": "slides",
+    "status": "published",
+    "date": "2025-04-11",
+    "description": "Slides for my presentation at Hack NWA 2025 conference on building a mesh network from scratch.",
+    "link": "https://hacknwa2025.pycelium.com/",
+    "format": "web"
   }
 ]

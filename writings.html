@@ -145,11 +145,14 @@
 
                 const isModalFormat = writing.format === 'txt' || writing.format === 'md';
                 const hasFile = writing.file && writing.format;
+                const hasLink = writing.link && writing.format === 'web';
                 const categoryLabel = writing.category.charAt(0).toUpperCase() + writing.category.slice(1);
                 const statusLabel = writing.status === 'published' ? 'Published' : 'Work in Progress';
 
                 let buttonHtml = '';
-                if (hasFile) {
+                if (hasLink) {
+                    buttonHtml = `<a href="${escapeHtml(writing.link)}" target="_blank" class="text-pycelium-purple hover:underline text-sm font-medium">Open &rarr;</a>`;
+                } else if (hasFile) {
                     buttonHtml = `<button class="text-pycelium-purple hover:underline text-sm font-medium read-btn" data-index="${index}">${isModalFormat ? 'Read' : 'Open'} &rarr;</button>`;
                 } else {
                     buttonHtml = '<span class="text-xs text-gray-600">No file yet</span>';
