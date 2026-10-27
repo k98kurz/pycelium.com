@@ -129,12 +129,15 @@
                     disabled
                 >
                     <option value="model">Model</option>
+                    <option value="devices">Device</option>
                     <option value="n_gpu_layers">GPU Layers</option>
                     <option value="n_cpu_moe">CPU MoE</option>
+                    <option value="split_mode">Split Mode</option>
                     <option value="n_threads">Threads</option>
-                    <option value="k_quant">K Quant</option>
-                    <option value="v_quant">V Quant</option>
-                    <option value="depth">Depth</option>
+                    <option value="type_k">K Quant</option>
+                    <option value="type_v">V Quant</option>
+                    <option value="no_kv_offload">NKVO</option>
+                    <option value="n_depth">Depth</option>
                 </select>
                 <div class="flex-1 w-full sm:w-auto">
                     <input
@@ -182,22 +185,31 @@
                             <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="model">
                                 Model<span class="sort-indicator"></span>
                             </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="devices">
+                                Device<span class="sort-indicator"></span>
+                            </th>
                             <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="n_gpu_layers">
                                 GPU Layers<span class="sort-indicator"></span>
                             </th>
                             <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="n_cpu_moe">
                                 CPU MoE<span class="sort-indicator"></span>
                             </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="split_mode">
+                                Split Mode<span class="sort-indicator"></span>
+                            </th>
                             <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="n_threads">
                                 Threads<span class="sort-indicator"></span>
                             </th>
-                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="k_quant">
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="type_k">
                                 K Quant<span class="sort-indicator"></span>
                             </th>
-                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="v_quant">
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="type_v">
                                 V Quant<span class="sort-indicator"></span>
                             </th>
-                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="depth">
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="no_kv_offload">
+                                NKVO<span class="sort-indicator"></span>
+                            </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="n_depth">
                                 Depth<span class="sort-indicator"></span>
                             </th>
                             <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="pp_ts">
@@ -244,12 +256,15 @@
                     disabled
                 >
                     <option value="model">Model</option>
+                    <option value="devices">Device</option>
                     <option value="n_gpu_layers">GPU Layers</option>
                     <option value="n_cpu_moe">CPU MoE</option>
+                    <option value="split_mode">Split Mode</option>
                     <option value="n_threads">Threads</option>
-                    <option value="k_quant">K Quant</option>
-                    <option value="v_quant">V Quant</option>
-                    <option value="depth">Depth</option>
+                    <option value="type_k">K Quant</option>
+                    <option value="type_v">V Quant</option>
+                    <option value="no_kv_offload">NKVO</option>
+                    <option value="n_depth">Depth</option>
                 </select>
                 <div class="flex-1 w-full sm:w-auto">
                     <input
@@ -290,22 +305,31 @@
                             <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="model">
                                 Model<span class="sort-indicator"></span>
                             </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="devices">
+                                Device<span class="sort-indicator"></span>
+                            </th>
                             <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="n_gpu_layers">
                                 GPU Layers<span class="sort-indicator"></span>
                             </th>
                             <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="n_cpu_moe">
                                 CPU MoE<span class="sort-indicator"></span>
                             </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="split_mode">
+                                Split Mode<span class="sort-indicator"></span>
+                            </th>
                             <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="n_threads">
                                 Threads<span class="sort-indicator"></span>
                             </th>
-                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="k_quant">
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="type_k">
                                 K Quant<span class="sort-indicator"></span>
                             </th>
-                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="v_quant">
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="type_v">
                                 V Quant<span class="sort-indicator"></span>
                             </th>
-                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="depth">
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="no_kv_offload">
+                                NKVO<span class="sort-indicator"></span>
+                            </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="n_depth">
                                 Depth<span class="sort-indicator"></span>
                             </th>
                             <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="pp_ts">

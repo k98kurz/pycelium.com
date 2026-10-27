@@ -2,12 +2,15 @@ import './input.css';
 
 const filterFields = [
     { key: 'model', label: 'Model', numeric: false },
+    { key: 'devices', label: 'Device', numeric: false },
     { key: 'n_gpu_layers', label: 'GPU Layers', numeric: true },
     { key: 'n_cpu_moe', label: 'CPU MoE', numeric: true },
+    { key: 'split_mode', label: 'Split Mode', numeric: false },
     { key: 'n_threads', label: 'Threads', numeric: true },
-    { key: 'k_quant', label: 'K Quant', numeric: false },
-    { key: 'v_quant', label: 'V Quant', numeric: false },
-    { key: 'depth', label: 'Depth', numeric: true },
+    { key: 'type_k', label: 'K Quant', numeric: false },
+    { key: 'type_v', label: 'V Quant', numeric: false },
+    { key: 'no_kv_offload', label: 'NKVO', numeric: false },
+    { key: 'n_depth', label: 'Depth', numeric: true },
 ];
 
 let globalFilterIdCounter = 0;
@@ -41,13 +44,16 @@ function fieldLabel(field) {
 function normalizeRow(row, index) {
     return {
         _id: index,
-        model: row.model ?? '',
+        model: row.model ?? row.model_filename ?? '',
+        devices: row.devices ?? row.device ?? '',
         n_gpu_layers: row.n_gpu_layers ?? '',
         n_cpu_moe: row.n_cpu_moe ?? '',
+        split_mode: row.split_mode ?? '',
         n_threads: row.n_threads ?? '',
-        k_quant: row.k_quant ?? '',
-        v_quant: row.v_quant ?? '',
-        depth: row.depth ?? '',
+        type_k: row.type_k ?? row.k_quant ?? '',
+        type_v: row.type_v ?? row.v_quant ?? '',
+        no_kv_offload: row.no_kv_offload ?? row.nkvo ?? '',
+        n_depth: row.n_depth ?? row.depth ?? '',
         pp_ts: row.pp_ts ?? '',
         tg_ts: row.tg_ts ?? '',
     };
@@ -302,15 +308,20 @@ function createTableManager(config) {
 
             const values = [
                 row.model,
+                row.devices,
                 row.n_gpu_layers,
                 row.n_cpu_moe,
+                row.split_mode,
                 row.n_threads,
-                row.k_quant,
-                row.v_quant,
-                row.depth,
-                row.pp_ts,
-                row.tg_ts,
+                row.type_k,
+                row.type_v,
+                row.no_kv_offload,
+                row.n_depth,
             ];
+
+            if (config.hasResults) {
+                values.push(row.pp_ts, row.tg_ts);
+            }
 
             values.forEach((value) => {
                 const cell = document.createElement('td');
@@ -406,7 +417,7 @@ function createTableManager(config) {
             renderTable();
         } catch (error) {
             showEmptyState();
-            setControlsEnabled(false);
+            setControlsEnabled(true);
         }
     }
 
@@ -483,6 +494,7 @@ const mainTable = createTableManager({
     resetFiltersId: 'reset-filters',
     makeChartsId: 'make-charts',
     tagsId: 'filter-tags',
+    hasResults: true,
 });
 
 const failedTable = createTableManager({
@@ -495,6 +507,7 @@ const failedTable = createTableManager({
     addFilterId: 'failed-add-filter',
     resetFiltersId: 'failed-reset-filters',
     tagsId: 'failed-filter-tags',
+    hasResults: false,
 });
 
 document.addEventListener('DOMContentLoaded', () => {
