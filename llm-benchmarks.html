@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Benchmarks - Pycelium</title>
+    <style>
+        .row-hidden {
+            display: none;
+        }
+
+        .sortable-header {
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .sortable-header:hover {
+            background-color: rgba(75, 85, 99, 0.5);
+        }
+
+        .sort-indicator {
+            margin-left: 8px;
+            font-size: 0.8em;
+            opacity: 0.7;
+        }
+
+        .sort-indicator.sort-asc::after {
+            content: ' ↑';
+        }
+
+        .sort-indicator.sort-desc::after {
+            content: ' ↓';
+        }
+
+        .filter-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background-color: rgba(59, 130, 246, 0.8);
+            color: white;
+            border-radius: 16px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .filter-tag:hover {
+            background-color: rgba(59, 130, 246, 1);
+            transform: translateY(-1px);
+        }
+
+        .filter-tag .remove-filter {
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 0;
+            margin: 0;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+        }
+
+        .filter-tag .remove-filter:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body class="bg-dark-background text-light-text font-sans">
+    <nav class="bg-dark-secondary sticky top-0 z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-center h-16">
+                <div class="hidden md:block">
+                    <div class="flex items-center space-x-4">
+                        <a href="/" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="/about.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="/projects.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Projects</a>
+                        <a href="/goals.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Goals</a>
+                        <a href="/community.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Community</a>
+                        <a href="/books.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Books</a>
+                        <a href="/writings.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Writings</a>
+                        <a href="/llm-benchmarks.html" class="text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Benchmarks</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="py-12 text-center">
+        <h1 class="text-4xl font-bold text-white">LLM Benchmarks</h1>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <section class="mb-16">
+            <div class="mb-6 text-dark-text">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-2">
+                <input
+                    type="checkbox"
+                    id="select-all-visible"
+                    class="w-4 h-4"
+                    aria-label="Select all visible rows"
+                    disabled
+                >
+                <select
+                    id="filter-field"
+                    class="px-4 py-2 border border-gray-400 dark:border-gray-500 bg-dark-secondary text-light-text rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    disabled
+                >
+                    <option value="model">Model</option>
+                    <option value="n_gpu_layers">GPU Layers</option>
+                    <option value="n_cpu_moe">CPU MoE</option>
+                    <option value="n_threads">Threads</option>
+                    <option value="k_quant">K Quant</option>
+                    <option value="v_quant">V Quant</option>
+                    <option value="depth">Depth</option>
+                </select>
+                <div class="flex-1 w-full sm:w-auto">
+                    <input
+                        type="text"
+                        id="filter-input"
+                        placeholder="Filter value..."
+                        class="w-full px-4 py-2 border border-gray-400 dark:border-gray-500 bg-dark-secondary text-light-text rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        disabled
+                    >
+                </div>
+                <button
+                    id="add-filter"
+                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors duration-200 whitespace-nowrap"
+                    disabled
+                >
+                    Add Filter
+                </button>
+                <button
+                    id="reset-filters"
+                    class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-md transition-colors duration-200 whitespace-nowrap"
+                    disabled
+                >
+                    Reset Filters
+                </button>
+                <button
+                    id="make-charts"
+                    class="px-4 py-2 bg-pycelium-purple hover:bg-purple-700 text-white rounded-md transition-colors duration-200 whitespace-nowrap"
+                    disabled
+                >
+                    Make Charts
+                </button>
+            </div>
+
+            <div id="filter-tags" class="mt-2 mb-4 flex flex-wrap gap-2 min-h-[32px]"></div>
+
+            <div id="empty-state" class="py-8 text-center text-dark-text">
+                No benchmark data available.
+            </div>
+
+            <div class="overflow-x-auto">
+                <table id="benchmarks-table" class="border-collapse border-spacing-2 border border-gray-400 dark:border-gray-500">
+                    <thead>
+                        <tr>
+                            <th class="p-2 border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30"></th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="model">
+                                Model<span class="sort-indicator"></span>
+                            </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="n_gpu_layers">
+                                GPU Layers<span class="sort-indicator"></span>
+                            </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="n_cpu_moe">
+                                CPU MoE<span class="sort-indicator"></span>
+                            </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="n_threads">
+                                Threads<span class="sort-indicator"></span>
+                            </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="k_quant">
+                                K Quant<span class="sort-indicator"></span>
+                            </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="v_quant">
+                                V Quant<span class="sort-indicator"></span>
+                            </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="depth">
+                                Depth<span class="sort-indicator"></span>
+                            </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="pp_ts">
+                                PP t/s<span class="sort-indicator"></span>
+                            </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="tg_ts">
+                                TG t/s<span class="sort-indicator"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold mb-4 text-white">Charts</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-dark-secondary rounded-lg p-6 min-h-[240px]">
+                    <h3 class="text-lg font-semibold mb-2 text-white">Prompt Processing</h3>
+                    <p class="text-dark-text">Chart coming soon.</p>
+                </div>
+                <div class="bg-dark-secondary rounded-lg p-6 min-h-[240px]">
+                    <h3 class="text-lg font-semibold mb-2 text-white">Text Generation</h3>
+                    <p class="text-dark-text">Chart coming soon.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16">
+            <h2 class="text-2xl font-bold mb-4 text-white">Failed Runs</h2>
+
+            <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-2">
+                <input
+                    type="checkbox"
+                    id="failed-select-all-visible"
+                    class="w-4 h-4"
+                    aria-label="Select all visible failed rows"
+                    disabled
+                >
+                <select
+                    id="failed-filter-field"
+                    class="px-4 py-2 border border-gray-400 dark:border-gray-500 bg-dark-secondary text-light-text rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    disabled
+                >
+                    <option value="model">Model</option>
+                    <option value="n_gpu_layers">GPU Layers</option>
+                    <option value="n_cpu_moe">CPU MoE</option>
+                    <option value="n_threads">Threads</option>
+                    <option value="k_quant">K Quant</option>
+                    <option value="v_quant">V Quant</option>
+                    <option value="depth">Depth</option>
+                </select>
+                <div class="flex-1 w-full sm:w-auto">
+                    <input
+                        type="text"
+                        id="failed-filter-input"
+                        placeholder="Filter value..."
+                        class="w-full px-4 py-2 border border-gray-400 dark:border-gray-500 bg-dark-secondary text-light-text rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        disabled
+                    >
+                </div>
+                <button
+                    id="failed-add-filter"
+                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors duration-200 whitespace-nowrap"
+                    disabled
+                >
+                    Add Filter
+                </button>
+                <button
+                    id="failed-reset-filters"
+                    class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-md transition-colors duration-200 whitespace-nowrap"
+                    disabled
+                >
+                    Reset Filters
+                </button>
+            </div>
+
+            <div id="failed-filter-tags" class="mt-2 mb-4 flex flex-wrap gap-2 min-h-[32px]"></div>
+
+            <div id="failed-empty-state" class="py-8 text-center text-dark-text">
+                No failed benchmark data available.
+            </div>
+
+            <div class="overflow-x-auto">
+                <table id="failed-benchmarks-table" class="border-collapse border-spacing-2 border border-gray-400 dark:border-gray-500">
+                    <thead>
+                        <tr>
+                            <th class="p-2 border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30"></th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="model">
+                                Model<span class="sort-indicator"></span>
+                            </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="n_gpu_layers">
+                                GPU Layers<span class="sort-indicator"></span>
+                            </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="n_cpu_moe">
+                                CPU MoE<span class="sort-indicator"></span>
+                            </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="n_threads">
+                                Threads<span class="sort-indicator"></span>
+                            </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="k_quant">
+                                K Quant<span class="sort-indicator"></span>
+                            </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="v_quant">
+                                V Quant<span class="sort-indicator"></span>
+                            </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="depth">
+                                Depth<span class="sort-indicator"></span>
+                            </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="pp_ts">
+                                PP t/s<span class="sort-indicator"></span>
+                            </th>
+                            <th class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header" data-field="tg_ts">
+                                TG t/s<span class="sort-indicator"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-dark-secondary text-center py-4">
+        <p class="text-dark-text">Copyright 2026 - The Pycelium Company</p>
+    </footer>
+    <script type="module" src="/src/benchmarks.js"></script>
+</body>
+</html>

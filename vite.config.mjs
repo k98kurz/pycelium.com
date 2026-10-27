@@ -3,7 +3,7 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   build: {
     rollupOptions: {
-      input: {
+       input: {
         index: 'index.html',
         about: 'about.html',
         projects: 'projects.html',
@@ -11,6 +11,7 @@ export default defineConfig({
         community: 'community.html',
         books: 'books.html',
         writings: 'writings.html',
+        llmBenchmarks: 'llm-benchmarks.html',
       }
     }
   }
