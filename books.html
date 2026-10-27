@@ -86,9 +86,14 @@
     </style>
 </head>
 <body class="bg-dark-background text-light-text font-sans">
-    <nav class="bg-dark-secondary sticky top-0 z-10">
-        <div class="container mx-auto px-4">
+        <nav class="bg-dark-secondary sticky top-0 z-10 border-b border-gray-700">
+        <div class="container mx-auto px-4 relative">
             <div class="flex items-center justify-center h-16">
+                <button id="nav-toggle" type="button" class="md:hidden absolute left-4 text-dark-text hover:text-white p-2 rounded-md" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
                 <div class="hidden md:block">
                     <div class="flex items-center space-x-4">
                         <a href="/" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
@@ -100,6 +105,18 @@
                         <a href="/writings.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Writings</a>
                         <a href="/llm-benchmarks.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Benchmarks</a>
                     </div>
+                </div>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden pb-4">
+                <div class="flex flex-col space-y-1">
+                        <a href="/" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="/about.html" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
+                        <a href="/projects.html" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Projects</a>
+                        <a href="/goals.html" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Goals</a>
+                        <a href="/community.html" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Community</a>
+                        <a href="/books.html" class="block text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Books</a>
+                        <a href="/writings.html" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Writings</a>
+                        <a href="/llm-benchmarks.html" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Benchmarks</a>
                 </div>
             </div>
         </div>
@@ -134,12 +151,14 @@
                 </button>
             </div>
             <div id="filter-tags" class="mt-2 mb-2 flex flex-wrap gap-2 min-h-[32px]"></div>
-            <table id="books-table" class="border-collapse border-spacing-2 border border-gray-400 dark:border-gray-500">
+            <div class="overflow-x-auto">
+                <table id="books-table" class="border-collapse border-spacing-2 border border-gray-400 dark:border-gray-500">
                 <thead>
                     <tr></tr>
                 </thead>
                 <tbody></tbody>
             </table>
+            </div>
             <div class="py-4">Note: a status of "limbo" means "I read a substantial amount and then put it down".</div>
         </section>
     </main>
@@ -200,8 +219,10 @@
                 let column = books_data[colname];
                 
                 // Create sortable header
+                let thClasses = 'p-2 text-left text-xl border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header';
+                if (colIndex === 0) thClasses = 'p-2 text-left text-xl border border-gray-300 dark:border-gray-600 bg-gray-800 sortable-header sticky left-0 z-20';
                 let th = $new('th', {
-                    classList: 'p-2 text-left text-xl border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header',
+                    classList: thClasses,
                     innerText: colname
                 });
                 
@@ -232,8 +253,10 @@
                 let tr = $new('tr', { classList: 'book-row' });
                 
                 book.forEach((field, colIndex) => {
+                    let cellClasses = 'px-2 text-left border border-gray-300 dark:border-gray-700 bg-gray-900 bg-opacity-30';
+                    if (colIndex === 0) cellClasses = 'px-2 text-left border border-gray-300 dark:border-gray-700 bg-dark-secondary sticky left-0 z-10';
                     let th = $new('th', {
-                        classList: 'px-2 text-left border border-gray-300 dark:border-gray-700 bg-gray-900 bg-opacity-30',
+                        classList: cellClasses,
                         innerText: field
                     });
                     tr.appendChild(th);
