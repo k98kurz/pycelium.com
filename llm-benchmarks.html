@@ -223,6 +223,7 @@
             <li>RAM: 1x32GB 2400MHz DDR4 Corsair Vengeance</li>
             <li>GPU0: RTX 3080 10GB</li>
             <li>GPU1: RTX A2000 6GB</li>
+            <li>PSU: MSI Mag A850GL (850W, 80 Plus Gold)</li>
             <li>Motherboard: MSI Mag B550 Tomahawk WiFi Max</li>
             <li>Machine name: Basilisk</li>
           </ul>
@@ -239,44 +240,8 @@
               parameters using bash-fu with jsonl outputs. See full benchmark
               scripts below.
             </li>
-            <li>Processed jsonl files into one json file for this page.</li>
-            <li>Failed runs due to OoM were logged.</li>
-            <li>
-              I originally intended to benchmark more models and more parameter
-              permutations, but it would take over 16 months to complete, so I
-              drastically reduced the scope and optimized the scripts.
-              <ul class="list-disc list-inside space-y-1 pl-4">
-                <li>
-                  Replaced CSV parameters with nested bash
-                  <code>for</code> loops.
-                </li>
-                <li>
-                  Split GPU testing into dedicated dense and MoE scripts to
-                  remove irrelevant <code>--device CUDA0/CUDA1</code> and
-                  <code>-ncmoe X</code> params from dense.
-                </li>
-                <li>
-                  Added logging of permutations and the ability to skip
-                  previously run permutations upon restart.
-                </li>
-                <li>
-                  Removed the <code>-r 30</code> param that would repeat each
-                  benchmark 30 times.
-                </li>
-                <li>
-                  Replaced independently varying K and V cache types for linked
-                  KV cache types.
-                </li>
-                <li>
-                  Removed <code>f16</code> and <code>iq4_nl</code> from tested
-                  KV quants.
-                </li>
-                <li>
-                  Removed <code>5120</code> and <code>10240</code> from tested
-                  context depths.
-                </li>
-              </ul>
-            </li>
+            <li>Failed runs due to OoM are being logged.</li>
+            <li>Will process jsonl files into one json file for this page.</li>
           </ol>
           <div class="flex flex-wrap gap-3">
             <button
@@ -444,6 +409,42 @@ done
           <h2 class="text-xl font-semibold text-white">Notes</h2>
           <ul class="list-disc list-inside space-y-1">
             <li>
+              I originally intended to benchmark more models and more parameter
+              permutations, but it would take ~16 months to complete, so I
+              drastically reduced the scope and optimized the scripts.
+              <ul class="list-disc list-inside space-y-1 pl-4">
+                <li>
+                  Replaced CSV parameters with nested bash
+                  <code>for</code> loops.
+                </li>
+                <li>
+                  Split GPU testing into dedicated dense and MoE scripts to
+                  remove irrelevant <code>--device CUDA0/CUDA1</code> and
+                  <code>-ncmoe X</code> params from dense.
+                </li>
+                <li>
+                  Added logging of permutations and the ability to skip
+                  previously run permutations upon restart.
+                </li>
+                <li>
+                  Removed the <code>-r 30</code> param that would repeat each
+                  benchmark 30 times.
+                </li>
+                <li>
+                  Replaced independently varying K and V cache types with linked
+                  KV cache types.
+                </li>
+                <li>
+                  Removed <code>f16</code> and <code>iq4_nl</code> from tested
+                  KV quants.
+                </li>
+                <li>
+                  Removed <code>5120</code> and <code>10240</code> from tested
+                  context depths.
+                </li>
+              </ul>
+            </li>
+            <li>
               This benchmark system uses random tokens; MoE models often have
               better performance in practice due to token correlations, causing
               relevant experts to remain on the GPU when running
@@ -478,6 +479,11 @@ done
             <li>
               <code>-ctk</code> and <code>-ctv</code> set the types for KV cache
               keys and values, respectively
+            </li>
+            <li>
+              I will endeavor to expand benchmark coverage once the first batch
+              of results are processed, whenever the right combo of convenience,
+              ability, and motivation strikes.
             </li>
           </ul>
         </div>
