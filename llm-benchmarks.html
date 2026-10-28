@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LLM Benchmarks - Pycelium</title>
     <style>
+        code {
+            background: #222;
+            padding: 0.2rem;
+        }
         .row-hidden {
             display: none;
         }
@@ -128,9 +132,86 @@
 
     <main class="container mx-auto px-4 py-8">
         <section class="mb-16">
-            <div class="mb-6 text-dark-text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </div>
+            <div class="mb-6 text-dark-text space-y-4">
+  <h2 class="text-xl font-semibold text-white">Hardware</h2>
+  <ul class="list-disc list-inside space-y-1">
+    <li>CPU: Ryzen 9 5950X</li>
+    <li>RAM: 1x32GB 2400MHz DDR4 Corsair Vengeance</li>
+    <li>GPU0: RTX 3080 10GB</li>
+    <li>GPU1: RTX A2000 6GB</li>
+    <li>Motherboard: MSI Mag B550 Tomahawk WiFi Max</li>
+    <li>Machine name: Basilisk</li>
+  </ul>
+
+  <h2 class="text-xl font-semibold text-white">Methodology</h2>
+  <ol class="list-decimal list-inside space-y-2">
+    <li>Downloaded model weights to laptop, then transferred to Basilisk via sftp.</li>
+    <li>Installed Nvidia drivers and llama.cpp.</li>
+    <li>Ran each model through <code>llama bench</code> with various parameters using bash-fu with jsonl outputs. See full benchmark scripts below.</li>
+    <li>Processed jsonl files into one json file for this page.</li>
+    <li>Failed runs due to OoM were detected as empty jsonl lines.</li>
+  </ol>
+  <div class="flex flex-wrap gap-3">
+    <button type="button" data-script="gpu" class="px-4 py-2 bg-pycelium-purple hover:bg-purple-700 text-white rounded-md transition-colors duration-200">View GPU script</button>
+    <button type="button" data-script="cpu" class="px-4 py-2 bg-pycelium-purple hover:bg-purple-700 text-white rounded-md transition-colors duration-200">View CPU script</button>
+  </div>
+  <template id="gpu-script-template">
+    <pre class="font-mono text-sm whitespace-pre">#!/bin/bash
+modeldir1=/mnt/sda1/weights
+modeldir2=/home/sithlord/Downloads/models/weights
+resultsdir=/home/sithlord/Downloads/models/stats
+opts="-t 32 -r 30 -o jsonl --device CUDA0,CUDA1,CUDA0/CUDA1"
+opts="$opts -ncmoe 0,10,25,50,100,200 -d 0,5120,10240,32768,65536,131072"
+opts="$opts -ctk f16,q8_0,q4_0,iq4_nl -ctv f16,q8_0,q4_0,iq4_nl -nkvo 0,1"
+
+for model in $(ls $modeldir1 | grep -v mmproj | grep -vi mtp); do
+    echo $model...
+    llama bench -m $modeldir1/$model $opts | tee -a $resultsdir/$model.jsonl
+done
+
+for model in $(ls $modeldir2 | grep -v mmproj | grep -vi mtp); do
+    echo $model...
+    llama bench -m $modeldir2/$model $opts | tee -a $resultsdir/$model.jsonl
+done
+    </pre>
+  </template>
+  <template id="cpu-script-template">
+    <pre class="font-mono text-sm whitespace-pre">#!/bin/bash
+modeldir1=/mnt/sda1/weights
+modeldir2=/home/sithlord/Downloads/models/weights
+resultsdir=/home/sithlord/Downloads/models/stats
+opts="-t 32 -r 30 -o jsonl --device none -ngl 0"
+opts="$opts -d 0,5120,10240,32768,65536,131072"
+opts="$opts -ctk f16,q8_0,q4_0,iq4_nl -ctv f16,q8_0,q4_0,iq4_nl"
+
+for model in $(ls $modeldir1 | grep -v mmproj | grep -vi mtp); do
+    echo $model...
+    llama bench -m $modeldir1/$model $opts | tee -a $resultsdir/$model.jsonl
+done
+
+for model in $(ls $modeldir2 | grep -v mmproj | grep -vi mtp); do
+    echo $model...
+    llama bench -m $modeldir2/$model $opts | tee -a $resultsdir/$model.jsonl
+done
+    </pre>
+  </template>
+
+  <h2 class="text-xl font-semibold text-white">Notes</h2>
+  <ul class="list-disc list-inside space-y-1">
+    <li>This benchmark system uses random tokens; MoE models often have better performance in practice due to token correlations, causing relevant experts to remain on the GPU when running <code>llama serve --moe-cache-mib N</code></li>
+    <li>CPU-only was achieved via <code>n_gpu_layers=0</code> (<code>-ngl 0</code> on CLI), whereas it was left at the default <code>=-1</code> for GPU</li>
+    <li>CPU-only was achieved via <code>device=none</code>, whereas it was set to another value for GPU(s)</li>
+    <li>Both <code>ngl=0</code> and <code>device=none</code> were required for CPU-only execution</li>
+    <li>CPU offloading for MoE models was effected by the <code>n_cpu_moe</code> parameter; it had no effect on dense models</li>
+    <li><code>-r 30</code> repeats the benchmark 30 times for a hopefully meaningful number of samples (statistics 101 rule of thumb N value)</li>
+    <li><code>-d</code> sets the context depth at which the test begins</code>
+    <li><code>-ngl 0 --device none</code> disables GPU/forced CPU-only inference</li>
+    <li><code>-ncmoe</code> configures CPU offloading for MoE and was excluded for CPU tests</li>
+    <li><code>-nkvo 1</code> disables KV cache offloading to CPU/RAM during GPU tests</li>
+    <li><code>-ctk</code> and <code>-ctv</code> set the types for KV cache keys and values, respectively</li>
+    <li><code>--device</code>, <code>-d</code>, <code>-ctk</code>, <code>-ctv</code>, <code>-nkvo</code> CSVs cause every permutation to be tested in one command</li>
+  </ul>
+</div>
 
             <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-2">
                 <input
@@ -362,6 +443,24 @@
             </div>
         </section>
     </main>
+
+    <div id="scriptModal" class="hidden fixed z-50 inset-0 overflow-y-auto" aria-labelledby="scriptModalTitle" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-dark-secondary rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+                <div class="bg-dark-secondary px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <h3 class="text-xl leading-6 font-medium text-white" id="scriptModalTitle">Script</h3>
+                    <div id="scriptModalContent" class="mt-4 max-h-[65vh] overflow-y-auto"></div>
+                </div>
+                <div class="bg-dark-secondary px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button id="closeScriptModal" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-gray-600 text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer class="bg-dark-secondary text-center py-4">
         <p class="text-dark-text">Copyright 2026 - The Pycelium Company</p>

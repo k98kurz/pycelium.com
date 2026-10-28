@@ -483,6 +483,56 @@ function createTableManager(config) {
     };
 }
 
+const scriptTemplates = {
+    gpu: { templateId: 'gpu-script-template', title: 'GPU Benchmark Script' },
+    cpu: { templateId: 'cpu-script-template', title: 'CPU Benchmark Script' },
+};
+
+function initScriptModal() {
+    const modal = document.getElementById('scriptModal');
+    const modalTitle = document.getElementById('scriptModalTitle');
+    const modalContent = document.getElementById('scriptModalContent');
+    const closeModalButton = document.getElementById('closeScriptModal');
+
+    if (!modal || !modalTitle || !modalContent || !closeModalButton) {
+        return;
+    }
+
+    function closeModal() {
+        modal.classList.add('hidden');
+    }
+
+    function openModal(scriptKey) {
+        const script = scriptTemplates[scriptKey];
+        const template = script ? document.getElementById(script.templateId) : null;
+        if (!template) {
+            return;
+        }
+
+        modalTitle.textContent = script.title;
+        modalContent.replaceChildren(template.content.cloneNode(true));
+        modal.classList.remove('hidden');
+    }
+
+    document.querySelectorAll('[data-script]').forEach((button) => {
+        button.addEventListener('click', () => openModal(button.dataset.script));
+    });
+
+    closeModalButton.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
+            closeModal();
+        }
+    });
+}
+
 const mainTable = createTableManager({
     tableId: 'benchmarks-table',
     dataUrl: 'assets/benchmarks.json',
@@ -511,6 +561,7 @@ const failedTable = createTableManager({
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+    initScriptModal();
     mainTable.bindEvents();
     failedTable.bindEvents();
     mainTable.loadData();
