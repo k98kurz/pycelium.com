@@ -484,7 +484,8 @@ function createTableManager(config) {
 }
 
 const scriptTemplates = {
-    gpu: { templateId: 'gpu-script-template', title: 'GPU Benchmark Script' },
+    'gpu-d': { templateId: 'gpu-d-script-template', title: 'GPU Benchmark Script (Dense)' },
+    'gpu-moe': { templateId: 'gpu-moe-script-template', title: 'GPU Benchmark Script (MoE)' },
     cpu: { templateId: 'cpu-script-template', title: 'CPU Benchmark Script' },
 };
 
