@@ -1,356 +1,598 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Projects - Pycelium</title>
-</head>
-<body class="bg-dark-background text-light-text font-sans">
-        <nav class="bg-dark-secondary sticky top-0 z-10 border-b border-gray-700">
-        <div class="container mx-auto px-4 relative">
-            <div class="flex items-center justify-center h-16">
-                <button id="nav-toggle" type="button" class="md:hidden absolute left-4 text-dark-text hover:text-white p-2 rounded-md" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
-                <div class="hidden md:block">
-                    <div class="flex items-center space-x-4">
-                        <a href="/" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                        <a href="/about.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
-                        <a href="/projects.html" class="text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Projects</a>
-                        <a href="/goals.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Goals</a>
-                        <a href="/community.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Community</a>
-                        <a href="/books.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Books</a>
-                        <a href="/writings.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Writings</a>
-                        <a href="/llm-benchmarks.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Benchmarks</a>
-                    </div>
-                </div>
+  </head>
+  <body class="bg-dark-background text-light-text font-sans">
+    <nav class="bg-dark-secondary sticky top-0 z-10 border-b border-gray-700">
+      <div class="container mx-auto px-4 relative">
+        <div class="flex items-center justify-center h-16">
+          <button
+            id="nav-toggle"
+            type="button"
+            class="md:hidden absolute left-4 text-dark-text hover:text-white p-2 rounded-md"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+          <div class="hidden md:block">
+            <div class="flex items-center space-x-4">
+              <a
+                href="/"
+                class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >Home</a
+              >
+              <a
+                href="/about.html"
+                class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >About</a
+              >
+              <a
+                href="/projects.html"
+                class="text-white px-3 py-2 rounded-md text-sm font-medium"
+                aria-current="page"
+                >Projects</a
+              >
+              <a
+                href="/goals.html"
+                class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >Goals</a
+              >
+              <a
+                href="/community.html"
+                class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >Community</a
+              >
+              <a
+                href="/books.html"
+                class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >Books</a
+              >
+              <a
+                href="/writings.html"
+                class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >Writings</a
+              >
+              <a
+                href="/llm-benchmarks.html"
+                class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >Benchmarks</a
+              >
             </div>
-            <div id="mobile-menu" class="hidden md:hidden pb-4">
-                <div class="flex flex-col space-y-1">
-                        <a href="/" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                        <a href="/about.html" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
-                        <a href="/projects.html" class="block text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Projects</a>
-                        <a href="/goals.html" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Goals</a>
-                        <a href="/community.html" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Community</a>
-                        <a href="/books.html" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Books</a>
-                        <a href="/writings.html" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Writings</a>
-                        <a href="/llm-benchmarks.html" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Benchmarks</a>
-                </div>
-            </div>
+          </div>
         </div>
+        <div id="mobile-menu" class="hidden md:hidden pb-4">
+          <div class="flex flex-col space-y-1">
+            <a
+              href="/"
+              class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >Home</a
+            >
+            <a
+              href="/about.html"
+              class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >About</a
+            >
+            <a
+              href="/projects.html"
+              class="block text-white px-3 py-2 rounded-md text-sm font-medium"
+              aria-current="page"
+              >Projects</a
+            >
+            <a
+              href="/goals.html"
+              class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >Goals</a
+            >
+            <a
+              href="/community.html"
+              class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >Community</a
+            >
+            <a
+              href="/books.html"
+              class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >Books</a
+            >
+            <a
+              href="/writings.html"
+              class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >Writings</a
+            >
+            <a
+              href="/llm-benchmarks.html"
+              class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >Benchmarks</a
+            >
+          </div>
+        </div>
+      </div>
     </nav>
 
     <header class="py-12 text-center">
-        <h1 class="text-4xl font-bold text-white">Projects</h1>
+      <h1 class="text-4xl font-bold text-white">Projects</h1>
     </header>
 
     <main class="container mx-auto px-4 py-8">
-        <section class="mb-16">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-dark-secondary rounded-lg p-6 cursor-pointer project-card" data-project="easycoin">
-                    <h3 class="text-xl font-bold mb-2">EasyCoin</h3>
-                    <p class="text-dark-text">Proof-of-concept cryptocurrency demonstrating the UTXO/coin model. Includes a Textual CUI.</p>
-                </div>
-                <div class="bg-dark-secondary rounded-lg p-6 cursor-pointer project-card" data-project="micropycelium">
-                    <h3 class="text-xl font-bold mb-2">micropycelium</h3>
-                    <p class="text-dark-text">Routable mesh network for small devices with a micropython runtime.</p>
-                </div>
-                <div class="bg-dark-secondary rounded-lg p-6 cursor-pointer project-card" data-project="tapescript">
-                    <h3 class="text-xl font-bold mb-2">tapescript</h3>
-                    <p class="text-dark-text">Simple scripting language and bytecode VM for access controls with advanced cryptographic features.</p>
-                </div>
-                <div class="bg-dark-secondary rounded-lg p-6 cursor-pointer project-card" data-project="sqloquent">
-                    <h3 class="text-xl font-bold mb-2">sqloquent</h3>
-                    <p class="text-dark-text">SQL query builder and ORM.</p>
-                </div>
-                <div class="bg-dark-secondary rounded-lg p-6 cursor-pointer project-card" data-project="netaio">
-                    <h3 class="text-xl font-bold mb-2">netaio</h3>
-                    <p class="text-dark-text">Async networking library with automatic peer management, easy use syntax, and a plugin system.</p>
-                </div>
-                <div class="bg-dark-secondary rounded-lg p-6 cursor-pointer project-card" data-project="markdownmywords">
-                    <h3 class="text-xl font-bold mb-2">MarkdownMyWords</h3>
-                    <p class="text-dark-text">GunDB Markdown Editor App with end-to-end encryption.</p>
-                </div>
-            </div>
-        </section>
-
-        <section>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="crdts">
-                    <h3 class="text-lg font-bold mb-1">crdts</h3>
-                    <p class="text-dark-text text-sm">Conflict-free Replicated Data Types</p>
-                </div>
-                <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="packify">
-                    <h3 class="text-lg font-bold mb-1">packify</h3>
-                    <p class="text-dark-text text-sm">Safe, deterministic, and universal serializer</p>
-                </div>
-                <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="merkleasy">
-                    <h3 class="text-lg font-bold mb-1">merkleasy</h3>
-                    <p class="text-dark-text text-sm">Merkle tree library.</p>
-                </div>
-                <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="musig">
-                    <h3 class="text-lg font-bold mb-1">musig</h3>
-                    <p class="text-dark-text text-sm">Compact n-of-n multisignatures</p>
-                </div>
-                <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="autodox">
-                    <h3 class="text-lg font-bold mb-1">autodox</h3>
-                    <p class="text-dark-text text-sm">Automagical documentation generator</p>
-                </div>
-                <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="flying-state-machines">
-                    <h3 class="text-lg font-bold mb-1">flying-state-machines</h3>
-                    <p class="text-dark-text text-sm">Finite state machine library</p>
-                </div>
-                <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="reclocks">
-                    <h3 class="text-lg font-bold mb-1">reclocks</h3>
-                    <p class="text-dark-text text-sm">Reverse entropy logical clocks</p>
-                </div>
-                <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="hrw">
-                    <h3 class="text-lg font-bold mb-1">hrw</h3>
-                    <p class="text-dark-text text-sm">Highest random weight/rendezvous hashing</p>
-                </div>
-                <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="credos">
-                    <h3 class="text-lg font-bold mb-1">credos</h3>
-                    <p class="text-dark-text text-sm">Coordination-free database replication tool (WIP)</p>
-                </div>
-                <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="bookchain">
-                    <h3 class="text-lg font-bold mb-1">bookchain</h3>
-                    <p class="text-dark-text text-sm">Double entry accounting system with cryptography</p>
-                </div>
-                <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="simplebooks">
-                    <h3 class="text-lg font-bold mb-1">simplebooks</h3>
-                    <p class="text-dark-text text-sm">Simple double entry accounting system</p>
-                </div>
-                 <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="simple-hooks">
-                    <h3 class="text-lg font-bold mb-1">simple-hooks</h3>
-                    <p class="text-dark-text text-sm">Simple system for adding hooks to functions and methods</p>
-                </div>
-                 <div class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card" data-project="crossconfig">
-                    <h3 class="text-lg font-bold mb-1">crossconfig</h3>
-                    <p class="text-dark-text text-sm">Cross-platform config</p>
-                </div>
-            </div>
-        </section>
-
-        <div id="projectModal" class="hidden fixed z-50 inset-0 overflow-y-auto" aria-labelledby="projectModalLabel" role="dialog" aria-modal="true">
-            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-                <div class="inline-block align-bottom bg-dark-secondary rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                    <div class="bg-dark-secondary px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                        <h3 class="text-lg leading-6 font-medium text-white" id="projectModalTitle">
-                            Project Title
-                        </h3>
-                        <div id="projectModalLinks" class="mt-2 mb-4">
-                            <a href="#" class="text-pycelium-purple hover:underline mr-2" id="websiteLink" target="_blank" rel="noopener noreferrer">Website</a>
-                            <a href="#" class="text-pycelium-purple hover:underline mr-2" id="pypiLink" target="_blank" rel="noopener noreferrer">PyPI</a>
-                            <a href="#" class="text-pycelium-purple hover:underline mr-2" id="youtubeLink" target="_blank" rel="noopener noreferrer">YouTube</a>
-                            <a href="#" class="text-pycelium-purple hover:underline" id="githubLink" target="_blank" rel="noopener noreferrer">GitHub</a>
-                        </div>
-                        <div class="mt-2" id="projectModalContent">
-                            <p class="text-sm text-dark-text">
-                                Project description goes here.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="bg-dark-secondary px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                        <button id="closeModalButton" type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-gray-600 text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
+      <section class="mb-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div
+            class="bg-dark-secondary rounded-lg p-6 cursor-pointer project-card"
+            data-project="easycoin"
+          >
+            <h3 class="text-xl font-bold mb-2">EasyCoin</h3>
+            <p class="text-dark-text">
+              Proof-of-concept cryptocurrency demonstrating the UTXO/coin model.
+              Includes a Textual CUI.
+            </p>
+          </div>
+          <div
+            class="bg-dark-secondary rounded-lg p-6 cursor-pointer project-card"
+            data-project="micropycelium"
+          >
+            <h3 class="text-xl font-bold mb-2">micropycelium</h3>
+            <p class="text-dark-text">
+              Routable mesh network for small devices with a micropython
+              runtime.
+            </p>
+          </div>
+          <div
+            class="bg-dark-secondary rounded-lg p-6 cursor-pointer project-card"
+            data-project="tapescript"
+          >
+            <h3 class="text-xl font-bold mb-2">tapescript</h3>
+            <p class="text-dark-text">
+              Simple scripting language and bytecode VM for access controls with
+              advanced cryptographic features.
+            </p>
+          </div>
+          <div
+            class="bg-dark-secondary rounded-lg p-6 cursor-pointer project-card"
+            data-project="sqloquent"
+          >
+            <h3 class="text-xl font-bold mb-2">sqloquent</h3>
+            <p class="text-dark-text">SQL query builder and ORM.</p>
+          </div>
+          <div
+            class="bg-dark-secondary rounded-lg p-6 cursor-pointer project-card"
+            data-project="netaio"
+          >
+            <h3 class="text-xl font-bold mb-2">netaio</h3>
+            <p class="text-dark-text">
+              Async networking library with automatic peer management, easy use
+              syntax, and a plugin system.
+            </p>
+          </div>
+          <div
+            class="bg-dark-secondary rounded-lg p-6 cursor-pointer project-card"
+            data-project="markdownmywords"
+          >
+            <h3 class="text-xl font-bold mb-2">MarkdownMyWords</h3>
+            <p class="text-dark-text">
+              GunDB Markdown Editor App with end-to-end encryption.
+            </p>
+          </div>
         </div>
+      </section>
 
+      <section>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div
+            class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card"
+            data-project="crdts"
+          >
+            <h3 class="text-lg font-bold mb-1">crdts</h3>
+            <p class="text-dark-text text-sm">
+              Conflict-free Replicated Data Types
+            </p>
+          </div>
+          <div
+            class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card"
+            data-project="packify"
+          >
+            <h3 class="text-lg font-bold mb-1">packify</h3>
+            <p class="text-dark-text text-sm">
+              Safe, deterministic, and universal serializer
+            </p>
+          </div>
+          <div
+            class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card"
+            data-project="merkleasy"
+          >
+            <h3 class="text-lg font-bold mb-1">merkleasy</h3>
+            <p class="text-dark-text text-sm">Merkle tree library.</p>
+          </div>
+          <div
+            class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card"
+            data-project="musig"
+          >
+            <h3 class="text-lg font-bold mb-1">musig</h3>
+            <p class="text-dark-text text-sm">Compact n-of-n multisignatures</p>
+          </div>
+          <div
+            class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card"
+            data-project="autodox"
+          >
+            <h3 class="text-lg font-bold mb-1">autodox</h3>
+            <p class="text-dark-text text-sm">
+              Automagical documentation generator
+            </p>
+          </div>
+          <div
+            class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card"
+            data-project="flying-state-machines"
+          >
+            <h3 class="text-lg font-bold mb-1">flying-state-machines</h3>
+            <p class="text-dark-text text-sm">Finite state machine library</p>
+          </div>
+          <div
+            class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card"
+            data-project="reclocks"
+          >
+            <h3 class="text-lg font-bold mb-1">reclocks</h3>
+            <p class="text-dark-text text-sm">Reverse entropy logical clocks</p>
+          </div>
+          <div
+            class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card"
+            data-project="hrw"
+          >
+            <h3 class="text-lg font-bold mb-1">hrw</h3>
+            <p class="text-dark-text text-sm">
+              Highest random weight/rendezvous hashing
+            </p>
+          </div>
+          <div
+            class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card"
+            data-project="credos"
+          >
+            <h3 class="text-lg font-bold mb-1">credos</h3>
+            <p class="text-dark-text text-sm">
+              Coordination-free database replication tool (WIP)
+            </p>
+          </div>
+          <div
+            class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card"
+            data-project="bookchain"
+          >
+            <h3 class="text-lg font-bold mb-1">bookchain</h3>
+            <p class="text-dark-text text-sm">
+              Double entry accounting system with cryptography
+            </p>
+          </div>
+          <div
+            class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card"
+            data-project="simplebooks"
+          >
+            <h3 class="text-lg font-bold mb-1">simplebooks</h3>
+            <p class="text-dark-text text-sm">
+              Simple double entry accounting system
+            </p>
+          </div>
+          <div
+            class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card"
+            data-project="simple-hooks"
+          >
+            <h3 class="text-lg font-bold mb-1">simple-hooks</h3>
+            <p class="text-dark-text text-sm">
+              Simple system for adding hooks to functions and methods
+            </p>
+          </div>
+          <div
+            class="bg-dark-secondary rounded-lg p-4 cursor-pointer project-card"
+            data-project="crossconfig"
+          >
+            <h3 class="text-lg font-bold mb-1">crossconfig</h3>
+            <p class="text-dark-text text-sm">Cross-platform config</p>
+          </div>
+        </div>
+      </section>
+
+      <div
+        id="projectModal"
+        class="hidden fixed z-50 inset-0 overflow-y-auto"
+        aria-labelledby="projectModalLabel"
+        role="dialog"
+        aria-modal="true"
+      >
+        <div
+          class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+        >
+          <div
+            class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+            aria-hidden="true"
+          ></div>
+          <span
+            class="hidden sm:inline-block sm:align-middle sm:h-screen"
+            aria-hidden="true"
+            >&#8203;</span
+          >
+          <div
+            class="inline-block align-bottom bg-dark-secondary rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+          >
+            <div class="bg-dark-secondary px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+              <h3
+                class="text-lg leading-6 font-medium text-white"
+                id="projectModalTitle"
+              >
+                Project Title
+              </h3>
+              <div id="projectModalLinks" class="mt-2 mb-4">
+                <a
+                  href="#"
+                  class="text-pycelium-purple hover:underline mr-2"
+                  id="websiteLink"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Website</a
+                >
+                <a
+                  href="#"
+                  class="text-pycelium-purple hover:underline mr-2"
+                  id="pypiLink"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >PyPI</a
+                >
+                <a
+                  href="#"
+                  class="text-pycelium-purple hover:underline mr-2"
+                  id="youtubeLink"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >YouTube</a
+                >
+                <a
+                  href="#"
+                  class="text-pycelium-purple hover:underline"
+                  id="githubLink"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >GitHub</a
+                >
+              </div>
+              <div class="mt-2" id="projectModalContent">
+                <p class="text-sm text-dark-text">
+                  Project description goes here.
+                </p>
+              </div>
+            </div>
+            <div
+              class="bg-dark-secondary px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
+            >
+              <button
+                id="closeModalButton"
+                type="button"
+                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-gray-600 text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <footer class="bg-dark-secondary text-center py-4">
-        <p class="text-dark-text">Copyright 2026 - The Pycelium Company</p>
+      <p class="text-dark-text">Copyright 2026 - The Pycelium Company</p>
     </footer>
     <script type="module" src="/src/main.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const projectCards = document.querySelectorAll('.project-card');
-            const modal = document.getElementById('projectModal');
-            const modalTitle = document.getElementById('projectModalTitle');
-            const modalContent = document.getElementById('projectModalContent');
-            const closeModalButton = document.getElementById('closeModalButton');
-            const pypiLink = document.getElementById('pypiLink');
-            const websiteLink = document.getElementById('websiteLink');
-            const youtubeLink = document.getElementById('youtubeLink');
-            const githubLink = document.getElementById('githubLink');
-            const modalLinks = document.getElementById('projectModalLinks');
+      document.addEventListener("DOMContentLoaded", () => {
+        const projectCards = document.querySelectorAll(".project-card");
+        const modal = document.getElementById("projectModal");
+        const modalTitle = document.getElementById("projectModalTitle");
+        const modalContent = document.getElementById("projectModalContent");
+        const closeModalButton = document.getElementById("closeModalButton");
+        const pypiLink = document.getElementById("pypiLink");
+        const websiteLink = document.getElementById("websiteLink");
+        const youtubeLink = document.getElementById("youtubeLink");
+        const githubLink = document.getElementById("githubLink");
+        const modalLinks = document.getElementById("projectModalLinks");
 
-            const projectData = {
-                "easycoin": {
-                    title: "EasyCoin",
-                    description: "Proof-of-concept cryptocurrency demonstrating the UTXO/coin model of Bitcoin with a Textual CUI. Features include stamped coins with covenants, hierarchical deterministic wallets, single player GameSet system, and autistically detailed transaction verification environment.",
-                    pypi: "https://pypi.org/project/easycoin",
-                    github: "https://github.com/k98kurz/easycoin"
-                },
-                "micropycelium": {
-                    title: "micropycelium",
-                    description: "Routable mesh network implemented with ESP-NOW, gossip, a spanning tree, and a simplified version of VOUTE. LoRa support is planned for a future release.",
-                    pypi: null,
-                    github: "https://github.com/k98kurz/micropycelium",
-                    youtube: "https://youtu.be/6aJB0YFQBTg"
-                },
-                "tapescript": {
-                    title: "tapescript",
-                    description: "Simple domain specific language for embedding access controls into distributed systems. Consists of a compiler, decompiler, plugin system, soft-fork system, advanced cryptographic features, and a suite of code generation tools.",
-                    pypi: "https://pypi.org/project/tapescript",
-                    github: "https://github.com/k98kurz/tapescript"
-                },
-                "sqloquent": {
-                    title: "sqloquent",
-                    description: "ORM with support for content-addressable records and Merkle DAGs. Includes a migration system, code generation tools, unique `contains` and `within` relations, both sync and async implementations, and default bindings for sqlite3.",
-                    pypi: "https://pypi.org/project/sqloquent",
-                    github: "https://github.com/k98kurz/sqloquent"
-                },
-                "netaio": {
-                    title: "netaio",
-                    description: "Async networking library intended to provide a clean DX for implementing custom byte-encoded protocols. Includes an automatic peer discovery/management system, as well as a plugin system and several default plugins for auth and encryption. Inspired vaguely by fastapi.",
-                    pypi: "https://pypi.org/project/netaio",
-                    github: "https://github.com/k98kurz/netaio"
-                },
-                "markdownmywords": {
-                  title: "MarkdownMyWords",
-                  description: "Markdown editor browser app with GunDB decentralized database for data storage and SEA for e2e encryption. Near-future features will include git-style collaborative document editing and bring-your-own OpenRouter API key for AI review/revise features.",
-                  website: "https://markdownmywords.com",
-                  github: "https://github.com/k98kurz/MarkdownMyWords"
-                },
-                "crdts": {
-                    title: "crdts",
-                    description: "A collection of delta-state CRDT (Conflict-free Replicated Data Type) implementations, enabling the development of collaborative applications with strong eventual consistency.",
-                    pypi: "https://pypi.org/project/crdts",
-                    github: "https://github.com/k98kurz/crdts"
-                },
-                "packify": {
-                    title: "packify",
-                    description: "Safe, deterministic, and universal serializer for Python data structures.",
-                    pypi: "https://pypi.org/project/packify",
-                    github: "https://github.com/k98kurz/packify"
-                },
-                "merkleasy": {
-                    title: "merkleasy",
-                    description: "Easy-to-use library for making Merkle trees and making and verifying inclusion proofs.",
-                    pypi: "https://pypi.org/project/merkleasy",
-                    github: "https://github.com/k98kurz/merkle"
-                },
-                "musig": {
-                    title: "musig",
-                    description: "Implementation of the MuSig protocol in Ed25519, allowing the safe computation of multi-party signatures that are indistinguishable from normal signatures.",
-                    pypi: "https://pypi.org/project/musig",
-                    github: "https://github.com/k98kurz/musig"
-                },
-                "autodox": {
-                    title: "autodox",
-                    description: "Autodox is a documentation generator that automagically creates markdown documentation from type annotations and docstrings.",
-                    pypi: "https://pypi.org/project/autodox",
-                    github: "https://github.com/k98kurz/autodox"
-                },
-                "flying-state-machines": {
-                    title: "flying-state-machines",
-                    description: "The only finite state machine library that includes a Flying Spaghetti Monster serialization format.",
-                    pypi: "https://pypi.org/project/flying-state-machines",
-                    github: "https://github.com/k98kurz/flying-state-machines"
-                },
-                "reclocks": {
-                    title: "reclocks",
-                    description: "Reverse entropy logical clocks.",
-                    pypi: "https://pypi.org/project/reclocks",
-                    github: "https://github.com/k98kurz/reverse-entropy-clocks"
-                },
-                "hrw": {
-                    title: "hrw",
-                    description: "HRW (Highest Random Weight) library implements the HRW algorithm (rendezvous hashing) for distributed resource allocation and probabilistic retrieval.",
-                    pypi: "https://pypi.org/project/hrw",
-                    github: "https://github.com/k98kurz/hrw"
-                },
-                "credos": {
-                    title: "credos",
-                    description: "Credos is a work-in-progress project to combine sqloquent and crdts for fault-tolerant data replication with optional networking via netaio and auth via tapescript.",
-                    pypi: "https://pypi.org/project/credos",
-                    github: "https://github.com/k98kurz/credos-python"
-                },
-                "bookchain": {
-                    title: "bookchain",
-                    description: "Bookchain is a double entry accounting system with cryptographic verification features.",
-                    pypi: "https://pypi.org/project/bookchain",
-                    github: "https://github.com/k98kurz/bookchain"
-                },
-                 "simplebooks": {
-                    title: "simplebooks",
-                    description: "Simplebooks is a simplification of bookchain with cryptographic features removed.",
-                    pypi: "https://pypi.org/project/simplebooks",
-                    github: "https://github.com/k98kurz/simplebooks"
-                },
-                "simple-hooks": {
-                    title: "simple-hooks",
-                    description: "Adds a hooks system to any function, method, or class to execute event callbacks before and after the function/method is executed.",
-                    pypi: "https://pypi.org/project/simple-hooks",
-                    github: "https://github.com/k98kurz/simple-hooks"
-                },
-                "crossconfig": {
-                    title: "crossconfig",
-                    description: "Very simple JSON-based settings/config package that works cross-platform (Linux and Windows).",
-                    pypi: "https://pypi.org/project/crossconfig",
-                    github: "https://github.com/k98kurz/crossconfig"
-                },
-            };
+        const projectData = {
+          easycoin: {
+            title: "EasyCoin",
+            description:
+              "Proof-of-concept cryptocurrency demonstrating the UTXO/coin model of Bitcoin with a Textual CUI. Features include stamped coins with covenants, hierarchical deterministic wallets, single player GameSet system, and autistically detailed transaction verification environment.",
+            pypi: "https://pypi.org/project/easycoin",
+            github: "https://github.com/k98kurz/easycoin",
+          },
+          micropycelium: {
+            title: "micropycelium",
+            description:
+              "Routable mesh network implemented with ESP-NOW, gossip, a spanning tree, and a simplified version of VOUTE. LoRa support is planned for a future release.",
+            pypi: null,
+            github: "https://github.com/k98kurz/micropycelium",
+            youtube: "https://youtu.be/6aJB0YFQBTg",
+          },
+          tapescript: {
+            title: "tapescript",
+            description:
+              "Simple domain specific language for embedding access controls into distributed systems. Consists of a compiler, decompiler, plugin system, soft-fork system, advanced cryptographic features, and a suite of code generation tools.",
+            pypi: "https://pypi.org/project/tapescript",
+            github: "https://github.com/k98kurz/tapescript",
+          },
+          sqloquent: {
+            title: "sqloquent",
+            description:
+              "ORM with support for content-addressable records and Merkle DAGs. Includes a migration system, code generation tools, unique `contains` and `within` relations, both sync and async implementations, and default bindings for sqlite3.",
+            pypi: "https://pypi.org/project/sqloquent",
+            github: "https://github.com/k98kurz/sqloquent",
+          },
+          netaio: {
+            title: "netaio",
+            description:
+              "Async networking library intended to provide a clean DX for implementing custom byte-encoded protocols. Includes an automatic peer discovery/management system, as well as a plugin system and several default plugins for auth and encryption. Inspired vaguely by fastapi.",
+            pypi: "https://pypi.org/project/netaio",
+            github: "https://github.com/k98kurz/netaio",
+          },
+          markdownmywords: {
+            title: "MarkdownMyWords",
+            description:
+              "Markdown editor browser app with GunDB decentralized database for data storage and SEA for e2e encryption. Near-future features will include git-style collaborative document editing and bring-your-own OpenRouter API key for AI review/revise features.",
+            website: "https://markdownmywords.com",
+            github: "https://github.com/k98kurz/MarkdownMyWords",
+          },
+          crdts: {
+            title: "crdts",
+            description:
+              "A collection of delta-state CRDT (Conflict-free Replicated Data Type) implementations, enabling the development of collaborative applications with strong eventual consistency.",
+            pypi: "https://pypi.org/project/crdts",
+            github: "https://github.com/k98kurz/crdts",
+          },
+          packify: {
+            title: "packify",
+            description:
+              "Safe, deterministic, and universal serializer for Python data structures.",
+            pypi: "https://pypi.org/project/packify",
+            github: "https://github.com/k98kurz/packify",
+          },
+          merkleasy: {
+            title: "merkleasy",
+            description:
+              "Easy-to-use library for making Merkle trees and making and verifying inclusion proofs.",
+            pypi: "https://pypi.org/project/merkleasy",
+            github: "https://github.com/k98kurz/merkle",
+          },
+          musig: {
+            title: "musig",
+            description:
+              "Implementation of the MuSig protocol in Ed25519, allowing the safe computation of multi-party signatures that are indistinguishable from normal signatures.",
+            pypi: "https://pypi.org/project/musig",
+            github: "https://github.com/k98kurz/musig",
+          },
+          autodox: {
+            title: "autodox",
+            description:
+              "Autodox is a documentation generator that automagically creates markdown documentation from type annotations and docstrings.",
+            pypi: "https://pypi.org/project/autodox",
+            github: "https://github.com/k98kurz/autodox",
+          },
+          "flying-state-machines": {
+            title: "flying-state-machines",
+            description:
+              "The only finite state machine library that includes a Flying Spaghetti Monster serialization format.",
+            pypi: "https://pypi.org/project/flying-state-machines",
+            github: "https://github.com/k98kurz/flying-state-machines",
+          },
+          reclocks: {
+            title: "reclocks",
+            description: "Reverse entropy logical clocks.",
+            pypi: "https://pypi.org/project/reclocks",
+            github: "https://github.com/k98kurz/reverse-entropy-clocks",
+          },
+          hrw: {
+            title: "hrw",
+            description:
+              "HRW (Highest Random Weight) library implements the HRW algorithm (rendezvous hashing) for distributed resource allocation and probabilistic retrieval.",
+            pypi: "https://pypi.org/project/hrw",
+            github: "https://github.com/k98kurz/hrw",
+          },
+          credos: {
+            title: "credos",
+            description:
+              "Credos is a work-in-progress project to combine sqloquent and crdts for fault-tolerant data replication with optional networking via netaio and auth via tapescript.",
+            pypi: "https://pypi.org/project/credos",
+            github: "https://github.com/k98kurz/credos-python",
+          },
+          bookchain: {
+            title: "bookchain",
+            description:
+              "Bookchain is a double entry accounting system with cryptographic verification features.",
+            pypi: "https://pypi.org/project/bookchain",
+            github: "https://github.com/k98kurz/bookchain",
+          },
+          simplebooks: {
+            title: "simplebooks",
+            description:
+              "Simplebooks is a simplification of bookchain with cryptographic features removed.",
+            pypi: "https://pypi.org/project/simplebooks",
+            github: "https://github.com/k98kurz/simplebooks",
+          },
+          "simple-hooks": {
+            title: "simple-hooks",
+            description:
+              "Adds a hooks system to any function, method, or class to execute event callbacks before and after the function/method is executed.",
+            pypi: "https://pypi.org/project/simple-hooks",
+            github: "https://github.com/k98kurz/simple-hooks",
+          },
+          crossconfig: {
+            title: "crossconfig",
+            description:
+              "Very simple JSON-based settings/config package that works cross-platform (Linux and Windows).",
+            pypi: "https://pypi.org/project/crossconfig",
+            github: "https://github.com/k98kurz/crossconfig",
+          },
+        };
 
-            projectCards.forEach(card => {
-                card.addEventListener('click', () => {
-                    const projectName = card.dataset.project;
-                    const project = projectData[projectName];
+        projectCards.forEach((card) => {
+          card.addEventListener("click", () => {
+            const projectName = card.dataset.project;
+            const project = projectData[projectName];
 
-                    modalTitle.textContent = project.title;
-                    modalContent.textContent = project.description;
+            modalTitle.textContent = project.title;
+            modalContent.textContent = project.description;
 
-                    if (project.pypi) {
-                        pypiLink.href = project.pypi;
-                        pypiLink.classList.remove('hidden');
-                    } else {
-                        pypiLink.classList.add('hidden');
-                    }
+            if (project.pypi) {
+              pypiLink.href = project.pypi;
+              pypiLink.classList.remove("hidden");
+            } else {
+              pypiLink.classList.add("hidden");
+            }
 
-                    if (project.website) {
-                        websiteLink.href = project.website;
-                        websiteLink.classList.remove('hidden');
-                    } else {
-                        websiteLink.classList.add('hidden');
-                    }
+            if (project.website) {
+              websiteLink.href = project.website;
+              websiteLink.classList.remove("hidden");
+            } else {
+              websiteLink.classList.add("hidden");
+            }
 
-                    if (project.youtube) {
-                        youtubeLink.href = project.youtube;
-                        youtubeLink.classList.remove('hidden');
-                    } else {
-                        youtubeLink.classList.add('hidden');
-                    }
+            if (project.youtube) {
+              youtubeLink.href = project.youtube;
+              youtubeLink.classList.remove("hidden");
+            } else {
+              youtubeLink.classList.add("hidden");
+            }
 
-                    githubLink.href = project.github;
+            githubLink.href = project.github;
 
-                    modal.classList.remove('hidden');
-                });
-            });
-
-            closeModalButton.addEventListener('click', () => {
-                modal.classList.add('hidden');
-            });
-
-            window.addEventListener('click', (event) => {
-                if (event.target === modal) {
-                    modal.classList.add('hidden');
-                }
-            });
-
-            window.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
-                    modal.classList.add('hidden');
-                }
-            });
+            modal.classList.remove("hidden");
+          });
         });
+
+        closeModalButton.addEventListener("click", () => {
+          modal.classList.add("hidden");
+        });
+
+        window.addEventListener("click", (event) => {
+          if (event.target === modal) {
+            modal.classList.add("hidden");
+          }
+        });
+
+        window.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && !modal.classList.contains("hidden")) {
+            modal.classList.add("hidden");
+          }
+        });
+      });
     </script>
-</body>
+  </body>
 </html>

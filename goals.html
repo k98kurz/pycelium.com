@@ -1,98 +1,180 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Goals - Pycelium</title>
-</head>
-<body class="bg-dark-background text-light-text font-sans">
-        <nav class="bg-dark-secondary sticky top-0 z-10 border-b border-gray-700">
-        <div class="container mx-auto px-4 relative">
-            <div class="flex items-center justify-center h-16">
-                <button id="nav-toggle" type="button" class="md:hidden absolute left-4 text-dark-text hover:text-white p-2 rounded-md" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
-                <div class="hidden md:block">
-                    <div class="flex items-center space-x-4">
-                        <a href="/" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                        <a href="/about.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
-                        <a href="/projects.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Projects</a>
-                        <a href="/goals.html" class="text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Goals</a>
-                        <a href="/community.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Community</a>
-                        <a href="/books.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Books</a>
-                        <a href="/writings.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Writings</a>
-                        <a href="/llm-benchmarks.html" class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Benchmarks</a>
-                    </div>
-                </div>
+  </head>
+  <body class="bg-dark-background text-light-text font-sans">
+    <nav class="bg-dark-secondary sticky top-0 z-10 border-b border-gray-700">
+      <div class="container mx-auto px-4 relative">
+        <div class="flex items-center justify-center h-16">
+          <button
+            id="nav-toggle"
+            type="button"
+            class="md:hidden absolute left-4 text-dark-text hover:text-white p-2 rounded-md"
+            aria-label="Toggle navigation menu"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+          <div class="hidden md:block">
+            <div class="flex items-center space-x-4">
+              <a
+                href="/"
+                class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >Home</a
+              >
+              <a
+                href="/about.html"
+                class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >About</a
+              >
+              <a
+                href="/projects.html"
+                class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >Projects</a
+              >
+              <a
+                href="/goals.html"
+                class="text-white px-3 py-2 rounded-md text-sm font-medium"
+                aria-current="page"
+                >Goals</a
+              >
+              <a
+                href="/community.html"
+                class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >Community</a
+              >
+              <a
+                href="/books.html"
+                class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >Books</a
+              >
+              <a
+                href="/writings.html"
+                class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >Writings</a
+              >
+              <a
+                href="/llm-benchmarks.html"
+                class="text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >Benchmarks</a
+              >
             </div>
-            <div id="mobile-menu" class="hidden md:hidden pb-4">
-                <div class="flex flex-col space-y-1">
-                        <a href="/" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                        <a href="/about.html" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
-                        <a href="/projects.html" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Projects</a>
-                        <a href="/goals.html" class="block text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Goals</a>
-                        <a href="/community.html" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Community</a>
-                        <a href="/books.html" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Books</a>
-                        <a href="/writings.html" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Writings</a>
-                        <a href="/llm-benchmarks.html" class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium">Benchmarks</a>
-                </div>
-            </div>
+          </div>
         </div>
+        <div id="mobile-menu" class="hidden md:hidden pb-4">
+          <div class="flex flex-col space-y-1">
+            <a
+              href="/"
+              class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >Home</a
+            >
+            <a
+              href="/about.html"
+              class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >About</a
+            >
+            <a
+              href="/projects.html"
+              class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >Projects</a
+            >
+            <a
+              href="/goals.html"
+              class="block text-white px-3 py-2 rounded-md text-sm font-medium"
+              aria-current="page"
+              >Goals</a
+            >
+            <a
+              href="/community.html"
+              class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >Community</a
+            >
+            <a
+              href="/books.html"
+              class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >Books</a
+            >
+            <a
+              href="/writings.html"
+              class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >Writings</a
+            >
+            <a
+              href="/llm-benchmarks.html"
+              class="block text-dark-text hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >Benchmarks</a
+            >
+          </div>
+        </div>
+      </div>
     </nav>
 
     <header class="py-12 text-center">
-        <h1 class="text-4xl font-bold text-white">Goals</h1>
+      <h1 class="text-4xl font-bold text-white">Goals</h1>
     </header>
 
     <main class="container mx-auto px-4 py-8">
-        <section class="mb-16">
-            <div class="mb-8">
-                <h3 class="text-xl font-bold mb-2">Autonomous Networking</h3>
-                <p class="text-dark-text">
-                    A core purpose of Pycelium is making it easy for devs to
-                    build networked apps that work somewhat automagically. This
-                    includes p2p/f2f networking across LANs, the Internet, and
-                    mesh networks.
-                </p>
-            </div>
+      <section class="mb-16">
+        <div class="mb-8">
+          <h3 class="text-xl font-bold mb-2">Autonomous Networking</h3>
+          <p class="text-dark-text">
+            A core purpose of Pycelium is making it easy for devs to build
+            networked apps that work somewhat automagically. This includes
+            p2p/f2f networking across LANs, the Internet, and mesh networks.
+          </p>
+        </div>
 
-            <div class="mb-8">
-                <h3 class="text-xl font-bold mb-2">Decentralized Data and Logic</h3>
-                <p class="text-dark-text">
-                    Another significant goal, which builds upon the autonomous
-                    networking technologies, is the decentralization of data and
-                    logic: instead of clients trusting servers to manage state
-                    on their behalf, nodes manage their own state and verify the
-                    correct behavior of other nodes. Data should reside where it
-                    is being used or explicitly replicated for resilience, and
-                    it should not be changeable except by its owners or their
-                    designees.
-                </p>
-            </div>
+        <div class="mb-8">
+          <h3 class="text-xl font-bold mb-2">Decentralized Data and Logic</h3>
+          <p class="text-dark-text">
+            Another significant goal, which builds upon the autonomous
+            networking technologies, is the decentralization of data and logic:
+            instead of clients trusting servers to manage state on their behalf,
+            nodes manage their own state and verify the correct behavior of
+            other nodes. Data should reside where it is being used or explicitly
+            replicated for resilience, and it should not be changeable except by
+            its owners or their designees.
+          </p>
+        </div>
 
-            <div>
-                <h3 class="text-xl font-bold mb-2">Implementation and Testing of Academic Insights</h3>
-                <p class="text-dark-text">
-                    Another important aspect of this project is the
-                    implementation and testing of algorithms, techniques, and
-                    insights promulgated by academic sources. Of particular
-                    note are the topics of computer science, mathematics, and
-                    economics/social choice theory. Efforts toward this goal
-                    have started with a focus on computer science and
-                    mathematics; economics- and social choice theory-related
-                    projects will be forthcoming once some foundational FOSS
-                    packages (such as tapescript, sqloquent, and netaio) are
-                    more mature.
-                </p>
-            </div>
-        </section>
+        <div>
+          <h3 class="text-xl font-bold mb-2">
+            Implementation and Testing of Academic Insights
+          </h3>
+          <p class="text-dark-text">
+            Another important aspect of this project is the implementation and
+            testing of algorithms, techniques, and insights promulgated by
+            academic sources. Of particular note are the topics of computer
+            science, mathematics, and economics/social choice theory. Efforts
+            toward this goal have started with a focus on computer science and
+            mathematics; economics- and social choice theory-related projects
+            will be forthcoming once some foundational FOSS packages (such as
+            tapescript, sqloquent, and netaio) are more mature.
+          </p>
+        </div>
+      </section>
     </main>
 
     <footer class="bg-dark-secondary text-center py-4">
-        <p class="text-dark-text">Copyright 2026 - The Pycelium Company</p>
+      <p class="text-dark-text">Copyright 2026 - The Pycelium Company</p>
     </footer>
     <script type="module" src="/src/main.js"></script>
-</body>
+  </body>
 </html>
