@@ -307,6 +307,8 @@ opts="-t 32 -o jsonl --device none -ngl 0"
 depths="0 32768 65536 131072"
 kvquants="q8_0 q4_0"
 
+set -o pipefail
+
 benchit() {
   model=$1
   modeldir=$2
@@ -348,6 +350,8 @@ devices="CUDA0 CUDA1"
 depths="0 32768 65536 131072"
 kvquants="q8_0 q4_0"
 nkvos="0 1"
+
+set -o pipefail
 
 benchit() {
   model=$1
@@ -396,6 +400,8 @@ ncmoes="0 100 200"
 depths="0 32768 65536 131072"
 kvquants="q8_0 q4_0"
 nkvos="0 1"
+
+set -o pipefail
 
 benchit() {
   model=$1
