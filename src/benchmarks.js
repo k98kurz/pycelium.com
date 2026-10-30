@@ -519,18 +519,6 @@ function createTableManager(config) {
   };
 }
 
-const scriptTemplates = {
-  "gpu-d": {
-    templateId: "gpu-d-script-template",
-    title: "GPU Benchmark Script (Dense)",
-  },
-  "gpu-moe": {
-    templateId: "gpu-moe-script-template",
-    title: "GPU Benchmark Script (MoE)",
-  },
-  cpu: { templateId: "cpu-script-template", title: "CPU Benchmark Script" },
-};
-
 function initScriptModal() {
   const modal = document.getElementById("scriptModal");
   const modalTitle = document.getElementById("scriptModalTitle");
@@ -545,20 +533,24 @@ function initScriptModal() {
     modal.classList.add("hidden");
   }
 
-  function openModal(scriptKey) {
-    const script = scriptTemplates[scriptKey];
-    const template = script ? document.getElementById(script.templateId) : null;
+  function openModal(scriptKey, title) {
+    const templateId = `${scriptKey}-script-template`;
+    const template = document.getElementById(templateId);
     if (!template) {
       return;
     }
 
-    modalTitle.textContent = script.title;
+    modalTitle.textContent =
+      title ||
+      scriptKey.replace(/-/g, " ").replace(/^\w/, (c) => c.toUpperCase());
     modalContent.replaceChildren(template.content.cloneNode(true));
     modal.classList.remove("hidden");
   }
 
   document.querySelectorAll("[data-script]").forEach((button) => {
-    button.addEventListener("click", () => openModal(button.dataset.script));
+    button.addEventListener("click", () =>
+      openModal(button.dataset.script, button.dataset.scriptTitle),
+    );
   });
 
   closeModalButton.addEventListener("click", closeModal);

@@ -274,6 +274,7 @@
             <button
               type="button"
               data-script="cpu"
+              data-script-title="CPU Benchmark Script"
               class="px-4 py-2 bg-pycelium-purple hover:bg-purple-700 text-white rounded-md transition-colors duration-200"
             >
               CPU script
@@ -281,6 +282,7 @@
             <button
               type="button"
               data-script="gpu-d"
+              data-script-title="GPU Benchmark Script (Dense)"
               class="px-4 py-2 bg-pycelium-purple hover:bg-purple-700 text-white rounded-md transition-colors duration-200"
             >
               GPU script (dense)
@@ -288,9 +290,18 @@
             <button
               type="button"
               data-script="gpu-moe"
+              data-script-title="GPU Benchmark Script (MoE)"
               class="px-4 py-2 bg-pycelium-purple hover:bg-purple-700 text-white rounded-md transition-colors duration-200"
             >
               GPU script (MoE)
+            </button>
+            <button
+              type="button"
+              data-script="bench-time"
+              data-script-title="Time Functions"
+              class="px-4 py-2 bg-pycelium-purple hover:bg-purple-700 text-white rounded-md transition-colors duration-200"
+            >
+              Time functions
             </button>
           </div>
           <template id="cpu-script-template">
@@ -307,6 +318,9 @@ opts="-t 32 -o jsonl --device none -ngl 0"
 depths="0 32768 65536 131072"
 kvquants="q8_0 q4_0"
 
+source ~/Dowloads/models/bench-time.sh
+startts=`timestamp`
+
 set -o pipefail
 
 benchit() {
@@ -315,14 +329,16 @@ benchit() {
   for d in $depths; do
     for kv in $kvquants; do
       perm="-m $modeldir/$model $opts -d $d -ctk $kv -ctv $kv"
-      if grep -Fqx -- "$perm" $logfile; then
+      if grep -Fqx -- "complete: $perm" $logfile; then
         echo "Skipping $perm"
       else
-        echo $perm | tee -a $logfile
+        echo "llama bench $perm"
         llama bench $perm | tee -a $resultsdir/$model.jsonl
         if [ $? -ne 0 ]; then
           echo Error: $perm | tee -a $errorlogfile
         fi
+        echo "complete: $perm" >> $logfile
+        echo Running for $(formattime $(( `timestamp` - $startts )))
       fi
     done
   done
@@ -351,6 +367,9 @@ depths="0 32768 65536 131072"
 kvquants="q8_0 q4_0"
 nkvos="0 1"
 
+source ~/Dowloads/models/bench-time.sh
+startts=`timestamp`
+
 set -o pipefail
 
 benchit() {
@@ -362,14 +381,16 @@ benchit() {
         for nkvo in $nkvos; do
           perm="-m $modeldir/$model $opts --device $dev"
           perm="$perm -d $d -ctk $kv -ctv $kv -nkvo $nkvo"
-          if grep -Fqx -- "$perm" $logfile; then
+          if grep -Fqx -- "complete: $perm" $logfile; then
             echo "Skipping $perm"
           else
-            echo $perm | tee -a $logfile
+            echo "llama bench $perm"
             llama bench $perm | tee -a $resultsdir/$model.jsonl
             if [ $? -ne 0 ]; then
               echo Error: $perm | tee -a $errorlogfile
             fi
+            echo "complete: $perm" >> $logfile
+            echo Running for $(formattime $(( `timestamp` - $startts )))
           fi
         done
       done
@@ -401,6 +422,9 @@ depths="0 32768 65536 131072"
 kvquants="q8_0 q4_0"
 nkvos="0 1"
 
+source ~/Dowloads/models/bench-time.sh
+startts=`timestamp`
+
 set -o pipefail
 
 benchit() {
@@ -413,14 +437,16 @@ benchit() {
           for nkvo in $nkvos; do
             perm="-m $modeldir/$model $opts --device $dev"
             perm="$perm -ncmoe $ncmoe -d $d -ctk $kv -ctv $kv -nkvo $nkvo"
-            if grep -Fqx -- "$perm" $logfile; then
+            if grep -Fqx -- "complete: $perm" $logfile; then
               echo "Skipping $perm"
             else
-              echo $perm | tee -a $logfile
+              echo "llama bench $perm"
               llama bench $perm | tee -a $resultsdir/$model.jsonl
               if [ $? -ne 0 ]; then
                 echo Error: $perm | tee -a $errorlogfile
               fi
+              echo "complete: $perm" >> $logfile
+              echo Running for $(formattime $(( `timestamp` - $startts )))
             fi
           done
         done
@@ -436,6 +462,24 @@ for modeldir in $modeldir1 $modeldir2; do
     benchit $model $modeldir
   done
 done
+          </pre>
+          </template>
+          <template id="bench-time-script-template">
+            <pre class="font-mono text-sm whitespace-pre">
+#!/bin/bash
+
+timestamp() {
+    date +%s
+}
+
+formattime() {
+    seconds=$1
+    minutes=$(( seconds / 60 ))
+    seconds=$(( seconds - minutes * 60 ))
+    hours=$(( minutes / 60 ))
+    minutes=$(( minutes - hours * 60 ))
+    echo "$hours:$minutes:$seconds"
+}
           </pre>
           </template>
 
