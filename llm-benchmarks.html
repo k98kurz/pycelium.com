@@ -77,6 +77,20 @@
         background-color: rgba(0, 0, 0, 0.2);
       }
 
+      .spinner {
+        border: 3px solid rgba(255, 255, 255, 0.1);
+        border-top-color: #9370db;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        animation: spin 0.8s linear infinite;
+        margin: 2rem auto;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -406,86 +420,114 @@ done
           </pre>
           </template>
 
-          <h2 class="text-xl font-semibold text-white">Notes</h2>
-          <ul class="list-disc list-inside space-y-1">
-            <li>
-              I originally intended to benchmark more models and more parameter
-              permutations, but it would take ~16 months to complete, so I
-              drastically reduced the scope and optimized the scripts.
-              <ul class="list-disc list-inside space-y-1 pl-4">
-                <li>
-                  Replaced CSV parameters with nested bash
-                  <code>for</code> loops.
-                </li>
-                <li>
-                  Split GPU testing into dedicated dense and MoE scripts to
-                  remove irrelevant <code>--device CUDA0/CUDA1</code> and
-                  <code>-ncmoe X</code> params from dense.
-                </li>
-                <li>
-                  Added logging of permutations and the ability to skip
-                  previously run permutations upon restart.
-                </li>
-                <li>
-                  Removed the <code>-r 30</code> param that would repeat each
-                  benchmark 30 times.
-                </li>
-                <li>
-                  Replaced independently varying K and V cache types with linked
-                  KV cache types.
-                </li>
-                <li>
-                  Removed <code>f16</code> and <code>iq4_nl</code> from tested
-                  KV quants.
-                </li>
-                <li>
-                  Removed <code>5120</code> and <code>10240</code> from tested
-                  context depths.
-                </li>
-              </ul>
-            </li>
-            <li>
-              This benchmark system uses random tokens; MoE models often have
-              better performance in practice due to token correlations, causing
-              relevant experts to remain on the GPU when running
-              <code>llama serve --moe-cache-mib N</code>
-            </li>
-            <li>
-              CPU-only was achieved via <code>n_gpu_layers=0</code> (<code
-                >-ngl 0</code
-              >
-              on CLI), whereas it was left at the default <code>=-1</code> for
-              GPU
-            </li>
-            <li>
-              CPU-only was achieved via <code>device=none</code>, whereas it was
-              set to another value for GPU(s)
-            </li>
-            <li>
-              Both <code>ngl=0</code> and <code>device=none</code> were required
-              for CPU-only execution
-            </li>
-            <li>
-              <code>-d</code> sets the context depth at which the test begins
-            </li>
-            <li>
-              <code>-ncmoe</code> configures CPU offloading for MoE and was
-              excluded for CPU tests
-            </li>
-            <li>
-              <code>-nkvo 1</code> disables KV cache offloading to CPU/RAM
-              during GPU tests
-            </li>
-            <li>
-              <code>-ctk</code> and <code>-ctv</code> set the types for KV cache
-              keys and values, respectively
-            </li>
-            <li>
-              I will endeavor to expand benchmark coverage once the first batch
-              of results are processed, whenever the right combo of convenience,
-              ability, and motivation strikes.
-            </li>
-          </ul>
+          <details>
+            <summary class="text-xl font-semibold text-white">Notes</summary>
+            <ul class="list-disc list-inside space-y-1">
+              <li>
+                I originally intended to benchmark more models and more
+                parameter permutations, but it would take ~16 months to
+                complete, so I drastically reduced the scope and optimized the
+                scripts.
+                <ul class="list-disc list-inside space-y-1 pl-4">
+                  <li>
+                    Replaced CSV parameters with nested bash
+                    <code>for</code> loops.
+                  </li>
+                  <li>
+                    Split GPU testing into dedicated dense and MoE scripts to
+                    remove irrelevant <code>--device CUDA0/CUDA1</code> and
+                    <code>-ncmoe X</code> params from dense.
+                  </li>
+                  <li>
+                    Added logging of permutations and the ability to skip
+                    previously run permutations upon restart.
+                  </li>
+                  <li>
+                    Removed the <code>-r 30</code> param that would repeat each
+                    benchmark 30 times.
+                  </li>
+                  <li>
+                    Replaced independently varying K and V cache types with
+                    linked KV cache types.
+                  </li>
+                  <li>
+                    Removed <code>f16</code> and <code>iq4_nl</code> from tested
+                    KV quants.
+                  </li>
+                  <li>
+                    Removed <code>5120</code> and <code>10240</code> from tested
+                    context depths.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                This benchmark system uses random tokens; MoE models often have
+                better performance in practice due to token correlations,
+                causing relevant experts to remain on the GPU when running
+                <code>llama serve --moe-cache-mib N</code>
+              </li>
+              <li>
+                CPU-only was achieved via <code>n_gpu_layers=0</code> (<code
+                  >-ngl 0</code
+                >
+                on CLI), whereas it was left at the default <code>=-1</code> for
+                GPU
+              </li>
+              <li>
+                CPU-only was achieved via <code>device=none</code>, whereas it
+                was set to another value for GPU(s)
+              </li>
+              <li>
+                Both <code>ngl=0</code> and <code>device=none</code> were
+                required for CPU-only execution
+              </li>
+              <li>
+                <code>-d</code> sets the context depth at which the test begins
+              </li>
+              <li>
+                <code>-ncmoe</code> configures CPU offloading for MoE and was
+                excluded for CPU tests
+              </li>
+              <li>
+                <code>-nkvo 1</code> disables KV cache offloading to CPU/RAM
+                during GPU tests
+              </li>
+              <li>
+                <code>-ctk</code> and <code>-ctv</code> set the types for KV
+                cache keys and values, respectively
+              </li>
+              <li>
+                I will endeavor to expand benchmark coverage once the first
+                batch of results are processed, whenever the right combo of
+                convenience, ability, and motivation strikes.
+              </li>
+            </ul>
+          </details>
+          <h3 class="text-xl font-semibold text-white">Agentic Tests</h3>
+          <p>
+            The dense academic data that will fill up the table and contribute
+            to useful graphs will take a while to generate and collate. In the
+            meantime, I am doing some read-only agentic tasks in real harnesses
+            and comparing inference engines, parameters, etc. (A side quest into
+            pragmatism.)
+          </p>
+          <p>
+            One such agentic task benchmark compared llama.cpp with ik_llama on
+            Flint 40B-A2.5B IQ3_XXS. Those results can be viewed
+            <a
+              target="_blank"
+              href="https://markdownmywords.com/doc/SUXib2-ucHdU4Aj87pnGutmgPPkAMmTXtbWSljR9rbU.jhAHUcc10ihYN8gyOyZfOdyhJCytXXWnsL0ZBPBSonw/254e94b3-5679-40cb-a30f-e1f1ed724be4"
+            >
+              here </a
+            >. Or view it in a modal
+            <button
+              type="button"
+              id="openMdModal"
+              class="text-pycelium-purple hover:underline text-sm font-medium"
+            >
+              here</button
+            >.
+          </p>
         </div>
 
         <div
@@ -816,14 +858,14 @@ done
     </main>
 
     <div
-      id="scriptModal"
+      id="mdModal"
       class="hidden fixed z-50 inset-0 overflow-y-auto"
-      aria-labelledby="scriptModalTitle"
+      aria-labelledby="mdModalTitle"
       role="dialog"
       aria-modal="true"
     >
       <div
-        class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+        class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0 sm:whitespace-nowrap"
       >
         <div
           class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
@@ -835,7 +877,57 @@ done
           >&#8203;</span
         >
         <div
-          class="inline-block align-bottom bg-dark-secondary rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full"
+          class="inline-block align-bottom bg-dark-secondary rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full sm:whitespace-normal"
+        >
+          <div class="bg-dark-secondary px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <div class="flex items-start justify-between mb-2">
+              <h3
+                class="text-xl leading-6 font-medium text-white"
+                id="mdModalTitle"
+              >
+                Results
+              </h3>
+            </div>
+            <div id="mdModalContent" class="mt-4 max-h-[65vh] overflow-y-auto">
+              <div class="spinner"></div>
+            </div>
+          </div>
+          <div
+            class="bg-dark-secondary px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
+          >
+            <button
+              id="closeMdModal"
+              type="button"
+              class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-gray-600 text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="scriptModal"
+      class="hidden fixed z-50 inset-0 overflow-y-auto"
+      aria-labelledby="scriptModalTitle"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0 sm:whitespace-nowrap"
+      >
+        <div
+          class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+          aria-hidden="true"
+        ></div>
+        <span
+          class="hidden sm:inline-block sm:align-middle sm:h-screen"
+          aria-hidden="true"
+          >&#8203;</span
+        >
+        <div
+          class="inline-block align-bottom bg-dark-secondary rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full sm:whitespace-normal"
         >
           <div class="bg-dark-secondary px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <h3

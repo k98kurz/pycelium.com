@@ -575,6 +575,68 @@ function initScriptModal() {
   });
 }
 
+function escapeHtml(text) {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function initMarkdownModal() {
+  const modal = document.getElementById("mdModal");
+  const modalTitle = document.getElementById("mdModalTitle");
+  const modalContent = document.getElementById("mdModalContent");
+  const closeModalButton = document.getElementById("closeMdModal");
+  const openButton = document.getElementById("openMdModal");
+
+  if (
+    !modal ||
+    !modalTitle ||
+    !modalContent ||
+    !closeModalButton ||
+    !openButton
+  ) {
+    return;
+  }
+
+  function closeModal() {
+    modal.classList.add("hidden");
+  }
+
+  async function openModal() {
+    modalTitle.textContent = "Results";
+    modalContent.innerHTML = '<div class="spinner"></div>';
+    modal.classList.remove("hidden");
+
+    try {
+      const response = await fetch("assets/llm-benchmarks/flint-IQ3_XXS.md");
+      if (!response.ok) throw new Error("Failed to load");
+      const text = await response.text();
+      modalContent.innerHTML =
+        '<pre class="text-dark-text font-mono text-sm whitespace-pre-wrap">' +
+        escapeHtml(text) +
+        "</pre>";
+    } catch {
+      modalContent.innerHTML =
+        '<p class="text-red-400">Failed to load content.</p>';
+    }
+  }
+
+  closeModalButton.addEventListener("click", closeModal);
+  openButton.addEventListener("click", openModal);
+
+  window.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      closeModal();
+    }
+  });
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !modal.classList.contains("hidden")) {
+      closeModal();
+    }
+  });
+}
+
 const mainTable = createTableManager({
   tableId: "benchmarks-table",
   dataUrl: "assets/benchmarks.json",
@@ -604,6 +666,7 @@ const failedTable = createTableManager({
 
 document.addEventListener("DOMContentLoaded", () => {
   initScriptModal();
+  initMarkdownModal();
   mainTable.bindEvents();
   failedTable.bindEvents();
   mainTable.loadData();
