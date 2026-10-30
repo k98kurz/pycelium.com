@@ -1,6 +1,7 @@
 # flint (IQ3_XXS)
 
-Tasks:
+## Tasks
+
 - commit: review staged changes and propose a commit message (Commit agent)
 - status: explore codebase and prepare a status report (Review agent)
 

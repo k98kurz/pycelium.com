@@ -581,14 +581,16 @@ function initMarkdownModal() {
   const modalTitle = document.getElementById("mdModalTitle");
   const modalContent = document.getElementById("mdModalContent");
   const closeModalButton = document.getElementById("closeMdModal");
-  const openButton = document.getElementById("openMdModal");
+
+  // Find all open-md-modal buttons (one per markdown doc)
+  const buttons = document.querySelectorAll(".open-md-modal");
 
   if (
     !modal ||
     !modalTitle ||
     !modalContent ||
     !closeModalButton ||
-    !openButton
+    buttons.length === 0
   ) {
     return;
   }
@@ -597,13 +599,13 @@ function initMarkdownModal() {
     modal.classList.add("hidden");
   }
 
-  async function openModal() {
-    modalTitle.textContent = "Results";
+  async function openModal(path, title) {
+    modalTitle.textContent = title;
     modalContent.innerHTML = '<div class="spinner"></div>';
     modal.classList.remove("hidden");
 
     try {
-      const response = await fetch("assets/llm-benchmarks/flint-IQ3_XXS.md");
+      const response = await fetch(path);
       if (!response.ok) throw new Error("Failed to load");
       const text = await response.text();
       renderMarkdownInto(modalContent, text);
@@ -613,10 +615,15 @@ function initMarkdownModal() {
     }
   }
 
-  closeModalButton.addEventListener("click", closeModal);
-  openButton.addEventListener("click", openModal);
+  buttons.forEach((button) => {
+    button.addEventListener("click", () =>
+      openModal(button.dataset.md, button.dataset.mdTitle),
+    );
+  });
 
-  window.addEventListener("click", (event) => {
+  closeModalButton.addEventListener("click", closeModal);
+
+  modal.addEventListener("click", (event) => {
     if (event.target === modal) {
       closeModal();
     }
