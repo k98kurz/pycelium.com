@@ -1,5 +1,5 @@
 import "./input.css";
-import { renderMarkdownInto } from "./markdown.js";
+import MarkdownWorker from "./markdown-renderer.mjs?worker";
 
 const filterFields = [
   { key: "model", label: "Model", numeric: false },
@@ -602,13 +602,43 @@ function initMarkdownModal() {
   async function openModal(path, title) {
     modalTitle.textContent = title;
     modalContent.innerHTML = '<div class="spinner"></div>';
+    modalContent.classList.remove("markdown-body");
     modal.classList.remove("hidden");
 
     try {
       const response = await fetch(path);
       if (!response.ok) throw new Error("Failed to load");
-      const text = await response.text();
-      renderMarkdownInto(modalContent, text);
+      const md = await response.text();
+
+      const worker = MarkdownWorker();
+      let progressEl = null;
+
+      worker.onmessage = (e) => {
+        if (e.data.type === "progress") {
+          if (!modalContent.querySelector(".md-progress")) {
+            progressEl = document.createElement("div");
+            progressEl.className = "md-progress";
+            progressEl.style.marginTop = "1rem";
+            modalContent.insertBefore(progressEl, modalContent.firstChild);
+          }
+          const el = modalContent.querySelector(".md-progress");
+          if (el) el.textContent = `Rendering ${e.data.pct}%`;
+        } else if (e.data.type === "done") {
+          modalContent.innerHTML =
+            '<div class="markdown-content">' + e.data.html + "</div>";
+          modalContent.classList.add("markdown-body");
+          if (progressEl) progressEl.remove();
+          worker.terminate();
+        }
+      };
+
+      worker.onerror = () => {
+        modalContent.innerHTML =
+          '<p class="text-red-400">Failed to load content.</p>';
+        worker.terminate();
+      };
+
+      worker.postMessage({ type: "render", md });
     } catch {
       modalContent.innerHTML =
         '<p class="text-red-400">Failed to load content.</p>';

@@ -16,25 +16,80 @@ function escapeAttr(text) {
 
 function renderInline(text) {
   const codeSpans = [];
-  text = text.replace(/`([^`]+)`/g, (match, code) => {
-    codeSpans.push(`<code>${escapeHtml(code)}</code>`);
-    return `\u0000CODE_${codeSpans.length - 1}\u0000`;
-  });
 
-  text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, label, url) => {
-    return `<a href="${escapeAttr(url)}">${renderInline(label)}</a>`;
-  });
+  let result = "";
+  let i = 0;
+  while (i < text.length) {
+    const c = text[i];
+    if (c === "`") {
+      const end = text.indexOf("`", i + 1);
+      if (end === -1) {
+        result += text.slice(i);
+        break;
+      }
+      const code = text.slice(i + 1, end);
+      codeSpans.push(`<code>${escapeHtml(code)}</code>`);
+      result += `\u0000CODE_${codeSpans.length - 1}\u0000`;
+      i = end + 1;
+    } else if (c === "[") {
+      const lb = text.indexOf("]", i + 1);
+      if (lb !== -1 && text[lb + 1] === "(") {
+        const rb = text.indexOf(")", lb + 2);
+        if (rb !== -1) {
+          const label = text.slice(i + 1, lb);
+          const url = text.slice(lb + 2, rb);
+          result += `<a href="${escapeAttr(url)}">${renderInline(label)}</a>`;
+          i = rb + 1;
+          continue;
+        }
+      }
+      result += c;
+      i++;
+    } else {
+      result += c;
+      i++;
+    }
+  }
 
-  text = text.replace(/\*\*\*([^*]+)\*\*\*/g, "<strong><em>$1</em></strong>");
-  text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-  text = text.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+  let out = "";
+  i = 0;
+  while (i < result.length) {
+    if (result[i] === "*") {
+      let run = 0;
+      while (i + run < result.length && result[i + run] === "*") run++;
+      const contentEnd = result.indexOf("*", i + run);
+      if (contentEnd !== -1) {
+        const content = result.slice(i + run, contentEnd);
+        if (!content.includes("*")) {
+          let closeRun = 0;
+          let p = contentEnd;
+          while (p < result.length && result[p] === "*") {
+            closeRun++;
+            p++;
+          }
+          if (closeRun === run && (run === 1 || run === 2 || run === 3)) {
+            let wrapped;
+            if (run === 3) wrapped = `<strong><em>${content}</em></strong>`;
+            else if (run === 2) wrapped = `<strong>${content}</strong>`;
+            else wrapped = `<em>${content}</em>`;
+            out += wrapped;
+            i = contentEnd + run;
+            continue;
+          }
+        }
+      }
+      out += "*".repeat(run);
+      i += run;
+    } else {
+      out += result[i];
+      i++;
+    }
+  }
 
-  text = text.replace(
+  return out.replace(
     /\u0000CODE_(\d+)\u0000/g,
-    (m, i) => codeSpans[Number(i)],
+    (m, idx) => codeSpans[Number(idx)],
   );
-
-  return text;
 }
 
 function parseTableRow(line) {
@@ -44,14 +99,20 @@ function parseTableRow(line) {
   return trimmed.split("|").map((c) => c.trim());
 }
 
-export function renderMarkdown(md) {
+export function renderMarkdown(md, onProgress) {
   md = md.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
   const lines = md.split("\n");
   const n = lines.length;
   let html = "";
   let i = 0;
+  let lastPct = -1;
 
   while (i < n) {
+    const pct = Math.round((i / n) * 100);
+    if (onProgress && pct !== lastPct) {
+      lastPct = pct;
+      onProgress(Math.min(99, pct));
+    }
     let line = lines[i];
 
     if (line.trim() === "") {
@@ -82,10 +143,7 @@ export function renderMarkdown(md) {
     }
 
     if (line.trim().startsWith("|") || line.startsWith("|")) {
-      if (
-        i + 1 < n &&
-        /^\s*\|?\s*:?-+:?(\|\s*:?-+:?)*\|?\s*$/.test(lines[i + 1])
-      ) {
+      if (i + 1 < n && /^\|?\s*[-: ]+(\|[-: ]+)*\|?\s*$/.test(lines[i + 1])) {
         const headerCells = parseTableRow(line);
         let tableHtml = '<table class="markdown-table"><thead><tr>';
         for (let c = 0; c < headerCells.length; c++) {
@@ -165,6 +223,7 @@ export function renderMarkdown(md) {
     }
   }
 
+  if (onProgress && lastPct !== 100) onProgress(100);
   return html;
 }
 
