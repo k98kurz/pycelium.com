@@ -15,8 +15,8 @@
     ```
 7. `llama bench --list-devices` output "Available Devices: (none)", so I rebuilt llama using the installer script.
 8. Ran `for model in $(ls weights | grep -vi mmproj | grep -vi mtp); do llama bench -m weights/$model | tee -a stats/gpus/$model.log; done` to get GPU performance baseline. A number of MoE models did not fit in combined VRAM, leading to cudamalloc errors and benchmark failures. The following model files *did* load and benchmark correctly in VRAM:
-    - Cyber-Tiel-Coder-35B-A3B-UD-IQ3_XXS.gguf.log
-    - MiniCPM-V-4_7-35B-A3B-IQ3_XS.gguf.log
+    - Cyber-Tiel-Coder-35B-A3B-UD-IQ3_XXS.gguf
+    - MiniCPM-V-4_7-35B-A3B-IQ3_XS.gguf
 9. Ran benchmarks with `-ncmoe [25|100]` for additional performance characteristics.
 10. Compiled results with bash-fu, downloaded with sftp, edited with vim-fu, then copied with `cat scoreboard.md | xclip -selection clipboard` to paste into here easily.
 

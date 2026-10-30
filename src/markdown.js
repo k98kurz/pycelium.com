@@ -14,6 +14,27 @@ function escapeAttr(text) {
     .replace(/>/g, "&gt;");
 }
 
+function leadingWhitespace(line) {
+  const match = line.match(/^[ \t]*/);
+  return match ? match[0] : "";
+}
+
+function stripLeadingWhitespace(line, width) {
+  let removed = 0;
+  let index = 0;
+  while (index < line.length && removed < width) {
+    const char = line[index];
+    if (char !== " " && char !== "\t") break;
+    index++;
+    removed++;
+  }
+  return line.slice(index);
+}
+
+function isListLine(line) {
+  return /^[-*+]\s+/.test(line) || /^\d+\.\s+/.test(line);
+}
+
 function renderInline(text) {
   const codeSpans = [];
 
@@ -165,31 +186,110 @@ export function renderMarkdown(md) {
       }
     }
 
-    if (/^[-*+]\s+/.test(line) || /^\d+\.\s+/.test(line)) {
+    if (isListLine(line)) {
       const isOrdered = /^\d+\.\s+/.test(line);
       const items = [];
       let currentText = "";
+      let currentParts = [];
       let inItem = false;
+
+      function flushText() {
+        if (currentText.trim() !== "") {
+          currentParts.push(renderInline(currentText.trim()));
+          currentText = "";
+        }
+      }
+
+      function finalizeItem() {
+        if (!inItem) return;
+        flushText();
+        items.push(currentParts.join(""));
+        currentParts = [];
+        currentText = "";
+        inItem = false;
+      }
+
       while (i < n) {
         const l = lines[i];
-        if (l.trim() === "") break;
-        const isListItem = /^[-*+]\s+/.test(l) || /^\d+\.\s+/.test(l);
-        if (isListItem) {
-          if (inItem) {
-            items.push(renderInline(currentText.trim()));
-            currentText = "";
+        if (l.trim() === "") {
+          let j = i;
+          while (j < n && lines[j].trim() === "") j++;
+          if (j >= n) {
+            i = j;
+            break;
           }
+          const next = lines[j];
+          const nextIsIndented = /^[ \t]/.test(next);
+          const nextIsSameList = isOrdered
+            ? /^\d+\.\s+/.test(next)
+            : /^[-*+]\s+/.test(next);
+          if (!nextIsIndented && !nextIsSameList) break;
+          i = j;
+          continue;
+        }
+        const isListItem = isListLine(l);
+        if (isListItem) {
+          finalizeItem();
           currentText = l.replace(/^[-*+]\s+/, "").replace(/^\d+\.\s+/, "");
           inItem = true;
           i++;
-        } else if (/^\s+/.test(l) && currentText !== "") {
-          currentText += " " + l.trim();
-          i++;
+        } else if (/^\s+/.test(l) && inItem) {
+          const trimmed = l.trim();
+          if (trimmed.startsWith("```")) {
+            flushText();
+            const indent = leadingWhitespace(l).length;
+            const code = [];
+            i++;
+            while (i < n && !lines[i].trim().startsWith("```")) {
+              code.push(stripLeadingWhitespace(lines[i], indent));
+              i++;
+            }
+            if (i < n) i++;
+            currentParts.push(
+              `<pre class="markdown-code">${escapeHtml(code.join("\n"))}</pre>\n`,
+            );
+          } else if (isListLine(trimmed)) {
+            flushText();
+            const baseIndent = leadingWhitespace(l).length;
+            const blockLines = [];
+            while (i < n) {
+              const blockLine = lines[i];
+              if (blockLine.trim() === "") {
+                let j = i;
+                while (j < n && lines[j].trim() === "") j++;
+                if (j >= n) break;
+                const next = lines[j];
+                const nextIndent = leadingWhitespace(next).length;
+                const nextIsNestedList = isListLine(next.trim());
+                if (
+                  nextIndent > baseIndent ||
+                  (nextIndent === baseIndent && nextIsNestedList)
+                ) {
+                  blockLines.push("");
+                  i = j;
+                  continue;
+                }
+                break;
+              }
+              const lineIndent = leadingWhitespace(blockLine).length;
+              if (lineIndent < baseIndent) break;
+              if (lineIndent === baseIndent && !isListLine(blockLine.trim())) {
+                break;
+              }
+              blockLines.push(stripLeadingWhitespace(blockLine, baseIndent));
+              i++;
+            }
+            currentParts.push(renderMarkdown(blockLines.join("\n")));
+          } else {
+            if (currentText !== "") currentText += " ";
+            currentText += trimmed;
+            i++;
+          }
         } else {
           break;
         }
       }
-      if (inItem) items.push(renderInline(currentText.trim()));
+      finalizeItem();
       const tag = isOrdered ? "ol" : "ul";
       html += `<${tag} class="markdown-list">`;
       for (const item of items) {
