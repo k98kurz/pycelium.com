@@ -99,20 +99,14 @@ function parseTableRow(line) {
   return trimmed.split("|").map((c) => c.trim());
 }
 
-export function renderMarkdown(md, onProgress) {
+export function renderMarkdown(md) {
   md = md.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
   const lines = md.split("\n");
   const n = lines.length;
   let html = "";
   let i = 0;
-  let lastPct = -1;
 
   while (i < n) {
-    const pct = Math.round((i / n) * 100);
-    if (onProgress && pct !== lastPct) {
-      lastPct = pct;
-      onProgress(Math.min(99, pct));
-    }
     let line = lines[i];
 
     if (line.trim() === "") {
@@ -223,7 +217,6 @@ export function renderMarkdown(md, onProgress) {
     }
   }
 
-  if (onProgress && lastPct !== 100) onProgress(100);
   return html;
 }
 

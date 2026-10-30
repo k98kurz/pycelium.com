@@ -611,23 +611,12 @@ function initMarkdownModal() {
       const md = await response.text();
 
       const worker = MarkdownWorker();
-      let progressEl = null;
 
       worker.onmessage = (e) => {
-        if (e.data.type === "progress") {
-          if (!modalContent.querySelector(".md-progress")) {
-            progressEl = document.createElement("div");
-            progressEl.className = "md-progress";
-            progressEl.style.marginTop = "1rem";
-            modalContent.insertBefore(progressEl, modalContent.firstChild);
-          }
-          const el = modalContent.querySelector(".md-progress");
-          if (el) el.textContent = `Rendering ${e.data.pct}%`;
-        } else if (e.data.type === "done") {
+        if (e.data.type === "done") {
           modalContent.innerHTML =
             '<div class="markdown-content">' + e.data.html + "</div>";
           modalContent.classList.add("markdown-body");
-          if (progressEl) progressEl.remove();
           worker.terminate();
         }
       };
