@@ -1,4 +1,5 @@
 import "./input.css";
+import { renderMarkdownInto } from "./markdown.js";
 
 const filterFields = [
   { key: "model", label: "Model", numeric: false },
@@ -575,12 +576,6 @@ function initScriptModal() {
   });
 }
 
-function escapeHtml(text) {
-  const div = document.createElement("div");
-  div.textContent = text;
-  return div.innerHTML;
-}
-
 function initMarkdownModal() {
   const modal = document.getElementById("mdModal");
   const modalTitle = document.getElementById("mdModalTitle");
@@ -611,10 +606,7 @@ function initMarkdownModal() {
       const response = await fetch("assets/llm-benchmarks/flint-IQ3_XXS.md");
       if (!response.ok) throw new Error("Failed to load");
       const text = await response.text();
-      modalContent.innerHTML =
-        '<pre class="text-dark-text font-mono text-sm whitespace-pre-wrap">' +
-        escapeHtml(text) +
-        "</pre>";
+      renderMarkdownInto(modalContent, text);
     } catch {
       modalContent.innerHTML =
         '<p class="text-red-400">Failed to load content.</p>';
