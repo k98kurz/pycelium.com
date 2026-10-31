@@ -324,6 +324,37 @@ function createTableManager(config) {
       const tr = $new("tr", { className: "benchmark-row" });
       tr.dataset.rowId = row._id;
 
+      if (config.hasSelection === false) {
+        const values = [
+          row.model,
+          row.devices,
+          row.n_gpu_layers,
+          row.n_cpu_moe,
+          row.split_mode,
+          row.n_threads,
+          row.type_k,
+          row.type_v,
+          row.no_kv_offload,
+          row.n_depth,
+        ];
+
+        if (config.hasResults) {
+          values.push(row.pp_ts, row.tg_ts);
+        }
+
+        values.forEach((value) => {
+          const cell = document.createElement("td");
+          cell.className =
+            "px-2 text-left border border-gray-300 dark:border-gray-700 bg-gray-900 bg-opacity-30";
+          cell.textContent = value ?? "";
+          tr.appendChild(cell);
+        });
+
+        tbody.appendChild(tr);
+        originalRowOrder.push(tr);
+        return;
+      }
+
       const checkboxCell = document.createElement("td");
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
@@ -659,6 +690,7 @@ const mainTable = createTableManager({
   makeChartsId: "make-charts",
   tagsId: "filter-tags",
   hasResults: true,
+  hasSelection: true,
 });
 
 const failedTable = createTableManager({
@@ -672,6 +704,7 @@ const failedTable = createTableManager({
   resetFiltersId: "failed-reset-filters",
   tagsId: "failed-filter-tags",
   hasResults: false,
+  hasSelection: false,
 });
 
 document.addEventListener("DOMContentLoaded", () => {
