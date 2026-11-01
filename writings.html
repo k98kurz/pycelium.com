@@ -394,7 +394,10 @@
       closeModalButton.addEventListener("click", closeModal);
 
       window.addEventListener("click", (event) => {
-        if (event.target === modal) {
+        if (
+          event.target === modal ||
+          event.target.classList.contains("bg-gray-500")
+        ) {
           closeModal();
         }
       });

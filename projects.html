@@ -582,7 +582,10 @@
         });
 
         window.addEventListener("click", (event) => {
-          if (event.target === modal) {
+          if (
+            event.target === modal ||
+            event.target.classList.contains("bg-gray-500")
+          ) {
             modal.classList.add("hidden");
           }
         });

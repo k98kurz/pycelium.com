@@ -589,6 +589,11 @@ function createTableManager(config) {
       hideEmptyState();
       setControlsEnabled(true);
       renderTable();
+
+      const filterFieldSelect = document.getElementById(config.filterFieldId);
+      if (filterFieldSelect) {
+        populateValueSuggestions(filterFieldSelect.value);
+      }
     } catch (error) {
       showEmptyState();
       setControlsEnabled(true);
@@ -1102,6 +1107,10 @@ function initChartsConfigModal(config) {
       includeLegend: includeLegendCheckbox.checked,
       axisKey: xAxisSelect.value,
     });
+    const chartsContainer = document.getElementById("charts-container");
+    if (chartsContainer) {
+      chartsContainer.scrollIntoView({ behavior: "smooth" });
+    }
   });
 
   closeModalButton.addEventListener("click", closeModal);
@@ -1149,7 +1158,7 @@ function bandColor(c) {
 function makeComboKey(row) {
   const parts = [`${row.type_k ?? "null"}/${row.type_v ?? "null"}`];
   parts.push(`nkvo=${row.no_kv_offload}`);
-  parts.push(row.devices || "none");
+  parts.push(row.devices === "none" || !row.devices ? "CPU" : row.devices);
   if (row.n_cpu_moe && Number(row.n_cpu_moe) > 0) {
     parts.push(`cmoe=${row.n_cpu_moe}`);
   }
@@ -1169,7 +1178,7 @@ function makeSeriesKey(row, axisKey, hasMultipleModels) {
   if (axisKey !== "no_kv_offload") {
     parts.push(`nkvo=${row.no_kv_offload ?? "null"}`);
   }
-  parts.push(row.devices || "none");
+  parts.push(row.devices === "none" || !row.devices ? "CPU" : row.devices);
   if (axisKey !== "n_cpu_moe" && row.n_cpu_moe && Number(row.n_cpu_moe) > 0) {
     parts.push(`cmoe=${row.n_cpu_moe}`);
   }
