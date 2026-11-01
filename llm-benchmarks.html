@@ -247,8 +247,8 @@
           <ul class="list-disc list-inside space-y-1">
             <li>CPU: Ryzen 9 5950X</li>
             <li>RAM: 1x32GB 2400MHz DDR4 Corsair Vengeance</li>
-            <li>GPU0: RTX 3080 10GB</li>
-            <li>GPU1: RTX A2000 6GB</li>
+            <li>CUDA0: RTX 3080 10GB</li>
+            <li>CUDA1: RTX A2000 6GB</li>
             <li>PSU: MSI Mag A850GL (850W, 80 Plus Gold)</li>
             <li>Motherboard: MSI Mag B550 Tomahawk WiFi Max</li>
             <li>Machine name: Basilisk</li>
@@ -1064,6 +1064,92 @@ formattime() {
               id="closeColumnsModal"
               type="button"
               class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-gray-600 text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="chartsConfigModal"
+      class="hidden fixed z-50 inset-0 overflow-y-auto"
+      aria-labelledby="chartsConfigModalTitle"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0 sm:whitespace-nowrap"
+      >
+        <div
+          class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+          aria-hidden="true"
+        ></div>
+        <span
+          class="hidden sm:inline-block sm:align-middle sm:h-screen"
+          aria-hidden="true"
+          >&#8203;</span
+        >
+        <div
+          class="inline-block align-bottom bg-dark-secondary rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full sm:whitespace-normal"
+        >
+          <div class="bg-dark-secondary px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <h3
+              class="text-xl leading-6 font-medium text-white"
+              id="chartsConfigModalTitle"
+            >
+              Chart Configuration
+            </h3>
+            <div
+              id="chartsConfigModalContent"
+              class="mt-4 flex flex-col gap-y-4 md:flex-row md:items-center md:justify-between md:gap-x-4"
+            >
+              <div class="flex items-center gap-3">
+                <label
+                  for="chartsXAxis"
+                  class="text-sm text-white whitespace-nowrap"
+                  >X-axis</label
+                >
+                <select
+                  id="chartsXAxis"
+                  class="w-36 bg-gray-700 border border-gray-400 rounded px-3 py-2 text-sm text-white whitespace-nowrap"
+                >
+                  <option value="n_depth">Context Depth</option>
+                  <option value="no_kv_offload">NKVO</option>
+                  <option value="n_gpu_layers">NGL</option>
+                  <option value="n_cpu_moe">NCMOE</option>
+                </select>
+              </div>
+              <div class="flex items-center gap-3">
+                <label
+                  for="chartsIncludeLegend"
+                  class="text-sm text-white whitespace-nowrap"
+                  >Include Legend</label
+                >
+                <input
+                  id="chartsIncludeLegend"
+                  type="checkbox"
+                  checked
+                  class="h-5 w-5 rounded border border-gray-400 bg-gray-700"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="bg-dark-secondary px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
+          >
+            <button
+              id="chartsDoIt"
+              type="button"
+              class="mt-3 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-pycelium-purple text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm whitespace-nowrap"
+            >
+              Do It
+            </button>
+            <button
+              id="closeChartsConfigModal"
+              type="button"
+              class="mt-3 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-gray-600 text-base font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm whitespace-nowrap"
             >
               Close
             </button>

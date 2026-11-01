@@ -646,8 +646,12 @@ function createTableManager(config) {
       const makeChartsButton = document.getElementById(config.makeChartsId);
       if (makeChartsButton) {
         makeChartsButton.addEventListener("click", () => {
-          const selected = allRowsData.filter((r) => selectedRowIds.has(r._id));
-          renderMainCharts(selected);
+          if (config.onOpenChartsConfig) {
+            const selected = allRowsData.filter((r) =>
+              selectedRowIds.has(r._id),
+            );
+            config.onOpenChartsConfig(selected);
+          }
         });
       }
     }
@@ -977,6 +981,151 @@ function initColumnToggle(config) {
   });
 }
 
+function initChartsConfigModal(config) {
+  const modal = document.getElementById("chartsConfigModal");
+  const modalTitle = document.getElementById("chartsConfigModalTitle");
+  const modalContent = document.getElementById("chartsConfigModalContent");
+  const includeLegendCheckbox = document.getElementById("chartsIncludeLegend");
+  const xAxisSelect = document.getElementById("chartsXAxis");
+  const doItButton = document.getElementById("chartsDoIt");
+  const closeModalButton = document.getElementById("closeChartsConfigModal");
+  let lastFocusedElement = null;
+  let currentSelectedRows = [];
+
+  if (
+    !modal ||
+    !modalTitle ||
+    !modalContent ||
+    !closeModalButton ||
+    !includeLegendCheckbox ||
+    !xAxisSelect ||
+    !doItButton
+  ) {
+    return;
+  }
+
+  function getFocusableElements() {
+    return Array.from(
+      modal.querySelectorAll(
+        'button, input, textarea, select, a[href], [tabindex]:not([tabindex="-1"])',
+      ),
+    ).filter((el) => !el.hasAttribute("disabled") && el.offsetParent !== null);
+  }
+
+  function trapFocus(event) {
+    if (event.key !== "Tab") return;
+    const focusable = getFocusableElements();
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey) {
+      if (document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      }
+    } else if (document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
+  function closeModal() {
+    modal.classList.add("hidden");
+    if (lastFocusedElement) {
+      lastFocusedElement.focus();
+      lastFocusedElement = null;
+    }
+  }
+
+  function uniqueValuesForAxis(rows, axisKey) {
+    const values = new Set();
+    for (const row of rows) {
+      const v = row[axisKey];
+      if (v !== undefined && v !== null && String(v).trim() !== "") {
+        values.add(String(v));
+      }
+    }
+    return values;
+  }
+
+  function openModal(selectedRows) {
+    currentSelectedRows = selectedRows;
+    lastFocusedElement = document.activeElement;
+    includeLegendCheckbox.checked =
+      localStorage.getItem("chartsIncludeLegend") !== "false";
+
+    let selectedKey = "n_depth";
+    let firstEnabled = null;
+
+    Array.from(xAxisSelect.options).forEach((opt) => {
+      const uniqueCount = uniqueValuesForAxis(selectedRows, opt.value).size;
+      if (uniqueCount > 1) {
+        opt.disabled = false;
+        if (!firstEnabled) firstEnabled = opt.value;
+      } else {
+        opt.disabled = true;
+      }
+    });
+
+    const depthOpt = xAxisSelect.querySelector('option[value="n_depth"]');
+    const persistedAxis = localStorage.getItem("chartsXAxis");
+    const persistedOpt = persistedAxis
+      ? xAxisSelect.querySelector(`option[value="${persistedAxis}"]`)
+      : null;
+
+    if (persistedOpt && !persistedOpt.disabled) {
+      selectedKey = persistedAxis;
+    } else if (depthOpt && !depthOpt.disabled) {
+      selectedKey = "n_depth";
+    } else if (firstEnabled) {
+      selectedKey = firstEnabled;
+    } else {
+      selectedKey = null;
+    }
+
+    if (selectedKey) {
+      xAxisSelect.value = selectedKey;
+    }
+
+    modal.classList.remove("hidden");
+    closeModalButton.focus();
+  }
+
+  doItButton.addEventListener("click", () => {
+    localStorage.setItem(
+      "chartsIncludeLegend",
+      String(includeLegendCheckbox.checked),
+    );
+    localStorage.setItem("chartsXAxis", xAxisSelect.value);
+    closeModal();
+    renderMainCharts(currentSelectedRows, {
+      includeLegend: includeLegendCheckbox.checked,
+      axisKey: xAxisSelect.value,
+    });
+  });
+
+  closeModalButton.addEventListener("click", closeModal);
+
+  modal.addEventListener("click", (event) => {
+    if (
+      event.target === modal ||
+      event.target.classList.contains("bg-gray-500")
+    ) {
+      closeModal();
+    }
+  });
+
+  modal.addEventListener("keydown", trapFocus);
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !modal.classList.contains("hidden")) {
+      closeModal();
+    }
+  });
+
+  config.onOpenChartsConfig = (selectedRows) => openModal(selectedRows);
+}
+
 const CHART_COLORS = [
   "rgba(59, 130, 246, 1)",
   "rgba(147, 112, 187, 1)",
@@ -1007,7 +1156,45 @@ function makeComboKey(row) {
   return parts.join(" | ");
 }
 
-function renderMainCharts(selectedRows) {
+const AXIS_CONFIG = {
+  n_depth: { label: "Context Depth", numeric: true },
+  no_kv_offload: { label: "NKVO", numeric: false },
+  n_gpu_layers: { label: "NGL", numeric: true },
+  n_cpu_moe: { label: "NCMOE", numeric: true },
+};
+
+function makeSeriesKey(row, axisKey, hasMultipleModels) {
+  const modelPrefix = hasMultipleModels ? `${row.model} | ` : "";
+  const parts = [`${row.type_k ?? "null"}/${row.type_v ?? "null"}`];
+  if (axisKey !== "no_kv_offload") {
+    parts.push(`nkvo=${row.no_kv_offload ?? "null"}`);
+  }
+  parts.push(row.devices || "none");
+  if (axisKey !== "n_cpu_moe" && row.n_cpu_moe && Number(row.n_cpu_moe) > 0) {
+    parts.push(`cmoe=${row.n_cpu_moe}`);
+  }
+  return modelPrefix + parts.join(" | ");
+}
+
+function axisValues(rows, axisKey) {
+  const values = new Set();
+  for (const row of rows) {
+    const v = row[axisKey];
+    if (v !== undefined && v !== null && String(v).trim() !== "") {
+      values.add(String(v));
+    }
+  }
+  const arr = [...values];
+  const cfg = AXIS_CONFIG[axisKey];
+  if (cfg && cfg.numeric) {
+    return arr.sort((a, b) => Number(a) - Number(b));
+  }
+  return arr.sort();
+}
+
+function renderMainCharts(selectedRows, config) {
+  const includeLegend = config && config.includeLegend !== false;
+  const axisKey = config && config.axisKey ? config.axisKey : "n_depth";
   const container = document.getElementById("charts-container");
   if (!container) return;
   container.innerHTML = "";
@@ -1030,8 +1217,10 @@ function renderMainCharts(selectedRows) {
 
   models.forEach((model) => {
     const modelRows = selectedRows.filter((r) => r.model === model);
-    const combos = [...new Set(modelRows.map(makeComboKey))];
-    const minHeight = 540 + combos.length * 20;
+    const combos = [
+      ...new Set(modelRows.map((r) => makeSeriesKey(r, axisKey, false))),
+    ];
+    const minHeight = 540 + combos.length * 20 * (includeLegend ? 1.2 : 0.2);
 
     metrics.forEach((metric) => {
       const card = $new("div", {
@@ -1044,130 +1233,107 @@ function renderMainCharts(selectedRows) {
       card.appendChild(canvas);
       container.appendChild(card);
 
-      renderChartForMetric(canvas, modelRows, metric.key, model);
+      renderChartForMetric(
+        canvas,
+        modelRows,
+        metric.key,
+        model,
+        includeLegend,
+        axisKey,
+      );
     });
   });
 }
 
-function renderChartForMetric(canvas, selectedRows, metricKey, modelName) {
-  const models = new Set(selectedRows.map((r) => r.model));
-  const depths = new Set(
-    selectedRows.map((r) => Number(r.n_depth)).filter((n) => !Number.isNaN(n)),
-  );
-
-  const hasMultipleModels = models.size > 1;
-  const hasMultipleDepths = depths.size > 1;
+function renderChartForMetric(
+  canvas,
+  selectedRows,
+  metricKey,
+  modelName,
+  includeLegend,
+  axisKey,
+) {
+  axisKey = axisKey || "n_depth";
 
   if (canvas._chart) {
     canvas._chart.destroy();
     canvas._chart = null;
   }
 
-  const combos = [...new Set(selectedRows.map(makeComboKey))];
+  const axisValuesList = axisValues(selectedRows, axisKey);
+  const combos = [
+    ...new Set(selectedRows.map((r) => makeSeriesKey(r, axisKey, false))),
+  ];
 
-  let labels;
-  let seriesData;
+  const labels = axisValuesList.map((v) => String(v));
 
-  if (hasMultipleModels && !hasMultipleDepths) {
-    labels = [...models];
-    seriesData = combos.map((combo) => {
-      const points = selectedRows
-        .filter((r) => makeComboKey(r) === combo)
-        .map((r) => ({
-          model: r.model,
-          value: Number(r[metricKey]) || 0,
-        }));
-      return {
-        label: combo,
-        x: points.map((p) => p.model),
-        y: points.map((p) => p.value),
-      };
+  const seriesData = combos.map((combo) => {
+    const pts = selectedRows
+      .filter((r) => makeSeriesKey(r, axisKey, false) === combo)
+      .map((r) => ({
+        axisVal: String(r[axisKey]),
+        value: Number(r[metricKey]) || 0,
+        std: Number(r[`${metricKey}_stddev`]) || 0,
+      }));
+    const yVals = axisValuesList.map((av) => {
+      const found = pts.find((p) => p.axisVal === av);
+      return found ? found.value : null;
     });
-  } else {
-    const depthValues = [...depths].sort((a, b) => a - b);
-    labels = depthValues.map((d) => String(d));
-    seriesData = combos.map((combo) => {
-      const pts = selectedRows
-        .filter((r) => makeComboKey(r) === combo)
-        .map((r) => ({
-          depth: Number(r.n_depth),
-          value: Number(r[metricKey]) || 0,
-          std: Number(r[`${metricKey}_stddev`]) || 0,
-        }));
-      const yVals = depthValues.map((d) => {
-        const found = pts.find((p) => p.depth === d);
-        return found ? found.value : null;
-      });
-      const yStd = depthValues.map((d) => {
-        const found = pts.find((p) => p.depth === d);
-        return found ? found.std : 0;
-      });
-      const yUpper = yVals.map((v, i) => (v === null ? null : v + yStd[i]));
-      const yLower = yVals.map((v, i) =>
-        v === null ? null : Math.max(0, v - yStd[i]),
-      );
-      return {
-        label: combo,
-        x: depthValues.map((d) => String(d)),
-        y: yVals,
-        upper: yUpper,
-        lower: yLower,
-      };
+    const yStd = axisValuesList.map((av) => {
+      const found = pts.find((p) => p.axisVal === av);
+      return found ? found.std : 0;
     });
-  }
+    const yUpper = yVals.map((v, i) => (v === null ? null : v + yStd[i]));
+    const yLower = yVals.map((v, i) =>
+      v === null ? null : Math.max(0, v - yStd[i]),
+    );
+    return {
+      label: combo,
+      x: axisValuesList.map((av) => String(av)),
+      y: yVals,
+      upper: yUpper,
+      lower: yLower,
+    };
+  });
 
   const finalDatasets = [];
-  const isLine = !(hasMultipleModels && !hasMultipleDepths);
 
-  if (isLine) {
-    seriesData.forEach((s, i) => {
-      const color = CHART_COLORS[i % CHART_COLORS.length];
-      finalDatasets.push({
-        label: s.label,
-        data: s.x.map((x, j) => ({ x, y: s.y[j] })),
-        type: "line",
-        borderColor: color,
-        backgroundColor: color,
-        fill: "none",
-        borderWidth: 2,
-        pointRadius: 4,
-        pointBackgroundColor: color,
-      });
-      finalDatasets.push({
-        label: `${s.label} (max)`,
-        data: s.x.map((x, j) => ({ x, y: s.upper[j] })),
-        type: "line",
-        borderColor: "transparent",
-        backgroundColor: bandColor(color),
-        fill: "+1",
-        borderWidth: 0,
-        pointRadius: 0,
-        showInLegend: false,
-      });
-      finalDatasets.push({
-        label: `${s.label} (min)`,
-        data: s.x.map((x, j) => ({ x, y: s.lower[j] })),
-        type: "line",
-        borderColor: "transparent",
-        backgroundColor: "transparent",
-        fill: false,
-        borderWidth: 0,
-        pointRadius: 0,
-        showInLegend: false,
-      });
+  seriesData.forEach((s, i) => {
+    const color = CHART_COLORS[i % CHART_COLORS.length];
+    finalDatasets.push({
+      label: s.label,
+      data: s.x.map((x, j) => ({ x, y: s.y[j] })),
+      type: "line",
+      borderColor: color,
+      backgroundColor: color,
+      fill: "none",
+      borderWidth: 2,
+      pointRadius: 4,
+      pointBackgroundColor: color,
     });
-  } else {
-    seriesData.forEach((s, i) => {
-      const color = CHART_COLORS[i % CHART_COLORS.length];
-      finalDatasets.push({
-        label: s.label,
-        data: s.x.map((x, j) => ({ x, y: s.y[j] })),
-        type: "bar",
-        backgroundColor: color,
-        borderColor: color,
-      });
+    finalDatasets.push({
+      label: `${s.label} (max)`,
+      data: s.x.map((x, j) => ({ x, y: s.upper[j] })),
+      type: "line",
+      borderColor: "transparent",
+      backgroundColor: bandColor(color),
+      fill: "+1",
+      borderWidth: 0,
+      pointRadius: 0,
+      showInLegend: false,
     });
-  }
+    finalDatasets.push({
+      label: `${s.label} (min)`,
+      data: s.x.map((x, j) => ({ x, y: s.lower[j] })),
+      type: "line",
+      borderColor: "transparent",
+      backgroundColor: "transparent",
+      fill: false,
+      borderWidth: 0,
+      pointRadius: 0,
+      showInLegend: false,
+    });
+  });
 
   canvas._chart = new Chart(canvas, {
     data: {
@@ -1200,7 +1366,7 @@ function renderChartForMetric(canvas, selectedRows, metricKey, modelName) {
           padding: { bottom: 24 },
         },
         legend: {
-          display: true,
+          display: includeLegend !== false,
           position: "bottom",
           align: "start",
           labels: {
@@ -1217,7 +1383,7 @@ function renderChartForMetric(canvas, selectedRows, metricKey, modelName) {
           type: "category",
           title: {
             display: true,
-            text: "Context Depth",
+            text: AXIS_CONFIG[axisKey].label,
             color: "#fff",
             font: { size: 12 },
           },
@@ -1267,6 +1433,7 @@ const mainTable = createTableManager({
   columnsModalId: "columnsModal",
   columnsModalContentId: "columnsModalContent",
   closeColumnsModalId: "closeColumnsModal",
+  onOpenChartsConfig: null,
 });
 
 const failedTable = createTableManager({
@@ -1291,6 +1458,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (mainTable.config.showColumnToggle) {
     initColumnToggle(mainTable.config);
   }
+  initChartsConfigModal(mainTable.config);
   mainTable.bindEvents();
   failedTable.bindEvents();
   mainTable.loadData();
