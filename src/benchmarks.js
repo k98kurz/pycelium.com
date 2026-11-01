@@ -33,6 +33,9 @@ function $new(element, options) {
 }
 
 function isNumericField(field) {
+  if (field === "pp_ts" || field === "tg_ts") {
+    return true;
+  }
   const found = filterFields.find((item) => item.key === field);
   return found ? found.numeric : false;
 }
@@ -156,14 +159,39 @@ function createTableManager(config) {
   }
 
   function matchesFilter(row, filter) {
-    const actual = row[filter.field];
+    const actual = String(row[filter.field] ?? "").trim();
     const expected = String(filter.value).trim();
-    if (filter.numeric) {
-      return String(actual).trim() === expected;
+    if (filter.field === "model") {
+      return actual.toLowerCase().includes(expected.toLowerCase());
     }
-    return String(actual ?? "")
-      .toLowerCase()
-      .includes(expected.toLowerCase());
+    return actual.toLowerCase() === expected.toLowerCase();
+  }
+
+  function fieldValues(field) {
+    const values = new Set();
+    for (const row of allRowsData) {
+      const value = row[field];
+      if (value !== undefined && value !== null && value !== "") {
+        values.add(String(value));
+      }
+    }
+    const sorted = [...values];
+    if (isNumericField(field)) {
+      return sorted.sort((a, b) => Number(a) - Number(b));
+    }
+    return sorted.sort((a, b) => a.localeCompare(b));
+  }
+
+  function populateValueSuggestions(field) {
+    const list = document.getElementById(config.filterValueListId);
+    if (!list) {
+      return;
+    }
+    list.innerHTML = "";
+    for (const value of fieldValues(field)) {
+      const option = $new("option", { value });
+      list.appendChild(option);
+    }
   }
 
   function updateSelectAllState() {
@@ -488,6 +516,14 @@ function createTableManager(config) {
   function bindEvents() {
     populateFieldDropdown();
 
+    const filterFieldSelect = document.getElementById(config.filterFieldId);
+    if (filterFieldSelect) {
+      populateValueSuggestions(filterFieldSelect.value);
+      filterFieldSelect.addEventListener("change", () => {
+        populateValueSuggestions(filterFieldSelect.value);
+      });
+    }
+
     const selectAll = document.getElementById(config.selectAllId);
     if (selectAll) {
       selectAll.addEventListener("change", () => {
@@ -685,6 +721,7 @@ const mainTable = createTableManager({
   selectAllId: "select-all-visible",
   filterInputId: "filter-input",
   filterFieldId: "filter-field",
+  filterValueListId: "filter-values",
   addFilterId: "add-filter",
   resetFiltersId: "reset-filters",
   makeChartsId: "make-charts",
@@ -700,6 +737,7 @@ const failedTable = createTableManager({
   selectAllId: "failed-select-all-visible",
   filterInputId: "failed-filter-input",
   filterFieldId: "failed-filter-field",
+  filterValueListId: "failed-filter-values",
   addFilterId: "failed-add-filter",
   resetFiltersId: "failed-reset-filters",
   tagsId: "failed-filter-tags",
