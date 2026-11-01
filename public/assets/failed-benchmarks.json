@@ -11,7 +11,9 @@
     "no_kv_offload": false,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -25,7 +27,9 @@
     "no_kv_offload": true,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -39,7 +43,9 @@
     "no_kv_offload": false,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -53,7 +59,9 @@
     "no_kv_offload": true,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -67,7 +75,9 @@
     "no_kv_offload": false,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -81,7 +91,9 @@
     "no_kv_offload": true,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -95,7 +107,9 @@
     "no_kv_offload": false,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -109,7 +123,9 @@
     "no_kv_offload": true,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -123,7 +139,9 @@
     "no_kv_offload": false,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -137,7 +155,9 @@
     "no_kv_offload": true,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -151,7 +171,9 @@
     "no_kv_offload": false,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -165,7 +187,9 @@
     "no_kv_offload": true,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -179,7 +203,9 @@
     "no_kv_offload": false,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -193,7 +219,9 @@
     "no_kv_offload": true,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -207,7 +235,9 @@
     "no_kv_offload": false,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -221,7 +251,9 @@
     "no_kv_offload": true,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -235,7 +267,9 @@
     "no_kv_offload": false,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -249,7 +283,9 @@
     "no_kv_offload": true,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -263,7 +299,9 @@
     "no_kv_offload": false,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -277,7 +315,9 @@
     "no_kv_offload": true,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -291,7 +331,9 @@
     "no_kv_offload": false,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -305,7 +347,9 @@
     "no_kv_offload": true,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -319,7 +363,9 @@
     "no_kv_offload": false,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -333,7 +379,9 @@
     "no_kv_offload": true,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -347,7 +395,9 @@
     "no_kv_offload": false,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -361,7 +411,9 @@
     "no_kv_offload": true,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -375,7 +427,9 @@
     "no_kv_offload": false,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -389,7 +443,9 @@
     "no_kv_offload": true,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -403,7 +459,9 @@
     "no_kv_offload": false,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -417,7 +475,9 @@
     "no_kv_offload": true,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -431,7 +491,9 @@
     "no_kv_offload": false,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -445,7 +507,9 @@
     "no_kv_offload": true,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -459,7 +523,9 @@
     "no_kv_offload": false,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -473,7 +539,9 @@
     "no_kv_offload": true,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -487,7 +555,9 @@
     "no_kv_offload": false,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -501,7 +571,9 @@
     "no_kv_offload": true,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -515,7 +587,9 @@
     "no_kv_offload": false,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -529,7 +603,9 @@
     "no_kv_offload": true,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -543,7 +619,9 @@
     "no_kv_offload": false,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -557,7 +635,9 @@
     "no_kv_offload": true,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -571,7 +651,9 @@
     "no_kv_offload": false,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -585,7 +667,9 @@
     "no_kv_offload": true,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -599,7 +683,9 @@
     "no_kv_offload": false,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -613,7 +699,9 @@
     "no_kv_offload": true,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -627,7 +715,9 @@
     "no_kv_offload": false,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -641,7 +731,9 @@
     "no_kv_offload": true,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -655,7 +747,9 @@
     "no_kv_offload": false,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Cyber-Tiel-Coder-35B-A3B-UD-Q4_K_M",
@@ -669,7 +763,9 @@
     "no_kv_offload": true,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -683,7 +779,9 @@
     "no_kv_offload": false,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -697,7 +795,9 @@
     "no_kv_offload": true,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -711,7 +811,9 @@
     "no_kv_offload": false,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -725,7 +827,9 @@
     "no_kv_offload": true,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -739,7 +843,9 @@
     "no_kv_offload": false,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -753,7 +859,9 @@
     "no_kv_offload": true,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -767,7 +875,9 @@
     "no_kv_offload": false,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -781,7 +891,9 @@
     "no_kv_offload": true,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -795,7 +907,9 @@
     "no_kv_offload": false,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -809,7 +923,9 @@
     "no_kv_offload": true,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -823,7 +939,9 @@
     "no_kv_offload": false,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -837,7 +955,9 @@
     "no_kv_offload": true,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -851,7 +971,9 @@
     "no_kv_offload": false,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -865,7 +987,9 @@
     "no_kv_offload": true,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -879,7 +1003,9 @@
     "no_kv_offload": false,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -893,7 +1019,9 @@
     "no_kv_offload": true,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -907,7 +1035,9 @@
     "no_kv_offload": false,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -921,7 +1051,9 @@
     "no_kv_offload": true,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -935,7 +1067,9 @@
     "no_kv_offload": false,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -949,7 +1083,9 @@
     "no_kv_offload": true,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -963,7 +1099,9 @@
     "no_kv_offload": false,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -977,7 +1115,9 @@
     "no_kv_offload": true,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -991,7 +1131,9 @@
     "no_kv_offload": false,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1005,7 +1147,9 @@
     "no_kv_offload": true,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1019,7 +1163,9 @@
     "no_kv_offload": false,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1033,7 +1179,9 @@
     "no_kv_offload": true,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1047,7 +1195,9 @@
     "no_kv_offload": false,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1061,7 +1211,9 @@
     "no_kv_offload": true,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1075,7 +1227,9 @@
     "no_kv_offload": false,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1089,7 +1243,9 @@
     "no_kv_offload": true,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1103,7 +1259,9 @@
     "no_kv_offload": false,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1117,7 +1275,9 @@
     "no_kv_offload": true,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1131,7 +1291,9 @@
     "no_kv_offload": false,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1145,7 +1307,9 @@
     "no_kv_offload": true,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1159,7 +1323,9 @@
     "no_kv_offload": false,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1173,7 +1339,9 @@
     "no_kv_offload": true,
     "n_depth": 0,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1187,7 +1355,9 @@
     "no_kv_offload": false,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1201,7 +1371,9 @@
     "no_kv_offload": true,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1215,7 +1387,9 @@
     "no_kv_offload": false,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1229,7 +1403,9 @@
     "no_kv_offload": true,
     "n_depth": 32768,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1243,7 +1419,9 @@
     "no_kv_offload": false,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1257,7 +1435,9 @@
     "no_kv_offload": true,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1271,7 +1451,9 @@
     "no_kv_offload": false,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1285,7 +1467,9 @@
     "no_kv_offload": true,
     "n_depth": 65536,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1299,7 +1483,9 @@
     "no_kv_offload": false,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1313,7 +1499,9 @@
     "no_kv_offload": true,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1327,7 +1515,9 @@
     "no_kv_offload": false,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   },
   {
     "model": "Gemma4-26B-A4B-QAT-Uncensored-HauhauCS-Balanced-Q4_K_M",
@@ -1341,6 +1531,8 @@
     "no_kv_offload": true,
     "n_depth": 131072,
     "pp_ts": "",
-    "tg_ts": ""
+    "tg_ts": "",
+    "pp_ts_stddev": "",
+    "tg_ts_stddev": ""
   }
 ]

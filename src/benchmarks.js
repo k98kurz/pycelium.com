@@ -14,6 +14,82 @@ const filterFields = [
   { key: "n_depth", label: "Depth", numeric: true },
 ];
 
+const resultColumnKeys = ["pp_ts", "tg_ts", "pp_ts_stddev", "tg_ts_stddev"];
+
+const columns = [
+  { key: "__select__", label: "Select", numeric: false, toggleable: false },
+  { key: "model", label: "Model", numeric: false, defaultVisible: true },
+  { key: "devices", label: "Device", numeric: false, defaultVisible: true },
+  {
+    key: "n_gpu_layers",
+    label: "GPU Layers",
+    numeric: true,
+    defaultVisible: true,
+  },
+  { key: "n_cpu_moe", label: "CPU MoE", numeric: true, defaultVisible: true },
+  {
+    key: "split_mode",
+    label: "Split Mode",
+    numeric: false,
+    defaultVisible: true,
+  },
+  { key: "n_threads", label: "Threads", numeric: true, defaultVisible: true },
+  { key: "type_k", label: "K Quant", numeric: false, defaultVisible: true },
+  { key: "type_v", label: "V Quant", numeric: false, defaultVisible: true },
+  { key: "no_kv_offload", label: "NKVO", numeric: false, defaultVisible: true },
+  { key: "n_depth", label: "Depth", numeric: true, defaultVisible: true },
+  { key: "pp_ts", label: "PP t/s", numeric: true, defaultVisible: true },
+  { key: "tg_ts", label: "TG t/s", numeric: true, defaultVisible: true },
+  {
+    key: "pp_ts_stddev",
+    label: "PP t/s σ",
+    numeric: true,
+    defaultVisible: false,
+  },
+  {
+    key: "tg_ts_stddev",
+    label: "TG t/s σ",
+    numeric: true,
+    defaultVisible: false,
+  },
+];
+
+const COLUMN_VISIBILITY_KEY = "pycelium:benchmarks-column-visibility";
+
+function defaultColumnVisibility() {
+  const visibility = {};
+  columns.forEach((col) => {
+    visibility[col.key] = col.defaultVisible !== false;
+  });
+  return visibility;
+}
+
+function loadColumnVisibility() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(COLUMN_VISIBILITY_KEY));
+    if (stored && typeof stored === "object") {
+      const visibility = defaultColumnVisibility();
+      for (const key of Object.keys(visibility)) {
+        if (key in stored) {
+          visibility[key] = !!stored[key];
+        }
+      }
+      return visibility;
+    }
+  } catch (error) {
+    // ignore malformed storage
+  }
+  return defaultColumnVisibility();
+}
+
+function saveColumnVisibility(visibility) {
+  try {
+    localStorage.setItem(COLUMN_VISIBILITY_KEY, JSON.stringify(visibility));
+  } catch (error) {
+    // ignore storage failures
+  }
+}
+
 let globalFilterIdCounter = 0;
 
 function $(selector) {
@@ -33,7 +109,12 @@ function $new(element, options) {
 }
 
 function isNumericField(field) {
-  if (field === "pp_ts" || field === "tg_ts") {
+  if (
+    field === "pp_ts" ||
+    field === "tg_ts" ||
+    field === "pp_ts_stddev" ||
+    field === "tg_ts_stddev"
+  ) {
     return true;
   }
   const found = filterFields.find((item) => item.key === field);
@@ -60,12 +141,14 @@ function normalizeRow(row, index) {
     n_depth: row.n_depth ?? row.depth ?? "",
     pp_ts: row.pp_ts ?? "",
     tg_ts: row.tg_ts ?? "",
+    pp_ts_stddev: row.pp_ts_stddev ?? "",
+    tg_ts_stddev: row.tg_ts_stddev ?? "",
   };
 }
 
 function createTableManager(config) {
   let allRowsData = [];
-  let originalRowOrder = [];
+  let rowOrderIndices = {};
   let activeFilters = [];
   let currentSortColumn = -1;
   let currentSortDirection = "none";
@@ -284,8 +367,8 @@ function createTableManager(config) {
       }
     } else {
       visibleRows.sort((rowA, rowB) => {
-        const indexA = originalRowOrder.indexOf(rowA);
-        const indexB = originalRowOrder.indexOf(rowB);
+        const indexA = rowOrderIndices[Number(rowA.dataset.rowId)];
+        const indexB = rowOrderIndices[Number(rowB.dataset.rowId)];
         return indexA - indexB;
       });
     }
@@ -340,50 +423,57 @@ function createTableManager(config) {
     }
   }
 
+  function columnValues(row) {
+    return columns
+      .filter((col) => col.key !== "__select__")
+      .filter((col) => !resultColumnKeys.includes(col.key) || config.hasResults)
+      .map((col) => ({ field: col.key, value: row[col.key] ?? "" }));
+  }
+
+  function applyColumnVisibility() {
+    const visible = loadColumnVisibility();
+    const cells = document.querySelectorAll(
+      `#${config.tableId} thead th, #${config.tableId} tbody td`,
+    );
+    cells.forEach((cell) => {
+      const field = cell.dataset.field;
+      if (field && Object.prototype.hasOwnProperty.call(visible, field)) {
+        cell.classList.toggle("column-hidden", !visible[field]);
+      }
+    });
+  }
+
   function renderTable() {
     const tbody = document.querySelector(`#${config.tableId} > tbody`);
     if (!tbody) {
       return;
     }
     tbody.innerHTML = "";
-    originalRowOrder = [];
+    rowOrderIndices = {};
+    let orderIndex = 0;
 
     allRowsData.forEach((row) => {
       const tr = $new("tr", { className: "benchmark-row" });
       tr.dataset.rowId = row._id;
 
       if (config.hasSelection === false) {
-        const values = [
-          row.model,
-          row.devices,
-          row.n_gpu_layers,
-          row.n_cpu_moe,
-          row.split_mode,
-          row.n_threads,
-          row.type_k,
-          row.type_v,
-          row.no_kv_offload,
-          row.n_depth,
-        ];
-
-        if (config.hasResults) {
-          values.push(row.pp_ts, row.tg_ts);
-        }
-
-        values.forEach((value) => {
+        columnValues(row).forEach(({ field, value }) => {
           const cell = document.createElement("td");
           cell.className =
             "px-2 text-left border border-gray-300 dark:border-gray-700 bg-gray-900 bg-opacity-30";
+          cell.dataset.field = field;
           cell.textContent = value ?? "";
           tr.appendChild(cell);
         });
 
         tbody.appendChild(tr);
-        originalRowOrder.push(tr);
+        rowOrderIndices[row._id] = orderIndex;
+        orderIndex++;
         return;
       }
 
       const checkboxCell = document.createElement("td");
+      checkboxCell.dataset.field = "__select__";
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
       checkbox.checked = selectedRowIds.has(row._id);
@@ -393,44 +483,34 @@ function createTableManager(config) {
       checkboxCell.appendChild(checkbox);
       tr.appendChild(checkboxCell);
 
-      const values = [
-        row.model,
-        row.devices,
-        row.n_gpu_layers,
-        row.n_cpu_moe,
-        row.split_mode,
-        row.n_threads,
-        row.type_k,
-        row.type_v,
-        row.no_kv_offload,
-        row.n_depth,
-      ];
-
-      if (config.hasResults) {
-        values.push(row.pp_ts, row.tg_ts);
-      }
-
-      values.forEach((value) => {
+      columnValues(row).forEach(({ field, value }) => {
         const cell = document.createElement("td");
         cell.className =
           "px-2 text-left border border-gray-300 dark:border-gray-700 bg-gray-900 bg-opacity-30";
+        cell.dataset.field = field;
         cell.textContent = value ?? "";
         tr.appendChild(cell);
       });
 
       tbody.appendChild(tr);
-      originalRowOrder.push(tr);
+      rowOrderIndices[row._id] = orderIndex;
+      orderIndex++;
     });
 
     const headers = document.querySelectorAll(`#${config.tableId} thead th`);
     headers.forEach((header, index) => {
-      if (header.dataset.field && !header.dataset.bound) {
+      if (
+        header.dataset.field &&
+        header.dataset.field !== "__select__" &&
+        !header.dataset.bound
+      ) {
         header.dataset.bound = "true";
         header.addEventListener("click", () => handleHeaderClick(index));
       }
     });
 
     applyFilterAndSort();
+    applyColumnVisibility();
   }
 
   function addFilter() {
@@ -583,6 +663,7 @@ function createTableManager(config) {
   return {
     bindEvents,
     loadData,
+    config,
   };
 }
 
@@ -591,16 +672,47 @@ function initScriptModal() {
   const modalTitle = document.getElementById("scriptModalTitle");
   const modalContent = document.getElementById("scriptModalContent");
   const closeModalButton = document.getElementById("closeScriptModal");
+  let lastFocusedElement = null;
 
   if (!modal || !modalTitle || !modalContent || !closeModalButton) {
     return;
   }
 
+  function getFocusableElements() {
+    return Array.from(
+      modal.querySelectorAll(
+        'button, input, textarea, select, a[href], [tabindex]:not([tabindex="-1"])',
+      ),
+    ).filter((el) => !el.hasAttribute("disabled") && el.offsetParent !== null);
+  }
+
+  function trapFocus(event) {
+    if (event.key !== "Tab") return;
+    const focusable = getFocusableElements();
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey) {
+      if (document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      }
+    } else if (document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
   function closeModal() {
     modal.classList.add("hidden");
+    if (lastFocusedElement) {
+      lastFocusedElement.focus();
+      lastFocusedElement = null;
+    }
   }
 
   function openModal(scriptKey, title) {
+    lastFocusedElement = document.activeElement;
     const templateId = `${scriptKey}-script-template`;
     const template = document.getElementById(templateId);
     if (!template) {
@@ -612,6 +724,7 @@ function initScriptModal() {
       scriptKey.replace(/-/g, " ").replace(/^\w/, (c) => c.toUpperCase());
     modalContent.replaceChildren(template.content.cloneNode(true));
     modal.classList.remove("hidden");
+    closeModalButton.focus();
   }
 
   document.querySelectorAll("[data-script]").forEach((button) => {
@@ -623,10 +736,15 @@ function initScriptModal() {
   closeModalButton.addEventListener("click", closeModal);
 
   modal.addEventListener("click", (event) => {
-    if (event.target === modal) {
+    if (
+      event.target === modal ||
+      event.target.classList.contains("bg-gray-500")
+    ) {
       closeModal();
     }
   });
+
+  modal.addEventListener("keydown", trapFocus);
 
   window.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !modal.classList.contains("hidden")) {
@@ -640,6 +758,7 @@ function initMarkdownModal() {
   const modalTitle = document.getElementById("mdModalTitle");
   const modalContent = document.getElementById("mdModalContent");
   const closeModalButton = document.getElementById("closeMdModal");
+  let lastFocusedElement = null;
 
   // Find all open-md-modal buttons (one per markdown doc)
   const buttons = document.querySelectorAll(".open-md-modal");
@@ -654,15 +773,46 @@ function initMarkdownModal() {
     return;
   }
 
+  function getFocusableElements() {
+    return Array.from(
+      modal.querySelectorAll(
+        'button, input, textarea, select, a[href], [tabindex]:not([tabindex="-1"])',
+      ),
+    ).filter((el) => !el.hasAttribute("disabled") && el.offsetParent !== null);
+  }
+
+  function trapFocus(event) {
+    if (event.key !== "Tab") return;
+    const focusable = getFocusableElements();
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey) {
+      if (document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      }
+    } else if (document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
   function closeModal() {
     modal.classList.add("hidden");
+    if (lastFocusedElement) {
+      lastFocusedElement.focus();
+      lastFocusedElement = null;
+    }
   }
 
   async function openModal(path, title) {
+    lastFocusedElement = document.activeElement;
     modalTitle.textContent = title;
     modalContent.innerHTML = '<div class="spinner"></div>';
     modalContent.classList.remove("markdown-body");
     modal.classList.remove("hidden");
+    closeModalButton.focus();
 
     try {
       const response = await fetch(path);
@@ -702,11 +852,121 @@ function initMarkdownModal() {
   closeModalButton.addEventListener("click", closeModal);
 
   modal.addEventListener("click", (event) => {
-    if (event.target === modal) {
+    if (
+      event.target === modal ||
+      event.target.classList.contains("bg-gray-500")
+    ) {
       closeModal();
     }
   });
 
+  modal.addEventListener("keydown", trapFocus);
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !modal.classList.contains("hidden")) {
+      closeModal();
+    }
+  });
+}
+
+function initColumnToggle(config) {
+  let visibility = loadColumnVisibility();
+  let lastFocusedElement = null;
+
+  function setColumnVisible(field, visible) {
+    visibility[field] = visible;
+    saveColumnVisibility(visibility);
+    const cells = document.querySelectorAll(
+      `#${config.tableId} thead th[data-field="${field}"], #${config.tableId} tbody td[data-field="${field}"]`,
+    );
+    cells.forEach((cell) => {
+      cell.classList.toggle("column-hidden", !visible);
+    });
+  }
+
+  const openButton = document.getElementById(config.openColumnsId);
+  const modal = document.getElementById(config.columnsModalId);
+  const content = document.getElementById(config.columnsModalContentId);
+  const closeButton = document.getElementById(config.closeColumnsModalId);
+
+  if (!openButton || !modal || !content || !closeButton) {
+    return;
+  }
+
+  function getFocusableElements() {
+    return Array.from(
+      modal.querySelectorAll(
+        'button, input, textarea, select, a[href], [tabindex]:not([tabindex="-1"])',
+      ),
+    ).filter((el) => !el.hasAttribute("disabled") && el.offsetParent !== null);
+  }
+
+  function trapFocus(event) {
+    if (event.key !== "Tab") return;
+    const focusable = getFocusableElements();
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey) {
+      if (document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      }
+    } else if (document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
+  function buildModal() {
+    lastFocusedElement = document.activeElement;
+    content.innerHTML = "";
+    const grid = document.createElement("div");
+    grid.className = "grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2";
+    columns.forEach((col) => {
+      if (col.toggleable === false) {
+        return;
+      }
+      const label = document.createElement("label");
+      label.className =
+        "flex items-center gap-2 text-light-text cursor-pointer hover:bg-dark-background hover-opacity-20 rounded px-2 py-1";
+      const input = document.createElement("input");
+      input.type = "checkbox";
+      input.checked = visibility[col.key] !== false;
+      input.addEventListener("change", () => {
+        setColumnVisible(col.key, input.checked);
+      });
+      const text = document.createElement("span");
+      text.className = "text-sm";
+      text.textContent = col.label;
+      label.appendChild(input);
+      label.appendChild(text);
+      grid.appendChild(label);
+    });
+    content.appendChild(grid);
+    modal.classList.remove("hidden");
+    closeButton.focus();
+  }
+
+  function closeModal() {
+    modal.classList.add("hidden");
+    if (lastFocusedElement) {
+      lastFocusedElement.focus();
+      lastFocusedElement = null;
+    }
+  }
+
+  openButton.addEventListener("click", buildModal);
+  closeButton.addEventListener("click", closeModal);
+  modal.addEventListener("click", (event) => {
+    if (
+      event.target === modal ||
+      event.target.classList.contains("bg-gray-500")
+    ) {
+      closeModal();
+    }
+  });
+  modal.addEventListener("keydown", trapFocus);
   window.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !modal.classList.contains("hidden")) {
       closeModal();
@@ -728,6 +988,11 @@ const mainTable = createTableManager({
   tagsId: "filter-tags",
   hasResults: true,
   hasSelection: true,
+  showColumnToggle: true,
+  openColumnsId: "open-columns",
+  columnsModalId: "columnsModal",
+  columnsModalContentId: "columnsModalContent",
+  closeColumnsModalId: "closeColumnsModal",
 });
 
 const failedTable = createTableManager({
@@ -743,11 +1008,15 @@ const failedTable = createTableManager({
   tagsId: "failed-filter-tags",
   hasResults: false,
   hasSelection: false,
+  showColumnToggle: false,
 });
 
 document.addEventListener("DOMContentLoaded", () => {
   initScriptModal();
   initMarkdownModal();
+  if (mainTable.config.showColumnToggle) {
+    initColumnToggle(mainTable.config);
+  }
   mainTable.bindEvents();
   failedTable.bindEvents();
   mainTable.loadData();
