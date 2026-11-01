@@ -1,4 +1,6 @@
 import "./input.css";
+import "chart.js/auto";
+import { Chart } from "chart.js";
 import MarkdownWorker from "./markdown-renderer.mjs?worker";
 
 const filterFields = [
@@ -644,7 +646,8 @@ function createTableManager(config) {
       const makeChartsButton = document.getElementById(config.makeChartsId);
       if (makeChartsButton) {
         makeChartsButton.addEventListener("click", () => {
-          alert("Coming soon");
+          const selected = allRowsData.filter((r) => selectedRowIds.has(r._id));
+          renderMainCharts(selected);
         });
       }
     }
@@ -971,6 +974,277 @@ function initColumnToggle(config) {
     if (event.key === "Escape" && !modal.classList.contains("hidden")) {
       closeModal();
     }
+  });
+}
+
+const CHART_COLORS = [
+  "rgba(59, 130, 246, 1)",
+  "rgba(147, 112, 187, 1)",
+  "rgba(16, 185, 141, 1)",
+  "rgba(234, 89, 77, 1)",
+  "rgba(234, 179, 16, 1)",
+  "rgba(93, 175, 166, 1)",
+];
+
+function bandColor(c) {
+  const m = c.match(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*\d+\)/);
+  if (m) {
+    const r = Math.min(255, parseInt(m[1], 10) + 50);
+    const g = Math.min(255, parseInt(m[2], 10) + 40);
+    const b = Math.min(255, parseInt(m[3], 10) + 30);
+    return `rgba(${r}, ${g}, ${b}, 0.1)`;
+  }
+  return c;
+}
+
+function makeComboKey(row) {
+  const parts = [`${row.type_k ?? "null"}/${row.type_v ?? "null"}`];
+  parts.push(`nkvo=${row.no_kv_offload}`);
+  parts.push(row.devices || "none");
+  if (row.n_cpu_moe && Number(row.n_cpu_moe) > 0) {
+    parts.push(`cmoe=${row.n_cpu_moe}`);
+  }
+  return parts.join(" | ");
+}
+
+function renderMainCharts(selectedRows) {
+  const container = document.getElementById("charts-container");
+  if (!container) return;
+  container.innerHTML = "";
+
+  if (!selectedRows || selectedRows.length === 0) {
+    const msg = $new("div", { className: "text-dark-text text-center py-8" });
+    msg.textContent = "Select rows first, then click Make Charts.";
+    container.appendChild(msg);
+    return;
+  }
+
+  const models = [
+    ...new Set(selectedRows.map((r) => r.model).filter(Boolean)),
+  ].sort();
+
+  const metrics = [
+    { key: "pp_ts", title: "Prompt Processing" },
+    { key: "tg_ts", title: "Text Generation" },
+  ];
+
+  models.forEach((model) => {
+    const modelRows = selectedRows.filter((r) => r.model === model);
+    const combos = [...new Set(modelRows.map(makeComboKey))];
+    const minHeight = 540 + combos.length * 20;
+
+    metrics.forEach((metric) => {
+      const card = $new("div", {
+        className: "bg-dark-secondary rounded-lg p-6",
+      });
+      card.style.height = `${minHeight}px`;
+      const canvas = $new("canvas", {
+        id: `chart-${metric.key}-${model.replace(/[^a-zA-Z0-9]/g, "-")}`,
+      });
+      card.appendChild(canvas);
+      container.appendChild(card);
+
+      renderChartForMetric(canvas, modelRows, metric.key, model);
+    });
+  });
+}
+
+function renderChartForMetric(canvas, selectedRows, metricKey, modelName) {
+  const models = new Set(selectedRows.map((r) => r.model));
+  const depths = new Set(
+    selectedRows.map((r) => Number(r.n_depth)).filter((n) => !Number.isNaN(n)),
+  );
+
+  const hasMultipleModels = models.size > 1;
+  const hasMultipleDepths = depths.size > 1;
+
+  if (canvas._chart) {
+    canvas._chart.destroy();
+    canvas._chart = null;
+  }
+
+  const combos = [...new Set(selectedRows.map(makeComboKey))];
+
+  let labels;
+  let seriesData;
+
+  if (hasMultipleModels && !hasMultipleDepths) {
+    labels = [...models];
+    seriesData = combos.map((combo) => {
+      const points = selectedRows
+        .filter((r) => makeComboKey(r) === combo)
+        .map((r) => ({
+          model: r.model,
+          value: Number(r[metricKey]) || 0,
+        }));
+      return {
+        label: combo,
+        x: points.map((p) => p.model),
+        y: points.map((p) => p.value),
+      };
+    });
+  } else {
+    const depthValues = [...depths].sort((a, b) => a - b);
+    labels = depthValues.map((d) => String(d));
+    seriesData = combos.map((combo) => {
+      const pts = selectedRows
+        .filter((r) => makeComboKey(r) === combo)
+        .map((r) => ({
+          depth: Number(r.n_depth),
+          value: Number(r[metricKey]) || 0,
+          std: Number(r[`${metricKey}_stddev`]) || 0,
+        }));
+      const yVals = depthValues.map((d) => {
+        const found = pts.find((p) => p.depth === d);
+        return found ? found.value : null;
+      });
+      const yStd = depthValues.map((d) => {
+        const found = pts.find((p) => p.depth === d);
+        return found ? found.std : 0;
+      });
+      const yUpper = yVals.map((v, i) => (v === null ? null : v + yStd[i]));
+      const yLower = yVals.map((v, i) =>
+        v === null ? null : Math.max(0, v - yStd[i]),
+      );
+      return {
+        label: combo,
+        x: depthValues.map((d) => String(d)),
+        y: yVals,
+        upper: yUpper,
+        lower: yLower,
+      };
+    });
+  }
+
+  const finalDatasets = [];
+  const isLine = !(hasMultipleModels && !hasMultipleDepths);
+
+  if (isLine) {
+    seriesData.forEach((s, i) => {
+      const color = CHART_COLORS[i % CHART_COLORS.length];
+      finalDatasets.push({
+        label: s.label,
+        data: s.x.map((x, j) => ({ x, y: s.y[j] })),
+        type: "line",
+        borderColor: color,
+        backgroundColor: color,
+        fill: "none",
+        borderWidth: 2,
+        pointRadius: 4,
+        pointBackgroundColor: color,
+      });
+      finalDatasets.push({
+        label: `${s.label} (max)`,
+        data: s.x.map((x, j) => ({ x, y: s.upper[j] })),
+        type: "line",
+        borderColor: "transparent",
+        backgroundColor: bandColor(color),
+        fill: "+1",
+        borderWidth: 0,
+        pointRadius: 0,
+        showInLegend: false,
+      });
+      finalDatasets.push({
+        label: `${s.label} (min)`,
+        data: s.x.map((x, j) => ({ x, y: s.lower[j] })),
+        type: "line",
+        borderColor: "transparent",
+        backgroundColor: "transparent",
+        fill: false,
+        borderWidth: 0,
+        pointRadius: 0,
+        showInLegend: false,
+      });
+    });
+  } else {
+    seriesData.forEach((s, i) => {
+      const color = CHART_COLORS[i % CHART_COLORS.length];
+      finalDatasets.push({
+        label: s.label,
+        data: s.x.map((x, j) => ({ x, y: s.y[j] })),
+        type: "bar",
+        backgroundColor: color,
+        borderColor: color,
+      });
+    });
+  }
+
+  canvas._chart = new Chart(canvas, {
+    data: {
+      labels,
+      datasets: finalDatasets,
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: {
+        padding: { top: 24, bottom: 44, left: 56, right: 24 },
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: modelName,
+          color: "#fff",
+          font: { size: 14, weight: "bold" },
+          align: "start",
+        },
+        subtitle: {
+          display: true,
+          text:
+            metricKey === "pp_ts"
+              ? "Prefill (Prompt Processing)"
+              : "Decode (Token Generation)",
+          color: "#fff",
+          font: { size: 12 },
+          align: "start",
+          padding: { bottom: 24 },
+        },
+        legend: {
+          display: true,
+          position: "bottom",
+          align: "start",
+          labels: {
+            color: "#fff",
+            filter: (item) =>
+              !item.text.includes(" (max)") && !item.text.includes(" (min)"),
+          },
+          boxWidth: 12,
+          boxHeight: 12,
+        },
+      },
+      scales: {
+        x: {
+          type: "category",
+          title: {
+            display: true,
+            text: "Context Depth",
+            color: "#fff",
+            font: { size: 12 },
+          },
+          ticks: {
+            color: "#fff",
+            font: { size: 12 },
+          },
+          border: { color: "#4b545e" },
+        },
+        y: {
+          title: {
+            display: true,
+            text: metricKey === "pp_ts" ? "Prefill t/s" : "Decode t/s",
+            color: "#fff",
+            font: { size: 12 },
+          },
+          ticks: {
+            color: "#fff",
+            font: { size: 12 },
+          },
+          border: { color: "#4b545e" },
+        },
+      },
+      tooltip: {
+        enabled: true,
+      },
+    },
   });
 }
 
