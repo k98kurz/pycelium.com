@@ -89,6 +89,17 @@
         background-color: rgb(55 65 75);
       }
 
+      #benchmarks-table thead th[data-field="__select__"] {
+        left: 0;
+        z-index: 3;
+      }
+
+      .sticky-first-col {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+      }
+
       .spinner {
         border: 3px solid rgba(255, 255, 255, 0.1);
         border-top-color: #9370db;
@@ -499,6 +510,11 @@ formattime() {
             <summary class="text-xl font-semibold text-white">Notes</summary>
             <ul class="list-disc list-inside space-y-1">
               <li>
+                The inclusion of a model in these benchmarks does not constitute
+                an endorsement of that model for any purpose. Some of these are
+                good, and some of them are really dumb.
+              </li>
+              <li>
                 I originally intended to benchmark more models and more
                 parameter permutations, but it would take ~16 months to
                 complete, so I drastically reduced the scope and optimized the
@@ -609,13 +625,6 @@ formattime() {
         <div
           class="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-2"
         >
-          <input
-            type="checkbox"
-            id="select-all-visible"
-            class="w-4 h-4"
-            aria-label="Select all visible rows"
-            disabled
-          />
           <select
             id="filter-field"
             class="px-4 py-2 border border-gray-400 dark:border-gray-500 bg-dark-secondary text-light-text rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -688,10 +697,14 @@ formattime() {
           >
             <thead>
               <tr>
-                <th
-                  data-field="__select__"
-                  class="p-2 border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30"
-                ></th>
+                <th data-field="__select__">
+                  <input
+                    type="checkbox"
+                    id="select-all-visible"
+                    aria-label="Select all visible rows"
+                    disabled
+                  />
+                </th>
                 <th
                   class="p-2 text-left border border-gray-300 dark:border-gray-600 bg-gray-700 bg-opacity-30 sortable-header"
                   data-field="model"

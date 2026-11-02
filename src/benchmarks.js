@@ -476,6 +476,7 @@ function createTableManager(config) {
 
       const checkboxCell = document.createElement("td");
       checkboxCell.dataset.field = "__select__";
+      checkboxCell.className = "bg-gray-900 bg-opacity-30 sticky-first-col";
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
       checkbox.checked = selectedRowIds.has(row._id);
