@@ -252,6 +252,15 @@ function createTableManager(config) {
     return actual.toLowerCase() === expected.toLowerCase();
   }
 
+  function rowMatchesFilters(row, byField) {
+    for (const field of Object.keys(byField)) {
+      if (!byField[field].some((filter) => matchesFilter(row, filter))) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   function fieldValues(field) {
     const values = new Set();
     for (const row of allRowsData) {
@@ -318,16 +327,22 @@ function createTableManager(config) {
     }
     const rows = tbody.querySelectorAll("tr.benchmark-row");
 
+    const byField =
+      activeFilters.length === 0
+        ? null
+        : activeFilters.reduce((acc, filter) => {
+            if (!acc[filter.field]) {
+              acc[filter.field] = [];
+            }
+            acc[filter.field].push(filter);
+            return acc;
+          }, {});
+
     rows.forEach((row) => {
       const rowId = Number(row.dataset.rowId);
       const dataRow = allRowsData.find((item) => item._id === rowId);
-      let shouldShow = true;
-
-      if (activeFilters.length > 0) {
-        shouldShow = activeFilters.every((filter) =>
-          matchesFilter(dataRow, filter),
-        );
-      }
+      const shouldShow =
+        byField === null || rowMatchesFilters(dataRow, byField);
 
       row.classList.toggle("row-hidden", !shouldShow);
     });
