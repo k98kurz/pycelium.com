@@ -165,7 +165,12 @@
     "The Introduction to Actuarial Science for Beginners",
     "John Dee and the Empire of Angels: Enochian Magick and the Occult Roots of the Modern World",
     "Lucifer: Praxis",
-    "Living Theurgy: a Course in Iamblichus' Philosophy, Theology, and Theurgy"
+    "Living Theurgy: a Course in Iamblichus' Philosophy, Theology, and Theurgy",
+    "Keynes, the Man",
+    "The Secrets of Consulting: a Guide to Giving & Getting Advice Successfully",
+    "12 Rules for Life",
+    "The Case for a 100 Percent Gold Dollar",
+    "The Origins of the Federal Reserve"
   ],
   "Author(s)": [
     "Peter Grey",
@@ -333,7 +338,12 @@
     "Alexander T. Grant",
     "Jason Louv",
     "Peter Grey",
-    "Jeffrey S. Kupperman"
+    "Jeffrey S. Kupperman",
+    "Murray Rothbard",
+    "Gerald M. Weinberg",
+    "Jordan Peterson",
+    "Murray Rothbard",
+    "Murray Rothbard"
   ],
   "Year(s)": [
     "2015",
@@ -471,7 +481,7 @@
     "1930",
     "1494",
     "",
-    "",
+    "1965,2009",
     "",
     "",
     "",
@@ -501,7 +511,12 @@
     "2025",
     "2018",
     "2025",
-    "2013,2014"
+    "2013,2014",
+    "1992,2010",
+    "1985",
+    "2018",
+    "1962",
+    "2002"
   ],
   "Edition": [
     "",
@@ -639,7 +654,7 @@
     "",
     "1995",
     "",
-    "",
+    "Mises Institute",
     "",
     "",
     "",
@@ -669,7 +684,12 @@
     "",
     "",
     "",
-    ""
+    "",
+    "Mises Institute",
+    "",
+    "",
+    "Mises Institute 2001",
+    "Mises Institute 2009"
   ],
   "Genre(s)": [
     "history,religion",
@@ -837,7 +857,12 @@
     "finance,mathematics",
     "history,religion,magic",
     "history,religion,magic",
-    "history,religion,magic"
+    "history,religion,magic",
+    "biography",
+    "business",
+    "",
+    "economics",
+    "economics,history"
   ],
   "Seriousness Score (1-10)": [
     "10",
@@ -946,7 +971,7 @@
     "10",
     "10",
     "10",
-    "8",
+    "7",
     "10",
     "10",
     "10",
@@ -1005,7 +1030,12 @@
     "10",
     "10",
     "10",
-    "10"
+    "10",
+    "7",
+    "8",
+    "8",
+    "9",
+    "9"
   ],
   "Status(es)": [
     "complete",
@@ -1083,7 +1113,7 @@
     "limbo",
     "complete",
     "queued",
-    "completed",
+    "complete",
     "limbo",
     "queued",
     "queued",
@@ -1114,7 +1144,7 @@
     "complete",
     "in progress",
     "complete",
-    "queued",
+    "complete",
     "queued",
     "queued",
     "limbo",
@@ -1143,7 +1173,7 @@
     "queued",
     "queued,reference",
     "queued,reference",
-    "completed",
+    "complete",
     "queued",
     "queued",
     "queued",
@@ -1173,7 +1203,12 @@
     "queued",
     "in progress",
     "queued",
-    "queued"
+    "queued",
+    "complete",
+    "queued",
+    "queued",
+    "complete",
+    "complete"
   ],
   "PDF": [
     "0",
@@ -1328,6 +1363,11 @@
     "0",
     "0",
     "1",
+    "0",
+    "0",
+    "0",
+    "0",
+    "0",
     "0",
     "0",
     "0",
